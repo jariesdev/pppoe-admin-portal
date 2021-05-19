@@ -1,0 +1,12 @@
+@import "../../variables";
+
+body {
+  &:not(.white-content) {
+    .el-message-box__title {
+      color: #FFFFFF;
+    }
+    .el-message-box {
+      background-color: #1e1e2b;
+    }
+  }
+}

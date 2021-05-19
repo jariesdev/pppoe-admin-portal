@@ -1,0 +1,20 @@
+module.exports = {
+  apps: [
+    {
+      name: 'isp-management-web',
+      exec_mode: 'cluster',
+      instances: 'max', // Or a number of instances
+      script: './node_modules/nuxt/bin/nuxt.js',
+      args: 'start --hostname=127.0.0.1',
+      watch: true, // reload when file changed
+      env: {
+        PORT: 3333,
+        HOSTNAME: ''
+      },
+      env_production: {
+        PORT: 3333,
+        NODE_ENV: 'production'
+      }
+    }
+  ]
+}

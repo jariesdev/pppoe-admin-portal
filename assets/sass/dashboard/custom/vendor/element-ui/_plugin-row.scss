@@ -1,0 +1,9 @@
+@import "../../variables";
+
+.el-row {
+  .el-col {
+    &.break-after {
+      page-break-after: always;
+    }
+  }
+}

@@ -1,0 +1,339 @@
+<template>
+  <div class="row main-row">
+    <!-- Big Chart -->
+<!--    <div class="col-12">
+      <card type="chart">
+        <template slot="header">
+          <div class="row">
+            <div :class="isRTL ? 'text-right' : 'text-left'" class="col-sm-6">
+              <h5 class="card-category">Total shipments</h5>
+              <h2 class="card-title">Performance</h2>
+            </div>
+            <div class="col-sm-6 d-flex d-sm-block">
+              <div
+                  :class="isRTL ? 'float-left' : 'float-right'"
+                  class="btn-group btn-group-toggle"
+                  data-toggle="buttons"
+              >
+                <label
+                    v-for="(option, index) in bigLineChartCategories"
+                    :id="index"
+                    :key="option.name"
+                    :class="{ active: bigLineChart.activeIndex === index }"
+                    class="btn btn-sm btn-primary btn-simple"
+                >
+                  <input
+                      :checked="bigLineChart.activeIndex === index"
+                      autocomplete="off"
+                      name="options"
+                      type="radio"
+                      @click="initBigChart(index)"
+                  />
+                  <span class="d-none d-sm-block">{{ option.name }}</span>
+                  <span class="d-block d-sm-none">
+                    <i :class="option.icon"></i>
+                  </span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </template>
+        <div class="chart-area">
+          <line-chart
+              ref="bigChart"
+              :chart-data="bigLineChart.chartData"
+              :extra-options="bigLineChart.extraOptions"
+              :gradient-colors="bigLineChart.gradientColors"
+              :gradient-stops="bigLineChart.gradientStops"
+              style="height: 100%"
+          >
+          </line-chart>
+        </div>
+      </card>
+    </div>-->
+
+
+    <!-- Small charts -->
+    <div :class="{ 'text-right': isRTL }" class="col-lg-6">
+      <ConnectedUsersChart/>
+    </div>
+    <div :class="{ 'text-right': isRTL }" class="col-lg-6">
+      <DailySalesChart />
+    </div>
+<!--    <div :class="{ 'text-right': isRTL }" class="col-lg-4">
+      <card type="chart">
+        <template slot="header">
+          <h5 class="card-category">Total Shipments</h5>
+          <h3 class="card-title">
+            <i class="tim-icons icon-bell-55 text-primary "></i> 763,215
+          </h3>
+        </template>
+        <div class="chart-area">
+          <line-chart
+              :chart-data="purpleLineChart.chartData"
+              :extra-options="purpleLineChart.extraOptions"
+              :gradient-colors="purpleLineChart.gradientColors"
+              :gradient-stops="purpleLineChart.gradientStops"
+              style="height: 100%"
+          >
+          </line-chart>
+        </div>
+      </card>
+    </div>-->
+    <div class="col-lg-8">
+       <ConnectedUsersCard />
+    </div>
+    <div class="col-lg-4">
+      <AuthFailuresCard />
+    </div>
+    <div class="col-lg-5 d-none">
+      <card :header-classes="{ 'text-right': isRTL }" type="tasks">
+        <template slot="header" class="d-inline">
+          <h6 class="title d-inline">Tasks (5)</h6>
+          <p class="card-category d-inline">Today</p>
+
+          <base-dropdown
+              class="float-right"
+              menu-on-right=""
+              tag="div"
+              title-classes="btn btn-link btn-icon"
+          >
+            <i slot="title" class="tim-icons icon-settings-gear-63"></i>
+            <a class="dropdown-item" href="#pablo"> Action </a>
+            <a class="dropdown-item" href="#pablo"> Another action </a>
+            <a class="dropdown-item" href="#pablo"> Something else </a>
+          </base-dropdown>
+        </template>
+        <div class="table-full-width table-responsive">
+          <task-list></task-list>
+        </div>
+      </card>
+    </div>
+  </div>
+</template>
+<script>
+import LineChart from '~/components/Charts/LineChart';
+import BarChart from '@/components/Charts/BarChart';
+import * as chartConfigs from '@/components/Charts/config';
+import TaskList from '@/components/Dashboard/TaskList';
+import config from '@/config';
+import {Table, TableColumn} from 'element-ui';
+import AuthFailuresCard from "~/components/Content/Dashboard/AuthFailuresCard";
+import ConnectedUsersCard from "~/components/Content/Dashboard/ConnectedUsersCard";
+import DailySalesChart from "~/components/Content/Sale/DailySalesChart";
+import ConnectedUsersChart from "~/components/Dashboard/ConnectedUserChart";
+
+let bigChartData = [
+  [100, 70, 90, 70, 85, 60, 75, 60, 90, 80, 110, 100],
+  [80, 120, 105, 110, 95, 105, 90, 100, 80, 95, 70, 120],
+  [60, 80, 65, 130, 80, 105, 90, 130, 70, 115, 60, 130]
+]
+let bigChartLabels = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
+let bigChartDatasetOptions = {
+  fill: true,
+  borderColor: config.colors.primary,
+  borderWidth: 2,
+  borderDash: [],
+  borderDashOffset: 0.0,
+  pointBackgroundColor: config.colors.primary,
+  pointBorderColor: 'rgba(255,255,255,0)',
+  pointHoverBackgroundColor: config.colors.primary,
+  pointBorderWidth: 20,
+  pointHoverRadius: 4,
+  pointHoverBorderWidth: 15,
+  pointRadius: 4,
+}
+
+export default {
+  name: 'dashboard',
+  components: {
+    ConnectedUsersChart,
+    DailySalesChart,
+    ConnectedUsersCard,
+    AuthFailuresCard,
+    LineChart,
+    BarChart,
+    TaskList,
+    [Table.name]: Table,
+    [TableColumn.name]: TableColumn
+  },
+  data() {
+    return {
+      tableData: [
+        {
+          id: 1,
+          name: 'Dakota Rice',
+          salary: '$36.738',
+          country: 'Niger',
+          city: 'Oud-Turnhout'
+        },
+        {
+          id: 2,
+          name: 'Minerva Hooper',
+          salary: '$23,789',
+          country: 'Curaçao',
+          city: 'Sinaai-Waas'
+        },
+        {
+          id: 3,
+          name: 'Sage Rodriguez',
+          salary: '$56,142',
+          country: 'Netherlands',
+          city: 'Baileux'
+        },
+        {
+          id: 4,
+          name: 'Philip Chaney',
+          salary: '$38,735',
+          country: 'Korea, South',
+          city: 'Overland Park'
+        },
+        {
+          id: 5,
+          name: 'Doris Greene',
+          salary: '$63,542',
+          country: 'Malawi',
+          city: 'Feldkirchen in Kärnten'
+        }
+      ],
+      bigLineChart: {
+        activeIndex: 0,
+        chartData: {
+          datasets: [{
+            ...bigChartDatasetOptions,
+            data: bigChartData[0]
+          }],
+          labels: bigChartLabels
+        },
+        extraOptions: chartConfigs.purpleChartOptions,
+        gradientColors: config.colors.primaryGradient,
+        gradientStops: [1, 0.4, 0],
+        categories: []
+      },
+      purpleLineChart: {
+        extraOptions: chartConfigs.purpleChartOptions,
+        chartData: {
+          labels: ['JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'],
+          datasets: [
+            {
+              label: 'Data',
+              fill: true,
+              borderColor: config.colors.primary,
+              borderWidth: 2,
+              borderDash: [],
+              borderDashOffset: 0.0,
+              pointBackgroundColor: config.colors.primary,
+              pointBorderColor: 'rgba(255,255,255,0)',
+              pointHoverBackgroundColor: config.colors.primary,
+              pointBorderWidth: 20,
+              pointHoverRadius: 4,
+              pointHoverBorderWidth: 15,
+              pointRadius: 4,
+              data: [80, 100, 70, 80, 120, 80]
+            }
+          ]
+        },
+        gradientColors: config.colors.primaryGradient,
+        gradientStops: [1, 0.2, 0]
+      },
+      greenLineChart: {
+        extraOptions: chartConfigs.greenChartOptions,
+        chartData: {
+          labels: ['JUL', 'AUG', 'SEP', 'OCT', 'NOV'],
+          datasets: [
+            {
+              label: 'My First dataset',
+              fill: true,
+              borderColor: config.colors.danger,
+              borderWidth: 2,
+              borderDash: [],
+              borderDashOffset: 0.0,
+              pointBackgroundColor: config.colors.danger,
+              pointBorderColor: 'rgba(255,255,255,0)',
+              pointHoverBackgroundColor: config.colors.danger,
+              pointBorderWidth: 20,
+              pointHoverRadius: 4,
+              pointHoverBorderWidth: 15,
+              pointRadius: 4,
+              data: [90, 27, 60, 12, 80]
+            }
+          ]
+        },
+        gradientColors: [
+          'rgba(66,134,121,0.15)',
+          'rgba(66,134,121,0.0)',
+          'rgba(66,134,121,0)'
+        ],
+        gradientStops: [1, 0.4, 0]
+      },
+      blueBarChart: {
+        extraOptions: chartConfigs.barChartOptions,
+        chartData: {
+          labels: ['USA', 'GER', 'AUS', 'UK', 'RO', 'BR'],
+          datasets: [
+            {
+              label: 'Countries',
+              fill: true,
+              borderColor: config.colors.info,
+              borderWidth: 2,
+              borderDash: [],
+              borderDashOffset: 0.0,
+              data: [53, 20, 10, 80, 100, 45]
+            }
+          ]
+        },
+        gradientColors: config.colors.primaryGradient,
+        gradientStops: [1, 0.4, 0]
+      }
+    };
+  },
+  computed: {
+    enableRTL() {
+      return this.$route.query.enableRTL;
+    },
+    isRTL() {
+      return this.$rtl.isRTL;
+    },
+    bigLineChartCategories() {
+      return [{name: 'Accounts', icon: 'tim-icons icon-single-02'}, {
+        name: 'Purchases',
+        icon: 'tim-icons icon-gift-2'
+      }, {name: 'Sessions', icon: 'tim-icons icon-tap-02'}];
+    }
+  },
+  methods: {
+    initBigChart(index) {
+      let chartData = {
+        datasets: [{
+          ...bigChartDatasetOptions,
+          data: bigChartData[index]
+        }],
+        labels: bigChartLabels
+      };
+      this.$refs.bigChart.updateGradients(chartData);
+      this.bigLineChart.chartData = chartData;
+      this.bigLineChart.activeIndex = index;
+    }
+  },
+  mounted() {
+    // this.initBigChart(0);
+  },
+  head() {
+    return {
+      title: 'Dashboard'
+    }
+  }
+}
+</script>
+<style scoped lang="scss">
+.main-row {
+  & > div {
+    margin-bottom: 30px;
+
+    & > .card {
+      height: 100%;
+      margin: 0;
+    }
+  }
+}
+</style>

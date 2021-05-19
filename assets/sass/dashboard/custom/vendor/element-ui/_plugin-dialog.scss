@@ -1,0 +1,13 @@
+@import "../../variables";
+
+body {
+  &:not(.white-content) {
+    .el-dialog {
+      background-color: #1e1e2b;
+      color: #FFFFFF;
+    }
+    .el-dialog__title {
+      color: white;
+    }
+  }
+}
