@@ -23,6 +23,7 @@
                 v-model="login.username"
                 addon-left-icon="tim-icons icon-email-85"
                 type="text"
+                autofocus
               />
             </div>
             <div class="form-group">
