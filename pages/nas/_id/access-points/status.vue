@@ -111,6 +111,9 @@
       <div class="col-lg-6 col-xl-4">
         <pppoe-service :nas-id="nasId" />
       </div>
+      <div class="col-lg-6 col-xl-4">
+        <address-pools :nas-id="nasId" />
+      </div>
     </div>
   </div>
 </template>
@@ -128,10 +131,12 @@ import HotspotConnected from '~/components/Content/NAS/Widgets/HotspotConnected'
 import RadiusSetup from '~/components/Content/NAS/Widgets/RadiusSetup'
 import TrafficChart3 from '~/components/Content/NAS/Widgets/TrafficChart3'
 import PppoeService from '~/components/Content/NAS/Widgets/PppoeService'
+import AddressPools from '~/components/Content/NAS/Widgets/AddressPools'
 
 export default {
   name: 'ApDashboard',
   components: {
+    AddressPools,
     PppoeService,
     TrafficChart3,
     RadiusSetup,
