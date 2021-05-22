@@ -3,21 +3,6 @@
     <div class="row status-widgets">
       <div class="col-xl-6">
         <card>
-          <div v-if="currentAccessPoint" class="ap-details border-bottom border-dark mb-3">
-            <h5>Access Point Details</h5>
-            <el-row :gutter="15" class="flex-wrap mb-3" type="flex">
-              <el-col :lg="8" class="mb-2">
-                <p>
-                  AP Name: <strong>{{ currentAccessPoint.ap_name || '-' }}</strong>
-                </p>
-              </el-col>
-              <el-col :lg="8" class="mb-2">
-                <p>
-                  AP Address: <strong>{{ currentAccessPoint.ap_address || '-' }}{{ currentAccessPoint.ap_port ? `:${currentAccessPoint.ap_port}`: '' }}</strong>
-                </p>
-              </el-col>
-            </el-row>
-          </div>
           <div v-if="nas" class="nas-details">
             <div class="d-flex align-items-baseline">
               <h5 class="mr-2">
@@ -75,7 +60,7 @@
         </card>
       </div>
       <div class="col-xl-6">
-        <system-information :access-point-id="selectedAccessPoint" :nas-id="nasId" />
+        <system-information :nas-id="nasId" />
       </div>
       <div class="col-xl-12 col-xl-6">
         <traffic-chart3 :access-point-id="selectedAccessPoint" :nas-id="nasId" />
@@ -87,23 +72,20 @@
         <hotspot-connected :access-point-id="selectedAccessPoint" :nas-id="nasId" />
       </div>
       <div class="col-lg-6 col-xl-4">
-        <router-firmware :access-point-id="selectedAccessPoint" :nas-id="nasId" />
+        <router-firmware :nas-id="nasId" />
       </div>
       <div class="col-lg-6 col-xl-4">
-        <router-clock :access-point-id="selectedAccessPoint" :nas-id="nasId" />
+        <router-clock :nas-id="nasId" />
       </div>
       <div class="col-lg-6 col-xl-4">
-        <tr-client :access-point-id="selectedAccessPoint" :nas-id="nasId" />
-      </div>
-      <div class="col-lg-6 col-xl-4">
-        <caps-man :access-point-id="selectedAccessPoint" :nas-id="nasId" />
+        <tr-client :nas-id="nasId" />
       </div>
       <div class="col-xl-12">
-        <nas-interfaces :access-point-id="selectedAccessPoint" :nas-id="nasId" />
+        <nas-interfaces :nas-id="nasId" />
       </div>
       <div class="col-12 m-0" />
       <div class="col-lg-6 col-xl-4">
-        <system-temperature :access-point-id="selectedAccessPoint" :nas-id="nasId" />
+        <system-temperature :nas-id="nasId" />
       </div>
       <div class="col-lg-6 col-xl-4">
         <radius-setup :nas-id="nasId" />
@@ -129,7 +111,6 @@ import RouterFirmware from '~/components/Content/NAS/Widgets/RouterFirmware'
 import RouterClock from '~/components/Content/NAS/Widgets/RouterClock'
 import TrClient from '~/components/Content/NAS/Widgets/TrClient'
 import NasInterfaces from '~/components/Content/NAS/Widgets/NasInterfaces'
-import CapsMan from '~/components/Content/NAS/Widgets/CapsMan'
 import HotspotConnected from '~/components/Content/NAS/Widgets/HotspotConnected'
 import RadiusSetup from '~/components/Content/NAS/Widgets/RadiusSetup'
 import TrafficChart3 from '~/components/Content/NAS/Widgets/TrafficChart3'
@@ -146,7 +127,6 @@ export default {
     TrafficChart3,
     RadiusSetup,
     HotspotConnected,
-    CapsMan,
     NasInterfaces,
     TrClient,
     RouterClock,
@@ -157,19 +137,16 @@ export default {
   },
   async asyncData ({ store, route }) {
     const nasId = +route.params.id
-    let accessPoints, nas
+    let nas
     try {
       nas = await store.dispatch('nas/get', nasId)
-      accessPoints = await store.dispatch('nas/getNasAccessPoints', nasId)
     } catch (e) {
       nas = {}
-      accessPoints = []
     }
 
     return {
       nasId,
-      nas,
-      accessPoints
+      nas
     }
   },
   data () {
@@ -181,13 +158,6 @@ export default {
   head () {
     return {
       title: 'NAS Access Points'
-    }
-  },
-  created () {
-    if (this.accessPoints.length > 0 && this.$route.query.id) {
-      this.selectedAccessPoint = +(this.$route.query.id)
-    } else if (this.accessPoints.length > 0) {
-      this.selectedAccessPoint = this.accessPoints[0].id
     }
   },
   mounted () {
