@@ -1,5 +1,6 @@
 <template>
   <div class="ap-dashboard">
+    <nas-interfaces :access-point-id="selectedAccessPoint" :nas-id="nasId" />
     <div class="access-point-select d-flex align-items-center mb-3">
       <div class="font-bold mr-2">
         Access Point:
@@ -59,9 +60,13 @@
           </div>
           <div v-if="nas" class="nas-details">
             <div class="d-flex align-items-baseline">
-              <h5 class="mr-2">NAS Details</h5>
+              <h5 class="mr-2">
+                NAS Details
+              </h5>
               <div>
-                <nuxt-link :to="`/nas/${nasId}`" class="small">more</nuxt-link>
+                <nuxt-link :to="`/nas/${nasId}`" class="small">
+                  more
+                </nuxt-link>
               </div>
             </div>
             <el-row :gutter="15" class="flex-wrap mb-3" type="flex">
@@ -134,7 +139,7 @@
         <caps-man :access-point-id="selectedAccessPoint" :nas-id="nasId" />
       </div>
       <div class="col-xl-12">
-        <wireless-interface :access-point-id="selectedAccessPoint" :nas-id="nasId" />
+        <nas-interfaces :access-point-id="selectedAccessPoint" :nas-id="nasId" />
       </div>
       <div class="col-12 m-0" />
       <div class="col-lg-6 col-xl-4">
@@ -159,22 +164,20 @@ import DhcpConnected from '~/components/Content/NAS/AccessPoint/DhcpConnected'
 import RouterFirmware from '~/components/Content/NAS/AccessPoint/RouterFirmware'
 import RouterClock from '~/components/Content/NAS/AccessPoint/RouterClock'
 import TrClient from '~/components/Content/NAS/AccessPoint/TrClient'
-import WirelessInterface from '~/components/Content/NAS/AccessPoint/WirelessInterface'
+import NasInterfaces from '~/components/Content/NAS/NasInterfaces'
 import CapsMan from '~/components/Content/NAS/AccessPoint/CapsMan'
 import HotspotConnected from '~/components/Content/NAS/AccessPoint/HotspotConnected'
 import RadiusSetup from '~/components/Content/NAS/AccessPoint/RaiusSetup'
-import ConnectedUsersChart from "~/components/Dashboard/ConnectedUserChart";
-import TrafficChart3 from "~/components/Content/NAS/AccessPoint/TrafficChart3";
+import TrafficChart3 from '~/components/Content/NAS/AccessPoint/TrafficChart3'
 
 export default {
   name: 'ApDashboard',
   components: {
     TrafficChart3,
-    ConnectedUsersChart,
     RadiusSetup,
     HotspotConnected,
     CapsMan,
-    WirelessInterface,
+    NasInterfaces,
     TrClient,
     RouterClock,
     RouterFirmware,
@@ -213,7 +216,7 @@ export default {
   created () {
     if (this.accessPoints.length > 0 && this.$route.query.id) {
       this.selectedAccessPoint = +(this.$route.query.id)
-    }else if (this.accessPoints.length > 0) {
+    } else if (this.accessPoints.length > 0) {
       this.selectedAccessPoint = this.accessPoints[0].id
     }
   },
