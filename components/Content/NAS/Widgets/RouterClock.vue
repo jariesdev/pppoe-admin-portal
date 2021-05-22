@@ -44,10 +44,6 @@ export default {
     nasId: {
       type: Number,
       required: true
-    },
-    accessPointId: {
-      type: Number,
-      required: true
     }
   },
   data () {
@@ -58,7 +54,7 @@ export default {
   },
   fetch () {
     this.loading = true
-    this.$axios.$get(`/api/nas/${this.nasId}/accesspoints/${this.accessPointId}/router-clock`)
+    this.$axios.$get(`/api/nas/${this.nasId}/router-clock`)
       .then(({ data }) => {
         this.tableData = data
       })
