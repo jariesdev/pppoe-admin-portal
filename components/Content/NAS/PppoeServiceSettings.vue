@@ -1,11 +1,8 @@
 <template>
   <div class="radius-server-settings">
     <el-form v-model="formValid" :disabled="initializing" @submit.prevent="submit()">
-      <el-form-item label="IP Address" required>
-        <el-input v-model="form.ip_address" />
-      </el-form-item>
-      <el-form-item label="Secret" required>
-        <el-input v-model="form.secret" />
+      <el-form-item label="Interface" required>
+        <el-input v-model="form.interface" />
       </el-form-item>
       <base-button type="info" :loading="form.busy" :disabled="initializing" @click="submit()">
         Save
@@ -19,7 +16,7 @@ import { Form } from 'vform'
 import alerts from '~/mixins/alerts'
 
 export default {
-  name: 'RadiusServerSettings',
+  name: 'PppoeServiceSettings',
   mixins: [alerts],
   props: {
     nasId: {
@@ -32,8 +29,7 @@ export default {
       initializing: false,
       formValid: false,
       form: new Form({
-        ip_address: '',
-        secret: ''
+        interface: ''
       })
     }
   },
@@ -42,7 +38,7 @@ export default {
   },
   methods: {
     submit () {
-      this.form.post(`/api/nas/${this.nasId}/radius-server`)
+      this.form.post(`/api/nas/${this.nasId}/pppoe-service`)
         .then(({ data }) => {
           this.$notify({
             type: 'success',
@@ -60,13 +56,12 @@ export default {
     },
     initializeForm () {
       this.initializing = true
-      this.$axios.$get(`/api/nas/${this.nasId}/radius-server`)
+      this.$axios.$get(`/api/nas/${this.nasId}/pppoe-service`)
         .then(({ data }) => {
           if (data.length > 0) {
             const config = data[0]
             this.form.fill({
-              ip_address: config.address,
-              secret: config.secret
+              interface: config.interface
             })
           }
         })

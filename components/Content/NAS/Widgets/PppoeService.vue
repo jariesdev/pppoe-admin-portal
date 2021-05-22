@@ -1,56 +1,82 @@
 <template>
   <card>
     <div class="d-flex">
-      <h5>Radius Server</h5>
+      <h5>PPPoE Service</h5>
       <div class="mx-auto" />
       <el-popover popper-class="radius-server-settings-popper" width="250" title="Configurations">
         <el-button slot="reference" size="sm">
           <i class="tim-icons icon-settings-gear-63" />
         </el-button>
-        <radius-server-settings :nas-id="nasId" />
+        <pppoe-service-settings :nas-id="nasId" />
       </el-popover>
     </div>
     <ul v-if="tableData.length > 0" class="list-unstyled">
       <li v-for="(data,index) in tableData" :key="index" class="mb-2">
         <div class="row">
           <div class="col-6">
-            <p>Service: <strong>{{ data['service'] }}</strong></p>
+            <p>
+              Service name: <strong>{{ data['service-name'] }}</strong>
+            </p>
           </div>
           <div class="col-6">
-            <p>Called id: <strong>{{ data['called-id'] }}</strong></p>
+            <p>
+              Interface: <strong>{{ data['interface'] }}</strong>
+            </p>
           </div>
           <div class="col-6">
-            <p>Domain: <strong>{{ data['domain'] }}</strong></p>
+            <p>
+              Max MTU: <strong>{{ data['max-mtu'] }}</strong>
+            </p>
           </div>
           <div class="col-6">
-            <p>Address: <strong>{{ data['address'] }}</strong></p>
+            <p>
+              Max MRU: <strong>{{ data['max-mru'] }}</strong>
+            </p>
           </div>
           <div class="col-6">
-            <p>Secret: <strong>{{ data['secret'] }}</strong></p>
+            <p>
+              MRRU: <strong>{{ data['mrru'] }}</strong>
+            </p>
           </div>
           <div class="col-6">
-            <p>Authentication-port: <strong>{{ data['authentication-port'] }}</strong></p>
+            <p>
+              Authentication: <strong>{{ data['authentication'] }}</strong>
+            </p>
           </div>
           <div class="col-6">
-            <p>Accounting-port: <strong>{{ data['accounting-port'] }}</strong></p>
+            <p>
+              Keepalive timeout: <strong>{{ data['keepalive-timeout'] }}</strong>
+            </p>
           </div>
           <div class="col-6">
-            <p>Timeout: <strong>{{ data['timeout'] }}</strong></p>
+            <p>
+              One-session-per-host: <strong>{{ data['one-session-per-host'] }}</strong>
+            </p>
           </div>
           <div class="col-6">
-            <p>Accounting-backup: <strong>{{ data['accounting-backup'] }}</strong></p>
+            <p>
+              Max sessions: <strong>{{ data['max-sessions'] }}</strong>
+            </p>
           </div>
           <div class="col-6">
-            <p>Realm: <strong>{{ data['realm'] }}</strong></p>
+            <p>
+              PADO delay: <strong>{{ data['pado-delay'] }}</strong>
+            </p>
           </div>
           <div class="col-6">
-            <p>Protocol: <strong>{{ data['protocol'] }}</strong></p>
+            <p>
+              Default profile: <strong>{{ data['default-profile'] }}</strong>
+            </p>
           </div>
           <div class="col-6">
-            <p>Certificate: <strong>{{ data['certificate'] }}</strong></p>
+            <p>
+              Invalid: <strong>{{ data['invalid'] }}</strong>
+            </p>
           </div>
           <div class="col-6">
-            <p>Disabled: <strong>{{ data['disabled'] }}</strong></p>
+            <p>
+              Disabled: <strong>{{ data['disabled'] }}</strong>
+            </p>
           </div>
         </div>
       </li>
@@ -62,13 +88,13 @@
 </template>
 
 <script>
-import RadiusServerSettings from '~/components/Content/NAS/RadiusServerSettings'
+import PppoeServiceSettings from '~/components/Content/NAS/PppoeServiceSettings'
 
 const numeral = require('numeral')
 
 export default {
-  name: 'RadiusSetup',
-  components: { RadiusServerSettings },
+  name: 'PppoeService',
+  components: { PppoeServiceSettings },
   props: {
     nasId: {
       type: Number,
@@ -81,7 +107,7 @@ export default {
     }
   },
   fetch () {
-    this.$axios.$get(`/api/nas/${this.nasId}/radius-server`)
+    this.$axios.$get(`/api/nas/${this.nasId}/pppoe-service`)
       .then(({ data }) => {
         this.tableData = data
       })
