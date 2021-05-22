@@ -1,6 +1,15 @@
 <template>
   <card>
-    <h5>Radius Server</h5>
+    <div class="d-flex">
+      <h5>Radius Server</h5>
+      <div class="mx-auto" />
+      <el-popover popper-class="radius-server-settings-popper" width="250">
+        <el-button slot="reference" size="sm">
+          <i class="tim-icons icon-settings-gear-63" />
+        </el-button>
+        <radius-server-settings :nas-id="nasId" />
+      </el-popover>
+    </div>
     <ul v-if="tableData.length > 0" class="list-unstyled">
       <li v-for="(data,index) in tableData" :key="index" class="mb-2">
         <div class="row">
@@ -53,10 +62,13 @@
 </template>
 
 <script>
+import RadiusServerSettings from '~/components/Content/NAS/RadiusServerSettings'
+
 const numeral = require('numeral')
 
 export default {
   name: 'RadiusSetup',
+  components: { RadiusServerSettings },
   props: {
     nasId: {
       type: Number,
@@ -111,3 +123,22 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.radius-server-settings-popper {
+  .radius-server-settings {
+    .el-input__inner {
+      height: 32px;
+      line-height: 32px;
+    }
+
+    .el-form-item {
+      margin-bottom: 10px;
+    }
+
+    .btn {
+      padding: 5px 15px;
+    }
+  }
+}
+</style>
