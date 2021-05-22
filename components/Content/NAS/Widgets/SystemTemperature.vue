@@ -27,10 +27,6 @@ export default {
     nasId: {
       type: Number,
       required: true
-    },
-    accessPointId: {
-      type: Number,
-      required: true
     }
   },
   data () {
