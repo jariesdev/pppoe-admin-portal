@@ -1,11 +1,11 @@
 export const actions = {
-  async delete ({}, id) {
+  async delete (_, id) {
     return await this.$axios.$delete('/api/nas/' + id)
   },
-  async get ({}, id) {
+  async get (_, id) {
     return await this.$axios.$get('/api/nas/' + id).then(({ data }) => data)
   },
-  async getNasAccessPoints ({}, id) {
+  async getNasAccessPoints (_, id) {
     return await this.$axios.$get('/api/nas/' + id + '/accesspoints').then(({ data }) => data)
   }
 }
