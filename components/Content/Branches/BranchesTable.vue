@@ -3,7 +3,7 @@
     <p>
       Manage partner's branches.
     </p>
-    <ServerTable ref="serverTable" :headers="tableHeaders" :url="`/api/partners/${partnerId}/branches`">
+    <ServerTable ref="serverTable" :headers="tableHeaders" url="/api/branches">
       <template #item_coordinates="{row,value}">
         <a :href="`http://www.google.com/maps/place/${row.latitude},${row.longitude}`" target="_blank">{{ value }}</a>
       </template>
@@ -23,7 +23,6 @@
       <BranchForm
         v-if="visibleBranchFormDialog"
         :edit-branch="editBranchId"
-        :partner-id="partnerId"
         @cancel="cancelBranchFormDialog()"
         @success="closeAndReloadTable()"
       />
@@ -69,7 +68,7 @@ const tableHeaders = [
 ]
 
 export default {
-  name: 'PartnerBranchesTable',
+  name: 'BranchesTable',
   components: {
     TableActions,
     BranchForm,
@@ -77,12 +76,6 @@ export default {
     ServerTable
   },
   mixins: [alertsMixin],
-  props: {
-    partnerId: {
-      type: Number,
-      required: true
-    }
-  },
   data () {
     const tableActions = [
       {
@@ -90,7 +83,7 @@ export default {
         icon: 'tim-icons icon-pencil text-primary',
         on: {
           click: ({ id }) => {
-            this.editBranchId = +id
+            this.editBranchId = id
             this.openBranchFormDialog()
           }
         }
@@ -100,11 +93,15 @@ export default {
         icon: 'tim-icons icon-simple-remove text-danger',
         on: {
           click: async ({ id, name }) => {
-            const confirmed = await this.$confirm('DELETE branch ' + name + '?').catch(() => false)
+            const confirmed = await this.$confirm(
+              'You are about to delete "' + name + '" branch, continue?',
+              'Delete branch',
+              { type: 'warning' }
+            ).catch(() => false)
             if (!confirmed) { return }
 
             try {
-              await this.deleteBranch({ partnerId: this.partnerId, branchId: id })
+              await this.deleteBranch(id)
               this.$notify({ message: 'Branch has been deleleted.', type: 'success', icon: 'icon-check-2' })
               this.reloadTable()
             } catch (e) {
