@@ -39,7 +39,7 @@ export default {
     }
   },
   fetch () {
-    this.$axios.$get(`/api/nas/${this.nasId}/accesspoints/${this.accessPointId}/temp`)
+    this.$axios.$get(`/api/nas/${this.nasId}/temp`)
       .then(({ data }) => {
         this.tableData = filter(data || [], o => o !== null)
       })
