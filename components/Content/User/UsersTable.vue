@@ -2,7 +2,7 @@
   <div>
     <table-card title="Users">
       <p>
-        Manage users/employee who access the system.
+        Manage users/employees who access the system.
       </p>
       <ServerTable ref="serverTable" :headers="tableHeaders" :query-params="queryParams" url="/api/employees">
         <template #item_name="{row,value}">
