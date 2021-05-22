@@ -82,37 +82,37 @@ export default {
       required: true
     }
   },
-  fetch() {
-    this.$axios.$get(`/api/nas/${this.nasId}/accesspoints/${this.accessPointId}/system`)
-        .then(({data}) => {
-          this.tableData = data
-        })
-        .catch(() => null)
-  },
-  data() {
+  data () {
     return {
       tableData: []
     }
   },
+  fetch () {
+    this.$axios.$get(`/api/nas/${this.nasId}/accesspoints/${this.accessPointId}/system`)
+      .then(({ data }) => {
+        this.tableData = data
+      })
+      .catch(() => null)
+  },
   watch: {
-    accessPointId(){
+    accessPointId () {
       this.$fetch()
     },
-    nasId(){
+    nasId () {
       this.$fetch()
     }
   },
   methods: {
-    formatSpeedInBytes(value) {
+    formatSpeedInBytes (value) {
       return this.formatUnit(value, 'iB')
     },
-    formatSizeInBytes(value) {
+    formatSizeInBytes (value) {
       return this.formatUnit(value, 'B')
     },
-    formatHertz(value) {
+    formatHertz (value) {
       return this.formatUnit(value, 'hz')
     },
-    formatUnit(value, unit) {
+    formatUnit (value, unit) {
       if (!value) {
         return 0 + ' ' + unit
       }

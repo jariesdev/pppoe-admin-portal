@@ -4,67 +4,66 @@
       <div class="d-md-flex d-block">
         <h4 class="card-title">
           Traffic (mbps)
-          <i :class="{'text-success': loading}" :style="{fontSize: '8px'}" class="fas fa-circle"></i>
+          <i :class="{'text-success': loading}" :style="{fontSize: '8px'}" class="fas fa-circle" />
         </h4>
-        <div class="mx-auto"/>
+        <div class="mx-auto" />
         <div
-            class="btn-group btn-group-toggle"
-            data-toggle="buttons"
+          class="btn-group btn-group-toggle"
+          data-toggle="buttons"
         >
           <label
-              :class="{ active: showTransferRate }"
-              class="btn btn-sm btn-primary btn-simple"
+            :class="{ active: showTransferRate }"
+            class="btn btn-sm btn-primary btn-simple"
           >
             <input
-                :checked="showTransferRate"
-                autocomplete="off"
-                name="options"
-                type="radio"
-                @click="showTransferRate=!showTransferRate"
-            />
-            <span class="d-none d-sm-block">Tx Rate</span>
-            <span class="d-block d-sm-none">
-                    <i class="icon-cloud-upload-94"></i>
-                  </span>
-          </label><label
-            :class="{ active: !showTransferRate }"
-            class="btn btn-sm btn-primary btn-simple"
-        >
-          <input
               :checked="showTransferRate"
               autocomplete="off"
               name="options"
               type="radio"
               @click="showTransferRate=!showTransferRate"
-          />
-          <span class="d-none d-sm-block">Rx Rate</span>
-          <span class="d-block d-sm-none">
-                    <i class="icon-cloud-upload-94"></i>
-                  </span>
-        </label>
+            >
+            <span class="d-none d-sm-block">Tx Rate</span>
+            <span class="d-block d-sm-none">
+              <i class="icon-cloud-upload-94" />
+            </span>
+          </label><label
+            :class="{ active: !showTransferRate }"
+            class="btn btn-sm btn-primary btn-simple"
+          >
+            <input
+              :checked="showTransferRate"
+              autocomplete="off"
+              name="options"
+              type="radio"
+              @click="showTransferRate=!showTransferRate"
+            >
+            <span class="d-none d-sm-block">Rx Rate</span>
+            <span class="d-block d-sm-none">
+              <i class="icon-cloud-upload-94" />
+            </span>
+          </label>
         </div>
       </div>
     </template>
     <div class="chart-area">
       <client-only>
         <line-chart
-            :chart-data="chartData"
-            :extra-options="chartOptions"
-            :gradient-colors="purpleLineChart.gradientColors"
-            :gradient-stops="purpleLineChart.gradientStops"
-            style="height: 100%"
-        >
-        </line-chart>
+          :chart-data="chartData"
+          :extra-options="chartOptions"
+          :gradient-colors="purpleLineChart.gradientColors"
+          :gradient-stops="purpleLineChart.gradientStops"
+          style="height: 100%"
+        />
       </client-only>
     </div>
   </card>
 </template>
 <script>
-import {get, map, throttle} from 'lodash'
-import LineChart from "~/components/Charts/LineChart";
-import config from "~/config";
-import {basicOptions} from "~/components/Charts/config";
-import intervals from "~/mixins/intervals";
+import { get, map, throttle } from 'lodash'
+import LineChart from '~/components/Charts/LineChart'
+import config from '~/config'
+import { basicOptions } from '~/components/Charts/config'
+import intervals from '~/mixins/intervals'
 
 const numeral = require('numeral')
 
@@ -134,7 +133,7 @@ const chartOptions = {
 
 export default {
   name: 'TrafficChart',
-  components: {LineChart},
+  components: { LineChart },
   mixins: [intervals],
   props: {
     nasId: {
@@ -146,7 +145,7 @@ export default {
       required: true
     }
   },
-  data() {
+  data () {
     return {
       loading: false,
       ethernetData: [],
@@ -177,15 +176,15 @@ export default {
         },
         gradientColors: config.colors.primaryGradient,
         gradientStops: [1, 0.2, 0]
-      },
+      }
     }
   },
-  async fetch() {
+  async fetch () {
     this.loading = true
     try {
-      const {data} = await this.$axios.$get(`/api/nas/${this.nasId}/accesspoints/${this.accessPointId}/ethernet-graph`)
-      const dataWithTime = map(data || [], o => {
-        o.response_time = new Date
+      const { data } = await this.$axios.$get(`/api/nas/${this.nasId}/accesspoints/${this.accessPointId}/ethernet-graph`)
+      const dataWithTime = map(data || [], (o) => {
+        o.response_time = new Date()
         return o
       })
       this.ethernetData.push(dataWithTime)
@@ -199,7 +198,7 @@ export default {
     }
   },
   computed: {
-    chartData() {
+    chartData () {
       const labels = map(this.transposedEthernetData[0] || [], (data) => {
         const hours = data.response_time.getHours()
         const minutes = data.response_time.getMinutes()
@@ -207,38 +206,38 @@ export default {
         return [hours, String(minutes).padStart(2, '0'), String(seconds).padStart(2, '0')].join(':')
       })
       return {
-        labels: labels,
+        labels,
         datasets: this.getDatasets()
       }
     },
-    eachEthernetDataCount() {
+    eachEthernetDataCount () {
       return this.ethernetData.length === 0 ? 0 : this.ethernetData[0].length
     },
-    transposedEthernetData() {
-      return this.ethernetData.length === 0 ? [] : this.ethernetData[0].map((_, colIndex) => this.ethernetData.map(row => row[colIndex]));
+    transposedEthernetData () {
+      return this.ethernetData.length === 0 ? [] : this.ethernetData[0].map((_, colIndex) => this.ethernetData.map(row => row[colIndex]))
     }
   },
   watch: {
-    accessPointId() {
+    accessPointId () {
       this.$fetch()
     },
-    nasId() {
+    nasId () {
       this.$fetch()
     }
   },
-  created() {
+  created () {
     this.$set(this.chartOptions, 'scales.yAxes.0.ticks.callback', function (label, index, labels) {
       return label + ' mb/s'
     })
   },
-  mounted() {
+  mounted () {
     const throttleFunc = throttle(this.$fetch, '1000')
     this.setInterval(throttleFunc, 15000)
   },
   methods: {
-    getDatasets() {
-      return map(this.transposedEthernetData, ethernetData => {
-        const values = map(ethernetData, d => {
+    getDatasets () {
+      return map(this.transposedEthernetData, (ethernetData) => {
+        const values = map(ethernetData, (d) => {
           if (this.showTransferRate) {
             return Number(d['tx-bytes'] / Math.pow(10, 6)).toFixed(2)
           } else {

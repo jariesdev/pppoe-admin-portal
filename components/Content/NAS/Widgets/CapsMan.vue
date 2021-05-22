@@ -3,11 +3,11 @@
     <div class="d-flex align-content-start">
       <h5>CAPS Man</h5>
       <div class="mx-auto" />
-      <a href="" @click.prevent="$fetch()" :class="{'text-muted': !loading, 'text-info': loading}">
-        <i class="fas fa-sync" :class="{'fa-spin':loading}"></i>
+      <a href="" :class="{'text-muted': !loading, 'text-info': loading}" @click.prevent="$fetch()">
+        <i class="fas fa-sync" :class="{'fa-spin':loading}" />
       </a>
     </div>
-    <ul v-if="tableData.length > 0" class="list-unstyled" v-loading="loading">
+    <ul v-if="tableData.length > 0" v-loading="loading" class="list-unstyled">
       <li v-for="(data,index) in tableData" :key="index" class="mb-2">
         <div class="row">
           <div class="col-6">
@@ -80,8 +80,8 @@
 </template>
 
 <script>
-import {filter} from 'lodash'
-import intervals from "~/mixins/intervals";
+import { filter } from 'lodash'
+import intervals from '~/mixins/intervals'
 
 export default {
   name: 'CapsMan',
@@ -96,34 +96,34 @@ export default {
       required: true
     }
   },
-  fetch() {
-    this.loading = true
-    this.$axios.$get(`/api/nas/${this.nasId}/accesspoints/${this.accessPointId}/caps-man`)
-        .then(({data}) => {
-          this.tableData = filter(data || [], o => {
-            return o !== null
-          })
-        })
-        .catch(() => null)
-        .finally(() => {
-          this.loading = false
-        })
-  },
-  data() {
+  data () {
     return {
       tableData: [],
       loading: false
     }
   },
+  fetch () {
+    this.loading = true
+    this.$axios.$get(`/api/nas/${this.nasId}/accesspoints/${this.accessPointId}/caps-man`)
+      .then(({ data }) => {
+        this.tableData = filter(data || [], (o) => {
+          return o !== null
+        })
+      })
+      .catch(() => null)
+      .finally(() => {
+        this.loading = false
+      })
+  },
   watch: {
-    accessPointId() {
+    accessPointId () {
       this.$fetch()
     },
-    nasId() {
+    nasId () {
       this.$fetch()
     }
   },
-  mounted() {
+  mounted () {
     this.setInterval(this.$fetch, 10000)
   }
 }

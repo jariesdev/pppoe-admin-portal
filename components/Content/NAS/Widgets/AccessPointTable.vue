@@ -20,9 +20,9 @@
 
 <script>
 
-import ServerTable from "~/components/Tables/ServerTable";
-import {defaultDateTimeFormat} from "~/util/utilities";
-import TableActions from "~/components/Tables/TableActions";
+import ServerTable from '~/components/Tables/ServerTable'
+import { defaultDateTimeFormat } from '~/util/utilities'
+import TableActions from '~/components/Tables/TableActions'
 
 const tableHeaders = [
   {
@@ -44,7 +44,7 @@ const tableHeaders = [
   {
     label: 'Date Created',
     field: 'created_at',
-    formatValue: (value) => defaultDateTimeFormat(value)
+    formatValue: value => defaultDateTimeFormat(value)
   },
   {
     label: 'Actions',
@@ -54,24 +54,24 @@ const tableHeaders = [
 
 export default {
   name: 'AccessPointTable',
-  components: {TableActions, ServerTable},
+  components: { TableActions, ServerTable },
   props: {
     nasId: {
       type: Number,
       required: true
     }
   },
-  data() {
+  data () {
     const tableActions = [
       {
         label: 'View Status',
         icon: 'tim-icons icon-sound-wave',
-        href: ({id}) => `/nas/${this.nasId}/access-points/status?id=${id}`
+        href: ({ id }) => `/nas/${this.nasId}/access-points/status?id=${id}`
       },
       {
         label: 'Profiles',
         icon: 'tim-icons icon-single-copy-04',
-        href: ({id}) => `/nas/${this.nasId}/access-points/${id}/profiles`
+        href: ({ id }) => `/nas/${this.nasId}/access-points/${id}/profiles`
       }
     ]
 
@@ -81,7 +81,7 @@ export default {
     }
   },
   methods: {
-    reloadTable(){
+    reloadTable () {
       this.$refs.table.loadData()
     }
   }

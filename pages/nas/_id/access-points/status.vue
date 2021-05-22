@@ -1,46 +1,6 @@
 <template>
   <div class="ap-dashboard">
-    <nas-interfaces :access-point-id="selectedAccessPoint" :nas-id="nasId" />
-    <div class="access-point-select d-flex align-items-center mb-3">
-      <div class="font-bold mr-2">
-        Access Point:
-      </div>
-      <div v-if="accessPoints.length > 0" class="btn-group btn-group-toggle" data-toggle="buttons">
-        <label
-          v-for="(option, index) in accessPoints"
-          :id="index"
-          :key="option.id"
-          :class="{ active: selectedAccessPoint === option.id }"
-          class="btn btn-sm btn-primary btn-simple"
-          :title="`${option.ap_address}:${option.ap_port}`"
-        >
-          <input
-            :checked="selectedAccessPoint === option.id"
-            autocomplete="off"
-            name="options"
-            type="radio"
-            @click="selectedAccessPoint = option.id"
-          >
-          <span class="d-none d-sm-block">{{ option.ap_name }}</span>
-        </label>
-        <!--  <label class="pr-3">Access Points:
-           <el-select v-model="selectedAccessPoint" class="ml-2">
-             <el-option v-for="accessPoint in accessPoints"
-                        :key="accessPoint.id"
-                        :label="accessPoint.ap_address"
-                        :value="accessPoint.id"/>
-           </el-select>
-         </label>-->
-      </div>
-      <div v-else class="text-danger font-italic">
-        No Access points
-      </div>
-      <div class="mx-auto" />
-      <div>
-        <a class="btn btn-default btn-sm" href="" @click.prevent="$router.back()">Back</a>
-      </div>
-    </div>
-    <div v-if="currentAccessPoint" class="row status-widgets">
+    <div class="row status-widgets">
       <div class="col-xl-6">
         <card>
           <div v-if="currentAccessPoint" class="ap-details border-bottom border-dark mb-3">
@@ -146,29 +106,24 @@
         <system-temperature :access-point-id="selectedAccessPoint" :nas-id="nasId" />
       </div>
       <div class="col-lg-6 col-xl-4">
-        <radius-setup :access-point-id="selectedAccessPoint" :nas-id="nasId" />
-      </div>
-    </div>
-    <div v-else>
-      <div class="alert text-warning alert-danger d-inline-block">
-        <p>Please select NAS access point.</p>
+        <radius-setup :nas-id="nasId" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import SystemInformation from '~/components/Content/NAS/AccessPoint/SystemInformation'
-import SystemTemperature from '~/components/Content/NAS/AccessPoint/SystemTemperature'
-import DhcpConnected from '~/components/Content/NAS/AccessPoint/DhcpConnected'
-import RouterFirmware from '~/components/Content/NAS/AccessPoint/RouterFirmware'
-import RouterClock from '~/components/Content/NAS/AccessPoint/RouterClock'
-import TrClient from '~/components/Content/NAS/AccessPoint/TrClient'
-import NasInterfaces from '~/components/Content/NAS/NasInterfaces'
-import CapsMan from '~/components/Content/NAS/AccessPoint/CapsMan'
-import HotspotConnected from '~/components/Content/NAS/AccessPoint/HotspotConnected'
-import RadiusSetup from '~/components/Content/NAS/AccessPoint/RaiusSetup'
-import TrafficChart3 from '~/components/Content/NAS/AccessPoint/TrafficChart3'
+import SystemInformation from '~/components/Content/NAS/Widgets/SystemInformation'
+import SystemTemperature from '~/components/Content/NAS/Widgets/SystemTemperature'
+import DhcpConnected from '~/components/Content/NAS/Widgets/DhcpConnected'
+import RouterFirmware from '~/components/Content/NAS/Widgets/RouterFirmware'
+import RouterClock from '~/components/Content/NAS/Widgets/RouterClock'
+import TrClient from '~/components/Content/NAS/Widgets/TrClient'
+import NasInterfaces from '~/components/Content/NAS/Widgets/NasInterfaces'
+import CapsMan from '~/components/Content/NAS/Widgets/CapsMan'
+import HotspotConnected from '~/components/Content/NAS/Widgets/HotspotConnected'
+import RadiusSetup from '~/components/Content/NAS/Widgets/RadiusSetup'
+import TrafficChart3 from '~/components/Content/NAS/Widgets/TrafficChart3'
 
 export default {
   name: 'ApDashboard',

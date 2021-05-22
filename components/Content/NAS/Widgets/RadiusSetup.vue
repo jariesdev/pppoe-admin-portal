@@ -1,6 +1,6 @@
 <template>
   <card>
-    <h5>Radius Configuration</h5>
+    <h5>Radius Server</h5>
     <ul v-if="tableData.length > 0" class="list-unstyled">
       <li v-for="(data,index) in tableData" :key="index" class="mb-2">
         <div class="row">
@@ -61,43 +61,39 @@ export default {
     nasId: {
       type: Number,
       required: true
-    },
-    accessPointId: {
-      type: Number,
-      required: true
     }
   },
-  fetch() {
-    this.$axios.$get(`/api/nas/${this.nasId}/accesspoints/${this.accessPointId}/radius-setup`)
-        .then(({data}) => {
-          this.tableData = data
-        })
-        .catch(() => null)
-  },
-  data() {
+  data () {
     return {
       tableData: []
     }
   },
+  fetch () {
+    this.$axios.$get(`/api/nas/${this.nasId}/radius-server`)
+      .then(({ data }) => {
+        this.tableData = data
+      })
+      .catch(() => null)
+  },
   watch: {
-    accessPointId(){
+    accessPointId () {
       this.$fetch()
     },
-    nasId(){
+    nasId () {
       this.$fetch()
     }
   },
   methods: {
-    formatSpeedInBytes(value) {
+    formatSpeedInBytes (value) {
       return this.formatUnit(value, 'iB')
     },
-    formatSizeInBytes(value) {
+    formatSizeInBytes (value) {
       return this.formatUnit(value, 'B')
     },
-    formatHertz(value) {
+    formatHertz (value) {
       return this.formatUnit(value, 'hz')
     },
-    formatUnit(value, unit) {
+    formatUnit (value, unit) {
       if (!value) {
         return 0 + ' ' + unit
       }

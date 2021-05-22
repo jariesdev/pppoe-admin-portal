@@ -4,36 +4,39 @@
       <div class="d-md-flex d-block">
         <h4 class="card-title">
           Traffic (Gbps)
-          <i :class="{'text-success': loading}" :style="{fontSize: '8px'}" class="fas fa-circle"/>
+          <i :class="{'text-success': loading}" :style="{fontSize: '8px'}" class="fas fa-circle" />
         </h4>
-        <div class="mx-auto"/>
+        <div class="mx-auto" />
         <div class="d-flex align-items-center">
           <span class="mr-2">Select Ethernet:</span>
           <el-select v-model="selectedEthernet" size="mini">
-            <el-option v-for="ethernet in availableEthernetOptions"
-                       :key="ethernet.value"
-                       :label="ethernet.label"
-                       :value="ethernet.value"/>
+            <el-option
+              v-for="ethernet in availableEthernetOptions"
+              :key="ethernet.value"
+              :label="ethernet.label"
+              :value="ethernet.value"
+            />
           </el-select>
         </div>
       </div>
     </template>
     <div class="chart-area">
-        <line-chart
-            :chart-data="chartData"
-            :extra-options="chartOptions"
-            :gradient-colors="purpleLineChart.gradientColors"
-            :gradient-stops="purpleLineChart.gradientStops"
-            :style="{height: '100%'}"/>
+      <line-chart
+        :chart-data="chartData"
+        :extra-options="chartOptions"
+        :gradient-colors="purpleLineChart.gradientColors"
+        :gradient-stops="purpleLineChart.gradientStops"
+        :style="{height: '100%'}"
+      />
     </div>
   </card>
 </template>
 <script>
-import {forEach, map, throttle} from 'lodash'
+import { forEach, map, throttle } from 'lodash'
 import LineChart from '@/components/Charts/LineChart'
 import config from '@/config'
-import {basicOptions} from '@/components/Charts/config'
-import intervals from "~/mixins/intervals";
+import { basicOptions } from '@/components/Charts/config'
+import intervals from '~/mixins/intervals'
 
 const chartOptions = {
   ...basicOptions,
@@ -87,7 +90,7 @@ const chartOptions = {
 
 export default {
   name: 'TrafficChart2',
-  components: {LineChart},
+  components: { LineChart },
   mixins: [intervals],
   props: {
     nasId: {
@@ -99,7 +102,7 @@ export default {
       required: true
     }
   },
-  data() {
+  data () {
     return {
       loading: false,
       ethernetData: [],
@@ -108,16 +111,16 @@ export default {
       basicOptions,
       purpleLineChart: {
         gradientColors: config.colors.primaryGradient,
-        gradientStops: [1, 0.2, 0],
+        gradientStops: [1, 0.2, 0]
       },
       selectedEthernet: null
     }
   },
-  async fetch() {
+  async fetch () {
     await this.loadData()
   },
   computed: {
-    availableEthernetOptions() {
+    availableEthernetOptions () {
       if (this.ethernetData.length === 0) {
         return []
       }
@@ -129,12 +132,12 @@ export default {
         }
       })
     },
-    selectedEthernetData() {
-      if (this.selectedEthernet === null || this.ethernetData.length === 0) return []
+    selectedEthernetData () {
+      if (this.selectedEthernet === null || this.ethernetData.length === 0) { return [] }
 
       const data = []
-      forEach(this.ethernetData, ethernets => {
-        forEach(ethernets, ethernet => {
+      forEach(this.ethernetData, (ethernets) => {
+        forEach(ethernets, (ethernet) => {
           if (ethernet['.id'] === this.selectedEthernet) {
             data.push(ethernet)
           }
@@ -142,8 +145,8 @@ export default {
       })
       return data
     },
-    chartData() {
-      let labels;
+    chartData () {
+      let labels
       if (this.ethernetData.length !== 0) {
         labels = map(this.ethernetData, (data) => {
           const hours = data[0].response_time.getHours()
@@ -161,22 +164,22 @@ export default {
     }
   },
   watch: {
-    accessPointId() {
+    accessPointId () {
       this.$nextTick(this.loadData)
     },
-    nasId() {
+    nasId () {
       this.$nextTick(this.loadData)
     }
   },
-  mounted() {
+  mounted () {
     const throttleFunc = throttle(this.loadData, '1000')
     this.setInterval(throttleFunc, 1000)
   },
   methods: {
-    async loadData() {
+    async loadData () {
       this.loading = true
       try {
-        const {data} = await this.$axios.$get(`/api/nas/${this.nasId}/accesspoints/${this.accessPointId}/ethernet-graph`)
+        const { data } = await this.$axios.$get(`/api/nas/${this.nasId}/accesspoints/${this.accessPointId}/ethernet-graph`)
         const dataWithTime = map(data || [], (object) => {
           object.response_time = new Date()
           return object
@@ -196,8 +199,8 @@ export default {
         this.loading = false
       }
     },
-    getDatasets() {
-      if (this.selectedEthernetData.length === 0) return []
+    getDatasets () {
+      if (this.selectedEthernetData.length === 0) { return [] }
       const data = this.selectedEthernetData
 
       const ethernetTxDs = {

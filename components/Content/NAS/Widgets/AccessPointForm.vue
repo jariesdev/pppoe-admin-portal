@@ -1,37 +1,41 @@
 <template>
   <div>
-    <alert-errors :form="form"/>
+    <alert-errors :form="form" />
     <el-form :disabled="loading || form.busy" label-position="top">
       <el-form-item label="AP Name" required>
-        <el-input v-model="form.ap_name"/>
+        <el-input v-model="form.ap_name" />
       </el-form-item>
       <el-form-item label="AP Address" required>
-        <el-input v-model="form.ap_address"/>
+        <el-input v-model="form.ap_address" />
       </el-form-item>
       <el-form-item label="Port" required>
-        <el-input type="number" v-model="form.ap_port"/>
+        <el-input v-model="form.ap_port" type="number" />
       </el-form-item>
       <el-form-item label="Username" required>
-        <el-input v-model="form.ap_username"/>
+        <el-input v-model="form.ap_username" />
       </el-form-item>
       <el-form-item label="Password" required>
-        <el-input v-model="form.ap_password" type="password"/>
+        <el-input v-model="form.ap_password" type="password" />
       </el-form-item>
       <p class="text-muted text-right font-italic">
         All <span class="text-danger">*</span> fields are required.
       </p>
       <div>
-        <base-button type="primary" @click="submit" :loading="form.busy">Save</base-button>
-        <base-button @click="cancel" :disabled="form.busy">Cancel</base-button>
+        <base-button type="primary" :loading="form.busy" @click="submit">
+          Save
+        </base-button>
+        <base-button :disabled="form.busy" @click="cancel">
+          Cancel
+        </base-button>
       </div>
     </el-form>
   </div>
 </template>
 
 <script>
-import {Form} from 'vform'
-import alerts from "~/mixins/alerts";
-import {mapActions} from "vuex";
+import { Form } from 'vform'
+import { mapActions } from 'vuex'
+import alerts from '~/mixins/alerts'
 
 export default {
   name: 'AccessPointForm',
@@ -47,7 +51,7 @@ export default {
       default: null
     }
   },
-  data() {
+  data () {
     return {
       loading: false,
       form: new Form({
@@ -55,41 +59,41 @@ export default {
         ap_address: null,
         ap_port: null,
         ap_username: null,
-        ap_password: null,
+        ap_password: null
       })
     }
   },
   computed: {
-    isEditing() {
+    isEditing () {
       return this.accessPoint !== null
     }
   },
-  mounted() {
+  mounted () {
     this.initializeForm()
   },
   methods: {
     ...mapActions({
       getAccessPoint: 'access-point/get'
     }),
-    submit() {
+    submit () {
       const url = this.isEditing ? `/api/nas/${this.nasId}/accesspoints/${this.accessPoint}` : `/api/nas/${this.nasId}/accesspoints`
       this.form.submit(this.isEditing ? 'put' : 'post', url)
-          .then(({data}) => {
-            this.$emit('success', data)
-          })
-          .catch(() => {
-            this.showRequestErrorMessage()
-          })
+        .then(({ data }) => {
+          this.$emit('success', data)
+        })
+        .catch(() => {
+          this.showRequestErrorMessage()
+        })
     },
-    cancel() {
+    cancel () {
       this.resetForm()
       this.$emit('cancel')
     },
-    resetForm() {
+    resetForm () {
       this.form.reset()
       this.form.clear()
     },
-    async initializeForm() {
+    async initializeForm () {
       if (this.accessPoint) {
         this.loading = true
         try {
@@ -102,7 +106,7 @@ export default {
             ap_address: ap.ap_address,
             ap_port: ap.ap_port,
             ap_username: ap.ap_username,
-            ap_password: ap.ap_password,
+            ap_password: ap.ap_password
           })
         } finally {
           this.loading = false

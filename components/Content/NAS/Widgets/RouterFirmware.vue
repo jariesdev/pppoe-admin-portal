@@ -50,25 +50,25 @@ export default {
       required: true
     }
   },
-  fetch() {
-    this.$axios.$get(`/api/nas/${this.nasId}/accesspoints/${this.accessPointId}/router-board`)
-        .then(({data}) => {
-          this.tableData = data
-        })
-        .catch(() => null)
-  },
-  data() {
+  data () {
     return {
       tableData: []
     }
   },
+  fetch () {
+    this.$axios.$get(`/api/nas/${this.nasId}/accesspoints/${this.accessPointId}/router-board`)
+      .then(({ data }) => {
+        this.tableData = data
+      })
+      .catch(() => null)
+  },
   watch: {
-    accessPointId(){
+    accessPointId () {
       this.$fetch()
     },
-    nasId(){
+    nasId () {
       this.$fetch()
     }
-  },
+  }
 }
 </script>

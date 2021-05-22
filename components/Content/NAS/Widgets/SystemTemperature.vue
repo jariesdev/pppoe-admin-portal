@@ -1,7 +1,7 @@
 <template>
   <card>
     <h5>System Temperature</h5>
-    <ul class="list-unstyled" v-if="tableData.length > 0">
+    <ul v-if="tableData.length > 0" class="list-unstyled">
       <li v-for="(data,index) in tableData" :key="index" class="mb-2">
         <div class="row">
           <div class="col-6">
@@ -14,13 +14,13 @@
       </li>
     </ul>
     <p v-else class="font-italic">
-        No Information yet.
+      No Information yet.
     </p>
   </card>
 </template>
 
 <script>
-import {filter} from 'lodash'
+import { filter } from 'lodash'
 export default {
   name: 'SystemTemperature',
   props: {
@@ -33,25 +33,25 @@ export default {
       required: true
     }
   },
-  fetch() {
-    this.$axios.$get(`/api/nas/${this.nasId}/accesspoints/${this.accessPointId}/temp`)
-        .then(({data}) => {
-          this.tableData = filter(data || [], o => o !== null)
-        })
-        .catch(() => null)
-  },
-  data() {
+  data () {
     return {
       tableData: []
     }
   },
+  fetch () {
+    this.$axios.$get(`/api/nas/${this.nasId}/accesspoints/${this.accessPointId}/temp`)
+      .then(({ data }) => {
+        this.tableData = filter(data || [], o => o !== null)
+      })
+      .catch(() => null)
+  },
   watch: {
-    accessPointId(){
+    accessPointId () {
       this.$fetch()
     },
-    nasId(){
+    nasId () {
       this.$fetch()
     }
-  },
+  }
 }
 </script>
