@@ -129,10 +129,10 @@ export default {
         provider: 'laravel/jwt',
         url: '/api/',
         endpoints: {
-          login: { url: 'admin/login', method: 'POST' },
-          logout: { url: 'admin/logout', method: 'POST' },
-          refresh: { url: 'admin/refresh', method: 'POST' },
-          user: { url: 'admin/my-account' }
+          login: { url: 'login', method: 'POST' },
+          logout: { url: 'logout', method: 'POST' },
+          refresh: { url: 'refresh', method: 'POST' },
+          user: { url: 'my-account' }
         },
         token: {
           property: 'access_token',
@@ -158,7 +158,7 @@ export default {
       target: process.env.API_URL,
       prependPath: false,
       pathRewrite: {
-        [process.env.ROUTER_BASE ? `^${process.env.ROUTER_BASE}/api/` : '^/api/']: '/api/'
+        [process.env.ROUTER_BASE ? `^${process.env.ROUTER_BASE}/api/` : '^/api/']: '/api/admin/'
       },
       logLevel: process.env.PROXY_LOG_LEVEL || 'info'
     }
