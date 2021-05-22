@@ -76,10 +76,6 @@ export default {
     nasId: {
       type: Number,
       required: true
-    },
-    accessPointId: {
-      type: Number,
-      required: true
     }
   },
   data () {
@@ -88,7 +84,7 @@ export default {
     }
   },
   fetch () {
-    this.$axios.$get(`/api/nas/${this.nasId}/accesspoints/${this.accessPointId}/system`)
+    this.$axios.$get(`/api/nas/${this.nasId}/system-info`)
       .then(({ data }) => {
         this.tableData = data
       })
