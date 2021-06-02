@@ -24,37 +24,9 @@
         />
         <sidebar-item
           :link="{
-            name: $t('sidebar.sales'),
-            icon: 'tim-icons icon-chart-bar-32',
-            path: '/sales',
-          }"
-        />
-        <!--          <sidebar-item
-              :link="{
-            name: $t('sidebar.sales-report'),
-            icon: 'tim-icons icon-chart-bar-32',
-            path: '/sales'
-          }"
-          />
-          <sidebar-item
-              :link="{
-            name: $t('sidebar.sales-summary'),
-            icon: 'tim-icons icon-chart-bar-32',
-            path: '/sales/summary'
-          }"
-          />-->
-        <sidebar-item
-          :link="{
-            name: $t('sidebar.sales-summary'),
-            icon: 'tim-icons icon-chart-pie-36',
-            path: '/sales/summary'
-          }"
-        />
-        <sidebar-item
-          :link="{
-            name: $t('sidebar.sale-transactions'),
-            icon: 'tim-icons icon-coins',
-            path: '/sales/transactions'
+            name: $t('sidebar.customers'),
+            icon: 'tim-icons icon-single-02',
+            path: '/customers',
           }"
         />
         <hr class="menu-separator">
