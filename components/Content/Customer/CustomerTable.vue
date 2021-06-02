@@ -1,6 +1,11 @@
 <template>
   <table-card class="customers" title="Customers">
     <ServerTable ref="customers" url="/api/customers" :headers="tableHeaders" :query-params="tableQueryParams">
+      <template #item_first_name="{value ,row}">
+        <nuxt-link :to="`/customers/${row.id}`">
+          {{ value }}
+        </nuxt-link>
+      </template>
       <template #item_is_active="{row}">
         <el-tag :type="row.is_active ? 'success' : 'info'" size="small">
           {{ row.is_active ? 'Yes' : 'No' }}
