@@ -1,6 +1,9 @@
 <template>
   <div class="job-order--details">
-    <JobOrderDetails :job-order="jobOrderId" />
+    <JobOrderDetails :job-order-id="jobOrderId" @success="jobOrderLoaded" />
+    <card v-if="showApprovalForm" title="Approve Job Order">
+      <JobOrderApprovalForm :job-order-id="jobOrderId" />
+    </card>
     <div>
       <base-button @click="$router.back()">
         Back
@@ -11,12 +14,14 @@
 
 <script>
 import JobOrderDetails from '~/components/Content/JobOrder/JobOrderDetails'
+import JobOrderApprovalForm from '~/components/Content/JobOrder/JobOrderApprovalForm'
 
 export default {
-  components: { JobOrderDetails },
+  components: { JobOrderApprovalForm, JobOrderDetails },
   data () {
     return {
-      jobOrderId: null
+      jobOrderId: null,
+      showApprovalForm: false
     }
   },
   fetch () {
@@ -25,6 +30,11 @@ export default {
   head () {
     return {
       title: 'Job Order Details'
+    }
+  },
+  methods: {
+    jobOrderLoaded (jobOrder) {
+      this.showApprovalForm = !jobOrder.is_approved
     }
   }
 }
