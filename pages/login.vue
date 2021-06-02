@@ -75,6 +75,7 @@ export default {
     if (this.$route.query.demo) {
       this.login.username = 'admin'
       this.login.password = 'password'
+      this.userLogin()
     }
   },
   methods: {

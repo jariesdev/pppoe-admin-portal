@@ -28,6 +28,7 @@ import {
   Tag,
   Tooltip
 } from 'element-ui'
+import RequiredFieldsText from '~/components/Form/RequiredFieldsText'
 import InputDescription from '~/components/Inputs/InputDescription'
 /**
  * You can register global components here and use them as a plugin in your main Vue instance
@@ -59,5 +60,6 @@ Vue.component(Tag.name, Tag)
 Vue.component(Tabs.name, Tabs)
 Vue.component(TabPane.name, TabPane)
 Vue.component(InputDescription.name, InputDescription)
+Vue.component(RequiredFieldsText.name, RequiredFieldsText)
 Vue.use(Tooltip)
 Vue.use(Popover)
