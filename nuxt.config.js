@@ -146,7 +146,13 @@ export default {
           property: 'data'
         }
       }
-    }
+    },
+    plugins: [
+      {
+        src: '~/plugins/auth-token-refresh',
+        mode: 'client'
+      }
+    ]
   },
   axios: {
     proxy: true,
