@@ -8,25 +8,11 @@
       <el-row :gutter="15" class="flex-wrap" type="flex">
         <el-col>
           <el-form-item label="Rate Limit (Upload / Download)" required>
-            <div class="d-flex">
-              <el-select v-model="rateLimitUpload" class="d-block flex-shrink-0 flex-grow-1" @change="rateLimitChange">
-                <el-option
-                  v-for="(rateOption,index) in rateOptions"
-                  :key="index"
-                  :label="'Upload up to ' + rateOption.label"
-                  :value="rateOption.value"
-                />
-              </el-select>
-              <span class="px-2">/</span>
-              <el-select v-model="rateLimitDownload" class="d-block flex-shrink-0 flex-grow-1" @change="rateLimitChange">
-                <el-option
-                  v-for="(rateOption,index) in rateOptions"
-                  :key="index"
-                  :label="'Download up to ' + rateOption.label"
-                  :value="rateOption.value"
-                />
-              </el-select>
-            </div>
+            <el-select v-model="form.rate_limit" class="d-block">
+              <el-option v-for="(rateLimit,index) in availableRateLimits" :key="index" :value="rateLimit.rate_limit">
+                {{ rateLimit.rate_limit }}
+              </el-option>
+            </el-select>
           </el-form-item>
         </el-col>
         <el-col>
@@ -117,10 +103,12 @@ export default {
   },
   async fetch () {
     await this.$store.dispatch('address-pool/load')
+    await this.$store.dispatch('bandwidth-profile/loadAvailableRateLimits')
   },
   computed: {
     ...mapState({
-      addressPools: state => state['address-pool'].addressPools
+      addressPools: state => state['address-pool'].addressPools,
+      availableRateLimits: state => state['bandwidth-profile'].availableRateLimits
     }),
     isEditing () {
       return this.bandwidthProfile !== null

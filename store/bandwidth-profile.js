@@ -1,12 +1,16 @@
-export const bandwidthProfiles = () => {
+export const state = () => {
   return {
-    bandwidthProfiles: []
+    bandwidthProfiles: [],
+    availableRateLimits: []
   }
 }
 
 export const mutations = {
   setBandwidthProfiles (state, value) {
     state.bandwidthProfiles = value
+  },
+  setAvailableRateLimits (state, value) {
+    state.availableRateLimits = value
   }
 }
 
@@ -14,6 +18,11 @@ export const actions = {
   async load ({ commit }) {
     const { data } = await this.$axios.$get('/api/pppoe-profiles', { params: { perPage: -1 } })
     commit('setBandwidthProfiles', data)
+    return data
+  },
+  async loadAvailableRateLimits ({ commit }) {
+    const { data } = await this.$axios.$get('/api/rate-limits')
+    commit('setAvailableRateLimits', data)
     return data
   },
   async delete (_, id) {
