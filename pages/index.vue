@@ -20,9 +20,15 @@
             title-classes="btn btn-link btn-icon"
           >
             <i slot="title" class="tim-icons icon-settings-gear-63" />
-            <a class="dropdown-item" href="#pablo"> Action </a>
-            <a class="dropdown-item" href="#pablo"> Another action </a>
-            <a class="dropdown-item" href="#pablo"> Something else </a>
+            <nuxt-link class="dropdown-item" to="/">
+              Action
+            </nuxt-link>
+            <nuxt-link class="dropdown-item" to="/">
+              Another action
+            </nuxt-link>
+            <nuxt-link class="dropdown-item" to="/">
+              Something else
+            </nuxt-link>
           </base-dropdown>
         </template>
         <div class="table-full-width table-responsive">

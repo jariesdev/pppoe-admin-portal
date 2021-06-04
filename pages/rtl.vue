@@ -6,8 +6,12 @@
           <template slot="header">
             <div class="row">
               <div class="col-sm-6" :class="isRTL ? 'text-right' : 'text-left'">
-                <h5 class="card-category">مجموع الشحنات</h5>
-                <h2 class="card-title">أداء</h2>
+                <h5 class="card-category">
+                  مجموع الشحنات
+                </h5>
+                <h2 class="card-title">
+                  أداء
+                </h2>
               </div>
               <div class="col-sm-6 d-flex d-sm-block">
                 <div
@@ -17,21 +21,21 @@
                 >
                   <label
                     v-for="(option, index) in bigLineChartCategories"
+                    :id="index"
                     :key="option.name"
                     class="btn btn-sm btn-primary btn-simple"
                     :class="{ active: bigLineChart.activeIndex === index }"
-                    :id="index"
                   >
                     <input
                       type="radio"
-                      @click="initBigChart(index)"
                       name="options"
                       autocomplete="off"
                       :checked="bigLineChart.activeIndex === index"
-                    />
+                      @click="initBigChart(index)"
+                    >
                     <span class="d-none d-sm-block">{{ option.name }}</span>
                     <span class="d-block d-sm-none">
-                      <i :class="option.icon"></i>
+                      <i :class="option.icon" />
                     </span>
                   </label>
                 </div>
@@ -40,14 +44,13 @@
           </template>
           <div class="chart-area">
             <line-chart
-              style="height: 100%"
               ref="bigChart"
+              style="height: 100%"
               :chart-data="bigLineChart.chartData"
               :gradient-colors="bigLineChart.gradientColors"
               :gradient-stops="bigLineChart.gradientStops"
               :extra-options="bigLineChart.extraOptions"
-            >
-            </line-chart>
+            />
           </div>
         </card>
       </div>
@@ -55,9 +58,11 @@
       <div class="col-lg-4" :class="{ 'text-right': isRTL }">
         <card type="chart">
           <template slot="header">
-            <h5 class="card-category">مجموع الشحنات</h5>
+            <h5 class="card-category">
+              مجموع الشحنات
+            </h5>
             <h3 class="card-title">
-              <i class="tim-icons icon-bell-55 text-primary "></i> 763,215
+              <i class="tim-icons icon-bell-55 text-primary " /> 763,215
             </h3>
           </template>
           <div class="chart-area">
@@ -67,17 +72,18 @@
               :gradient-colors="purpleLineChart.gradientColors"
               :gradient-stops="purpleLineChart.gradientStops"
               :extra-options="purpleLineChart.extraOptions"
-            >
-            </line-chart>
+            />
           </div>
         </card>
       </div>
       <div class="col-lg-4" :class="{ 'text-right': isRTL }">
         <card type="chart">
           <template slot="header">
-            <h5 class="card-category">المبيعات اليومية</h5>
+            <h5 class="card-category">
+              المبيعات اليومية
+            </h5>
             <h3 class="card-title">
-              <i class="tim-icons icon-delivery-fast text-info "></i> 3,500€
+              <i class="tim-icons icon-delivery-fast text-info " /> 3,500€
             </h3>
           </template>
           <div class="chart-area">
@@ -86,17 +92,18 @@
               :chart-data="blueBarChart.chartData"
               :gradient-stops="blueBarChart.gradientStops"
               :extra-options="blueBarChart.extraOptions"
-            >
-            </bar-chart>
+            />
           </div>
         </card>
       </div>
       <div class="col-lg-4" :class="{ 'text-right': isRTL }">
         <card type="chart">
           <template slot="header">
-            <h5 class="card-category">المهام المكتملة</h5>
+            <h5 class="card-category">
+              المهام المكتملة
+            </h5>
             <h3 class="card-title">
-              <i class="tim-icons icon-send text-success "></i> 12,100K
+              <i class="tim-icons icon-send text-success " /> 12,100K
             </h3>
           </template>
           <div class="chart-area">
@@ -105,8 +112,7 @@
               :chart-data="greenLineChart.chartData"
               :gradient-stops="greenLineChart.gradientStops"
               :extra-options="greenLineChart.extraOptions"
-            >
-            </line-chart>
+            />
           </div>
         </card>
       </div>
@@ -114,27 +120,41 @@
       <div class="col-lg-6">
         <card type="tasks" :header-classes="{ 'text-right': isRTL }">
           <template slot="header">
-            <h6 class="title d-inline">مهام 5</h6>
-            <p class="card-category d-inline">اليوم</p>
+            <h6 class="title d-inline">
+              مهام 5
+            </h6>
+            <p class="card-category d-inline">
+              اليوم
+            </p>
             <base-dropdown
               menu-on-right=""
               tag="div"
               title-classes="btn btn-link btn-icon"
               :class="{ 'float-left': isRTL }"
             >
-              <i slot="title" class="tim-icons icon-settings-gear-63"></i>
-              <a class="dropdown-item" href="#pablo"> عمل </a>
-              <a class="dropdown-item" href="#pablo"> عمل آخر </a>
-              <a class="dropdown-item" href="#pablo"> شيء آخر </a>
+              <i slot="title" class="tim-icons icon-settings-gear-63" />
+              <nuxt-link class="dropdown-item" to="/">
+                عمل
+              </nuxt-link>
+              <nuxt-link class="dropdown-item" to="/">
+                عمل آخر
+              </nuxt-link>
+              <nuxt-link class="dropdown-item" to="/">
+                شيء آخر
+              </nuxt-link>
             </base-dropdown>
           </template>
           <div class="table-full-width table-responsive">
             <base-table :data="tableDataTask" thead-classes="text-primary">
               <template slot-scope="{ row }">
-                <td><base-checkbox v-model="row.done"></base-checkbox></td>
+                <td><base-checkbox v-model="row.done" /></td>
                 <td>
-                  <p class="title">{{ row.title }}</p>
-                  <p class="text-muted">{{ row.description }}</p>
+                  <p class="title">
+                    {{ row.title }}
+                  </p>
+                  <p class="text-muted">
+                    {{ row.description }}
+                  </p>
                 </td>
                 <td class="td-actions text-right">
                   <el-tooltip
@@ -144,7 +164,7 @@
                     placement="top"
                   >
                     <base-button type="link">
-                      <i class="tim-icons icon-pencil"></i>
+                      <i class="tim-icons icon-pencil" />
                     </base-button>
                   </el-tooltip>
                 </td>
@@ -155,7 +175,9 @@
       </div>
       <div class="col-lg-6">
         <card card-body-classes="table-full-width">
-          <h4 slot="header" class="card-title" :class="{ 'text-right': isRTL }">جدول بسيط</h4>
+          <h4 slot="header" class="card-title" :class="{ 'text-right': isRTL }">
+            جدول بسيط
+          </h4>
           <el-table :data="tableData">
             <el-table-column
               min-width="150"
@@ -164,7 +186,7 @@
               header-align="left text-left"
               label="اسم"
               property="name"
-            ></el-table-column>
+            />
             <el-table-column
               min-width="150"
               sortable
@@ -172,7 +194,7 @@
               header-align="left text-left"
               label="بلد"
               property="country"
-            ></el-table-column>
+            />
             <el-table-column
               min-width="150"
               sortable
@@ -180,7 +202,7 @@
               header-align="left text-left"
               label="مدينة"
               property="city"
-            ></el-table-column>
+            />
             <el-table-column
               min-width="150"
               sortable
@@ -188,7 +210,7 @@
               header-align="left text-left"
               label="راتب"
               property="salary"
-            ></el-table-column>
+            />
           </el-table>
         </card>
       </div>
@@ -196,20 +218,23 @@
   </div>
 </template>
 <script>
-import { BaseTable } from '@/components';
-import LineChart from '~/components/Charts/LineChart';
-import BarChart from '@/components/Charts/BarChart';
-import * as chartConfigs from '@/components/Charts/config';
-import config from '@/config';
-import { Table, TableColumn } from 'element-ui';
+/* eslint-disable no-tabs */
+import {
+  BaseTable
+} from '@/components'
+import BarChart from '@/components/Charts/BarChart'
+import * as chartConfigs from '@/components/Charts/config'
+import config from '@/config'
+import { Table, TableColumn } from 'element-ui'
+import LineChart from '~/components/Charts/LineChart'
 
-let bigChartData = [
+const bigChartData = [
   [100, 70, 90, 70, 85, 60, 75, 60, 90, 80, 110, 100],
   [80, 120, 105, 110, 95, 105, 90, 100, 80, 95, 70, 120],
   [60, 80, 65, 130, 80, 105, 90, 130, 70, 115, 60, 130]
 ]
-let bigChartLabels = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
-let bigChartDatasetOptions = {
+const bigChartLabels = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
+const bigChartDatasetOptions = {
   fill: true,
   borderColor: config.colors.primary,
   borderWidth: 2,
@@ -221,18 +246,11 @@ let bigChartDatasetOptions = {
   pointBorderWidth: 20,
   pointHoverRadius: 4,
   pointHoverBorderWidth: 15,
-  pointRadius: 4,
+  pointRadius: 4
 }
 
-import {
-  BaseSwitch,
-  TimeLine,
-  TimeLineItem,
-  BaseCheckbox
-} from '@/components';
-
 export default {
-  name: 'rtl',
+  name: 'Rtl',
   components: {
     BaseTable,
     LineChart,
@@ -240,7 +258,7 @@ export default {
     [Table.name]: Table,
     [TableColumn.name]: TableColumn
   },
-  data() {
+  data () {
     return {
       allContributions: true,
       pastWeekContributions: false,
@@ -405,44 +423,44 @@ export default {
         gradientColors: config.colors.primaryGradient,
         gradientStops: [1, 0.4, 0]
       }
-    };
-  },
-  methods: {
-    initBigChart (index) {
-      let chartData = {
-        datasets: [{
-          ...bigChartDatasetOptions,
-          data: bigChartData[index]
-        }],
-        labels: bigChartLabels
-      };
-      this.$refs.bigChart.updateGradients(chartData);
-      this.bigLineChart.chartData = chartData;
-      this.bigLineChart.activeIndex = index;
     }
-  },
-  mounted() {
-    this.$rtl.enableRTL();
-    this.initBigChart(0);
   },
   computed: {
     enableRTL () {
-      return this.$route.query.enableRTL;
+      return this.$route.query.enableRTL
     },
     isRTL () {
-      return this.$rtl.isRTL;
+      return this.$rtl.isRTL
     },
     bigLineChartCategories () {
       return [{ name: ' حسابات ', icon: 'tim-icons icon-single-02' }, {
         name: ' المشتريات ',
         icon: 'tim-icons icon-gift-2'
-      }, { name: ' جلسات ', icon: 'tim-icons icon-tap-02' }];
+      }, { name: ' جلسات ', icon: 'tim-icons icon-tap-02' }]
     }
   },
-  beforeDestroy() {
+  mounted () {
+    this.$rtl.enableRTL()
+    this.initBigChart(0)
+  },
+  beforeDestroy () {
     this.switchLocalePath('en')
-    this.$rtl.disableRTL();
+    this.$rtl.disableRTL()
+  },
+  methods: {
+    initBigChart (index) {
+      const chartData = {
+        datasets: [{
+          ...bigChartDatasetOptions,
+          data: bigChartData[index]
+        }],
+        labels: bigChartLabels
+      }
+      this.$refs.bigChart.updateGradients(chartData)
+      this.bigLineChart.chartData = chartData
+      this.bigLineChart.activeIndex = index
+    }
   }
-};
+}
 </script>
 <style></style>
