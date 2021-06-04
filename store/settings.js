@@ -3,7 +3,7 @@ import { find } from 'lodash'
 export const state = () => {
   return {
     darkMode: true,
-    backgroundColor: 'blue',
+    backgroundColor: '',
     generalSettings: {}
   }
 }
