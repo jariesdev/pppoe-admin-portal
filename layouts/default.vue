@@ -74,66 +74,11 @@
         />
         <sidebar-item
           :link="{
-            name: $t('sidebar.allocations'),
-            icon: 'tim-icons icon-tag',
-            path: '/allocations'
-          }"
-        />
-        <sidebar-item
-          :link="{
             name: $t('sidebar.nas'),
             icon: 'tim-icons icon-vector',
             path: '/nas'
           }"
         />
-        <sidebar-item
-          :link="{
-            name: $t('sidebar.settings'),
-            icon: 'tim-icons icon-settings',
-            path: '/settings'
-          }"
-        />
-        <!--        <sidebar-item
-                  :link="{
-                    name: $t('sidebar.icons'),
-                    icon: 'tim-icons icon-atom',
-                    path: '/icons'
-                  }"
-                >
-                </sidebar-item>
-                <sidebar-item
-                  :link="{
-                    name: $t('sidebar.maps'),
-                    icon: 'tim-icons icon-pin',
-                    path: '/google'
-                  }"
-                >
-                </sidebar-item>
-
-                <sidebar-item
-                  :link="{
-                    name: $t('sidebar.notifications'),
-                    icon: 'tim-icons icon-bell-55',
-                    path: '/notifications'
-                  }"
-                >
-                </sidebar-item>
-
-                <sidebar-item
-                  :link="{
-                    name: $t('sidebar.regularTables'),
-                    icon: 'tim-icons icon-puzzle-10',
-                    path: '/regular'
-                  }"
-                ></sidebar-item>
-
-                <sidebar-item
-                  :link="{
-                    name: $t('sidebar.typography'),
-                    icon: 'tim-icons icon-align-center',
-                    path: '/typography'
-                  }"
-                ></sidebar-item>-->
       </template>
     </side-bar>
     <div :data="sidebarBackground" class="main-panel">
