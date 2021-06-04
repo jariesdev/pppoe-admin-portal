@@ -79,6 +79,13 @@
             path: '/nas'
           }"
         />
+        <sidebar-item
+          :link="{
+            name: $t('sidebar.settings'),
+            icon: 'tim-icons icon-settings',
+            path: '/settings'
+          }"
+        />
       </template>
     </side-bar>
     <div :data="sidebarBackground" class="main-panel">
