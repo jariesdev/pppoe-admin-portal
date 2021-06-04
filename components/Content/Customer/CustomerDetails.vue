@@ -145,6 +145,9 @@
         </p>
       </div>
     </div>
+    <template #footer>
+      <slot name="footer" />
+    </template>
   </card>
 </template>
 
