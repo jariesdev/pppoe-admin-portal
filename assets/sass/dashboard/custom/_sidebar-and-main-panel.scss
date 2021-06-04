@@ -18,7 +18,8 @@
 }
 .sidebar,
 .off-canvas-sidebar{
-    @include linear-gradient($primary-states, $primary);
+    //@include linear-gradient($primary-states, $primary);
+    background-color: $black;
     height: calc(100vh - 90px);
     width: 230px;
     position: fixed;
@@ -151,7 +152,7 @@
                 background: transparent;
 
                 i,p{
-                  color: white;
+                  color: $red-states;
                 }
 
                 &:before{
@@ -161,7 +162,7 @@
                   width: 6px;
                   top: 22px;
                   left: -4px;
-                  background: $white;
+                  background: $red-states;
                   border-radius: 50%;
                 }
             }
@@ -438,7 +439,7 @@
     float: right;
     width: $full-width;
     min-height: 100vh;
-    border-top: 2px solid $primary;
+    border-top: 2px solid $red-states;
     background: linear-gradient($background-black, $background-states-black);
 
     @include transitions (0.50s, cubic-bezier(0.685, 0.0473, 0.346, 1));
@@ -625,7 +626,7 @@
        transition-timing-function: linear,linear,ease;
       -webkit-overflow-scrolling: touch;
     }
-    
+
     .sidebar .nav>li.active-pro {
       position: absolute;
       width: 100%;

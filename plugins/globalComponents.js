@@ -26,7 +26,9 @@ import {
   TabPane,
   Tabs,
   Tag,
-  Tooltip
+  Tooltip,
+  Button,
+  Image
 } from 'element-ui'
 import RequiredFieldsText from '~/components/Form/RequiredFieldsText'
 import InputDescription from '~/components/Inputs/InputDescription'
@@ -61,5 +63,7 @@ Vue.component(Tabs.name, Tabs)
 Vue.component(TabPane.name, TabPane)
 Vue.component(InputDescription.name, InputDescription)
 Vue.component(RequiredFieldsText.name, RequiredFieldsText)
+Vue.component(Button.name, Button)
+Vue.component(Image.name, Image)
 Vue.use(Tooltip)
 Vue.use(Popover)

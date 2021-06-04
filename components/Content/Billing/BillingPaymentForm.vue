@@ -35,22 +35,22 @@ import { paymentModes } from '~/assets/js/constants'
 import alerts from '~/mixins/alerts'
 
 const modeOfPayments = [
-  {
-    label: 'CASH',
-    value: paymentModes.CASH
-  },
+//   {
+//     label: 'CASH',
+//     value: paymentModes.CASH
+//   },
   {
     label: 'GCASH',
     value: paymentModes.GCASH
-  },
-  {
-    label: 'PAYMAYA',
-    value: paymentModes.PAYMAYA
-  },
-  {
-    label: 'Credit/Debit Card',
-    value: paymentModes.CARD_PAYMENT
   }
+  // {
+  //   label: 'PAYMAYA',
+  //   value: paymentModes.PAYMAYA
+  // },
+  // {
+  //   label: 'Credit/Debit Card',
+  //   value: paymentModes.CARD_PAYMENT
+  // }
 ]
 
 export default {
