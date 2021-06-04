@@ -14,6 +14,10 @@
           <strong>{{ customer.age }}</strong>
         </p>
       </div>
+    </div>
+    <hr>
+    <h4>Contact Details</h4>
+    <div class="row">
       <div class="col-lg-6">
         <p>
           Mobile:
@@ -44,12 +48,10 @@
           <strong>{{ customer.email }}</strong>
         </p>
       </div>
-      <div class="col-lg-6">
-        <p>
-          Customer Profile:
-          <strong>{{ customer.customer_profile }}</strong>
-        </p>
-      </div>
+    </div>
+    <hr>
+    <h4>Account</h4>
+    <div class="row">
       <div v-if="customer.bandwidth_profile" class="col-lg-6">
         <p>
           Bandwidth profile:
@@ -76,6 +78,12 @@
       </div>
       <div class="col-lg-6">
         <p>
+          Customer Profile:
+          <strong>{{ customer.customer_profile }}</strong>
+        </p>
+      </div>
+      <div class="col-lg-6">
+        <p>
           Username:
           <strong>{{ customer.rad_username }}</strong>
         </p>
@@ -86,16 +94,10 @@
           <strong>{{ customer.misc_balance }}</strong>
         </p>
       </div>
-      <div class="col-lg-6">
+      <div v-if="customer.plan" class="col-lg-6">
         <p>
-          Date Created:
-          <strong>{{ customer.created_at | formatDateAndTime }}</strong>
-        </p>
-      </div>
-      <div class="col-lg-6">
-        <p>
-          Last Updated:
-          <strong>{{ customer.updated_at | formatDateAndTime }}</strong>
+          Plan:
+          <strong>{{ customer.plan.description }}</strong>
         </p>
       </div>
       <div class="col-lg-6">
@@ -106,6 +108,22 @@
               {{ customer.is_active ? 'Yes' : 'No' }}
             </el-tag>
           </strong>
+        </p>
+      </div>
+    </div>
+    <hr>
+    <h4>Other Details</h4>
+    <div class="row">
+      <div class="col-lg-6">
+        <p>
+          Date Created:
+          <strong>{{ customer.created_at | formatDateAndTime }}</strong>
+        </p>
+      </div>
+      <div class="col-lg-6">
+        <p>
+          Last Updated:
+          <strong>{{ customer.updated_at | formatDateAndTime }}</strong>
         </p>
       </div>
       <div class="col-lg-6">
@@ -124,12 +142,6 @@
         <p>
           Changed by:
           <strong>{{ customer.changed_by }}</strong>
-        </p>
-      </div>
-      <div v-if="customer.plan" class="col-lg-6">
-        <p>
-          Plan:
-          <strong>{{ customer.plan.name }}</strong>
         </p>
       </div>
     </div>
