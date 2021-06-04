@@ -21,6 +21,7 @@
 <script>
 import ServerTable from '~/components/Tables/ServerTable'
 import TableActions from '~/components/Tables/TableActions'
+import request from '~/mixins/request'
 
 const tableHeaders = [
   {
@@ -59,6 +60,10 @@ const tableHeaders = [
   {
     label: 'Paid',
     field: 'is_paid'
+  },
+  {
+    label: 'Actions',
+    field: 'actions'
   }
 ]
 
@@ -68,12 +73,30 @@ export default {
     TableActions,
     ServerTable
   },
+  mixins: [request],
   data () {
-    const tableActions = []
+    const tableActions = [
+      {
+        label: 'Download',
+        icon: 'tim-icons icon-cloud-download-93',
+        on: {
+          click: (row) => {
+            this.downloadPdf(row)
+          }
+        }
+      }
+    ]
 
     return {
       tableHeaders,
       tableActions
+    }
+  },
+  methods: {
+    downloadPdf (row) {
+      const url = `/api/billings/${row.id}/download`
+      const filename = `${row.billing_reference_no}.pdf`
+      this.downloadFromServer(url, filename, {}, {})
     }
   }
 }
