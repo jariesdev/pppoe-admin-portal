@@ -2,6 +2,11 @@
   <div class="billings">
     <table-card title="Billings">
       <ServerTable ref="billingTable" url="/api/billings" :headers="tableHeaders">
+        <template #item_billing_reference_no="{value,row}">
+          <nuxt-link :to="`/billings/${row.id}`">
+            {{ value }}
+          </nuxt-link>
+        </template>
         <template #item_total_fee="{value}">
           {{ value | formatNumber({format: '0,0.00'}) }}
         </template>
