@@ -1,60 +1,56 @@
 <template>
   <div>
-    <alert-errors :form="form"/>
-    <el-form label-position="top" v-loading="form.busy" :disabled="form.busy">
+    <alert-errors :form="form" />
+    <el-form v-loading="form.busy" label-position="top" :disabled="form.busy">
       <el-row type="flex" class="flex-wrap" :gutter="15">
         <el-col :lg="12">
-          <el-form-item label="Name (IP Address)">
+          <el-form-item label="Name (IP Address)" required>
             <el-input v-model="form.nasname" />
           </el-form-item>
         </el-col>
         <el-col :lg="12">
-          <el-form-item label="Alias">
+          <el-form-item label="Alias" required>
             <el-input v-model="form.shortname" />
           </el-form-item>
         </el-col>
         <el-col :lg="12">
-          <el-form-item label="Select Partner">
-            <el-select v-model="selectedPartner" @change="selectedPartnerChange">
-              <el-option v-for="partner in partners" :key="partner.id" :label="partner.name" :value="partner.id"/>
+          <el-form-item label="Select Branch" required>
+            <el-select v-model="form.branch_id">
+              <el-option v-for="branch in branches" :key="branch.id" :label="branch.name" :value="branch.id" />
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :lg="12">
-          <el-form-item label="Select Branch">
-            <el-select v-model="form.branch_id"  :disabled="!selectedPartner">
-              <el-option v-for="branch in partnerBranches" :key="branch.id" :label="branch.name" :value="branch.id"/>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :lg="12">
-          <el-form-item label="Secret">
+          <el-form-item label="Secret" required>
             <el-input v-model="form.secret" />
           </el-form-item>
         </el-col>
-        <el-col :lg="12">
-          <el-form-item label="Server">
-            <el-input v-model="form.server" />
-          </el-form-item>
-        </el-col>
-        <el-col :lg="12">
-          <el-form-item label="type">
-            <el-input v-model="form.type" />
-          </el-form-item>
-        </el-col>
-        <el-col :lg="12">
-          <el-form-item label="port">
-            <el-input type="number" v-model="form.port" />
-          </el-form-item>
-        </el-col>
-        <el-col :lg="12">
-          <el-form-item label="Community">
-            <el-input v-model="form.community" />
-          </el-form-item>
-        </el-col>
         <el-col>
-          <el-form-item label="Description">
-            <el-input v-model="form.description" type="textarea" />
+          <el-form-item label="Interface" required>
+            <el-input v-model="form.interface" />
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <h5>Access Point</h5>
+      <el-row type="flex" class="flex-wrap" :gutter="15">
+        <el-col :lg="12">
+          <el-form-item label="IP Address" required>
+            <el-input v-model="form.ap_address" />
+          </el-form-item>
+        </el-col>
+        <el-col :lg="12">
+          <el-form-item label="Username" required>
+            <el-input v-model="form.ap_username" />
+          </el-form-item>
+        </el-col>
+        <el-col :lg="12">
+          <el-form-item label="Password" required>
+            <el-input v-model="form.ap_password" />
+          </el-form-item>
+        </el-col>
+        <el-col :lg="12">
+          <el-form-item label="Port" required>
+            <el-input v-model="form.ap_port" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -62,75 +58,104 @@
         All <span class="text-danger">*</span> fields are required.
       </p>
       <div>
-        <base-button type="primary" @click="submit" :loading="form.busy">Save</base-button>
-        <base-button @click="cancel" :disabled="form.busy">Cancel</base-button>
+        <base-button type="primary" :loading="form.busy" @click="submit">
+          Save
+        </base-button>
+        <base-button :disabled="form.busy" @click="cancel">
+          Cancel
+        </base-button>
       </div>
     </el-form>
   </div>
 </template>
 
 <script>
-import {Form} from 'vform'
-import alerts from "~/mixins/alerts";
-import {mapState} from "vuex";
+import { Form } from 'vform'
+import { mapActions, mapState } from 'vuex'
+import alerts from '~/mixins/alerts'
 
 export default {
   name: 'NasForm',
   mixins: [alerts],
-  data() {
+  props: {
+    editNasId: {
+      type: Number,
+      required: false,
+      default: null
+    }
+  },
+  data () {
     return {
       selectedPartner: null,
       form: new Form({
         nasname: null,
         shortname: null,
         branch_id: null,
-        type: null,
-        port: null,
         secret: null,
-        server: null,
-        community: null,
-        description: null,
-      }),
-      partnerBranches: []
+        interface: null,
+        ap_address: null,
+        ap_username: null,
+        ap_password: null,
+        ap_port: null
+      })
     }
+  },
+  async fetch () {
+    await this.$store.dispatch('branch/load')
   },
   computed: {
     ...mapState({
-      partners: state => state.partner.partners
+      branches: state => state.branch.branches
     }),
+    isEditing () {
+      return this.editNasId !== null
+    }
   },
-  fetch(){
-    this.$store.dispatch('partner/load')
+  mounted () {
+    this.initializeForm()
   },
   methods: {
-    submit(){
-      this.form.post('/api/nas')
-      .then(({data})=>{
-        this.$notify({
-          type: 'success',
-          message: 'NAS has been saved.'
+    ...mapActions({
+      getNas: 'nas/get'
+    }),
+    submit () {
+      const url = this.isEditing ? '/api/nas/' + this.editNasId : '/api/nas'
+      this.form.submit(this.isEditing ? 'put' : 'post', url)
+        .then(({ data }) => {
+          this.$notify({
+            type: 'success',
+            message: 'NAS has been saved.'
+          })
+          this.$emit('success', data)
         })
-        this.$emit('success', data)
-      })
-      .catch(()=>{
-        this.showRequestErrorMessage()
-      })
+        .catch(() => {
+          this.showRequestErrorMessage()
+        })
     },
-    cancel(){
+    cancel () {
       this.resetForm()
       this.$emit('cancel')
     },
-    resetForm(){
+    resetForm () {
       this.form.reset()
       this.form.clear()
     },
-    async selectedPartnerChange(id) {
-      this.partnerBranches = []
-      this.form.branch_id = null
-      if (!id) return
-
-      const {data} = await this.$axios.$get(`/api/partners/${id}/branches`)
-      this.partnerBranches = data
+    async initializeForm () {
+      if (!this.isEditing) {
+        return
+      }
+      const nas = await this.getNas(this.editNasId)
+      this.form.fill({
+        nasname: nas.nasname,
+        shortname: nas.shortname,
+        branch_id: nas.branch_id,
+        secret: nas.secret,
+        interface: nas.interface,
+        ap_address: nas.ap_address,
+        ap_username: nas.ap_username,
+        ap_password: nas.ap_password,
+        ap_port: nas.ap_port
+      })
     }
   }
 }

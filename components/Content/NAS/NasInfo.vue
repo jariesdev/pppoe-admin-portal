@@ -64,20 +64,57 @@
         </el-col>
       </el-row>
     </div>
+    <template #footer>
+      <div class="d-flex">
+        <div class="mx-auto" />
+        <base-button size="sm" type="danger" :disabled="!nas.id" @click="confirmNasDelete()">
+          Delete NAS
+        </base-button>
+      </div>
+    </template>
   </card>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+import alerts from '~/mixins/alerts'
+
 export default {
   name: 'NasInfo',
-  async fetch() {
-    this.nas = await this.$store.dispatch('nas/get', this.$route.params.id)
-  },
-  data() {
+  mixins: [alerts],
+  data () {
     return {
       nas: {}
     }
   },
+  async fetch () {
+    this.nas = await this.$store.dispatch('nas/get', this.$route.params.id)
+  },
+  methods: {
+    ...mapActions({
+      deleteNas: 'nas/delete'
+    }),
+    async confirmNasDelete () {
+      const confirmed = await this.$confirm(
+        'You are about to delete NAS, continue?',
+        'Delete NAS',
+        { type: 'warning' }
+      ).catch(() => false)
+      if (!confirmed) {
+        return
+      }
 
+      try {
+        await this.deleteNas(this.nas.id)
+        this.$notify({
+          type: 'success',
+          message: 'Nas successfully deleted.'
+        })
+        await this.$router.push('/nas')
+      } catch (e) {
+        this.showRequestErrorMessage()
+      }
+    }
+  }
 }
 </script>

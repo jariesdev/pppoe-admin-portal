@@ -1,23 +1,35 @@
 <template>
   <div>
+    <p>
+      Enter values in the form below. Press "Save" to apply changes.
+    </p>
     <alert-errors :form="form" />
     <el-form label-position="top">
       <el-row :gutter="15" class="flex-wrap" type="flex">
         <el-col :span="24">
-          <el-form-item label="Username">
+          <el-form-item label="Username" required>
             <el-input v-model="form.username" type="text" />
           </el-form-item>
+          <input-description>User's full name.</input-description>
         </el-col>
         <el-col :span="24">
-          <el-form-item label="Name">
+          <el-form-item label="Name" required>
             <el-input v-model="form.name" type="text" />
+          </el-form-item>
+          <input-description>Use when logging in to system.</input-description>
+        </el-col>
+        <el-col :span="24">
+          <el-form-item>
+            <el-checkbox v-model="form.is_admin">
+              Is Administrator
+            </el-checkbox>
           </el-form-item>
         </el-col>
         <el-col v-show="isEditing" :span="24">
           <el-checkbox v-model="changePassword" label="Change Password" />
         </el-col>
         <el-col v-show="changePassword || !isEditing" :span="24">
-          <el-form-item :label="(isEditing ? 'New' : '') + ' Password'">
+          <el-form-item :label="(isEditing ? 'New' : '') + ' Password'" :required="!isEditing">
             <el-input v-model="form.password" type="password" />
           </el-form-item>
         </el-col>
@@ -63,6 +75,7 @@ export default {
       form: new Form({
         username: null,
         name: null,
+        is_admin: false,
         password: undefined,
         password_confirmation: undefined
       })
@@ -115,6 +128,7 @@ export default {
         const employee = await this.$store.dispatch('employee/get', this.editUser)
         this.$set(this.form, 'username', employee.username)
         this.$set(this.form, 'name', employee.name)
+        this.$set(this.form, 'is_admin', employee.is_admin)
       }
     }
   }

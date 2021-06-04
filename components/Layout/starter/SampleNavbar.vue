@@ -11,12 +11,14 @@
         :class="{ toggled: $sidebar.showSidebar }"
       >
         <button type="button" class="navbar-toggler" @click="toggleSidebar">
-          <span class="navbar-toggler-bar bar1"></span>
-          <span class="navbar-toggler-bar bar2"></span>
-          <span class="navbar-toggler-bar bar3"></span>
+          <span class="navbar-toggler-bar bar1" />
+          <span class="navbar-toggler-bar bar2" />
+          <span class="navbar-toggler-bar bar3" />
         </button>
       </div>
-      <a class="navbar-brand" href="#pablo">{{ routeName }}</a>
+      <nuxt-link class="navbar-brand" to="/">
+        {{ routeName }}
+      </nuxt-link>
     </div>
 
     <ul class="navbar-nav" :class="$rtl.isRTL ? 'mr-auto' : 'ml-auto'">
@@ -26,30 +28,30 @@
           <div class="input-group-addon"><i class="tim-icons icon-zoom-split"></i></div>
         -->
         <button
-          class="btn btn-link"
           id="search-button"
+          class="btn btn-link"
           data-toggle="modal"
           data-target="#searchModal"
         >
-          <i class="tim-icons icon-zoom-split"></i>
+          <i class="tim-icons icon-zoom-split" />
         </button>
         <!-- You can choose types of search input -->
       </div>
       <modal
+        id="searchModal"
         :show.sync="searchModalVisible"
         class="modal-search"
-        id="searchModal"
         :centered="false"
         :show-close="true"
       >
         <input
+          id="inlineFormInputGroup"
           slot="header"
           v-model="searchQuery"
           type="text"
           class="form-control"
-          id="inlineFormInputGroup"
           placeholder="SEARCH"
-        />
+        >
       </modal>
       <base-dropdown
         tag="li"
@@ -62,9 +64,13 @@
         <template
           slot="title"
         >
-          <div class="photo"><img src="img/mike.jpg" /></div>
-          <b class="caret d-none d-lg-block d-xl-block"></b>
-          <p class="d-lg-none">Log out</p>
+          <div class="photo">
+            <img src="img/mike.jpg">
+          </div>
+          <b class="caret d-none d-lg-block d-xl-block" />
+          <p class="d-lg-none">
+            Log out
+          </p>
         </template>
         <li class="nav-link">
           <a href="#" class="nav-item dropdown-item">Profile</a>
@@ -72,7 +78,7 @@
         <li class="nav-link">
           <a href="#" class="nav-item dropdown-item">Settings</a>
         </li>
-        <div class="dropdown-divider"></div>
+        <div class="dropdown-divider" />
         <li class="nav-link">
           <a href="#" class="nav-item dropdown-item">Log out</a>
         </li>
@@ -81,54 +87,52 @@
   </base-nav>
 </template>
 <script>
-import { CollapseTransition } from 'vue2-transitions';
-import { BaseNav, Modal } from '@/components';
+import { BaseNav, Modal } from '@/components'
 
 export default {
   components: {
-    CollapseTransition,
     BaseNav,
     Modal
   },
-  computed: {
-    routeName() {
-      const { path } = this.$route;
-      let parts = path.split('/')
-      return parts.map(p => this.capitalizeFirstLetter(p)).join(' ');
-    },
-    isRTL() {
-      return this.$rtl.isRTL;
-    }
-  },
-  data() {
+  data () {
     return {
       activeNotifications: false,
       showMenu: false,
       searchModalVisible: false,
       searchQuery: ''
-    };
+    }
+  },
+  computed: {
+    routeName () {
+      const { path } = this.$route
+      const parts = path.split('/')
+      return parts.map(p => this.capitalizeFirstLetter(p)).join(' ')
+    },
+    isRTL () {
+      return this.$rtl.isRTL
+    }
   },
   methods: {
-    capitalizeFirstLetter(string) {
-      return string.charAt(0).toUpperCase() + string.slice(1);
+    capitalizeFirstLetter (string) {
+      return string.charAt(0).toUpperCase() + string.slice(1)
     },
-    toggleNotificationDropDown() {
-      this.activeNotifications = !this.activeNotifications;
+    toggleNotificationDropDown () {
+      this.activeNotifications = !this.activeNotifications
     },
-    closeDropDown() {
-      this.activeNotifications = false;
+    closeDropDown () {
+      this.activeNotifications = false
     },
-    toggleSidebar() {
-      this.$sidebar.displaySidebar(!this.$sidebar.showSidebar);
+    toggleSidebar () {
+      this.$sidebar.displaySidebar(!this.$sidebar.showSidebar)
     },
-    hideSidebar() {
-      this.$sidebar.displaySidebar(false);
+    hideSidebar () {
+      this.$sidebar.displaySidebar(false)
     },
-    toggleMenu() {
-      this.showMenu = !this.showMenu;
+    toggleMenu () {
+      this.showMenu = !this.showMenu
     }
   }
-};
+}
 </script>
 <style scoped>
 .top-navbar {

@@ -23,6 +23,7 @@
                 v-model="login.username"
                 addon-left-icon="tim-icons icon-email-85"
                 type="text"
+                autofocus
               />
             </div>
             <div class="form-group">
@@ -74,6 +75,7 @@ export default {
     if (this.$route.query.demo) {
       this.login.username = 'admin'
       this.login.password = 'password'
+      this.userLogin()
     }
   },
   methods: {

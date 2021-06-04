@@ -1,196 +1,123 @@
 <template>
   <div :class="{ 'nav-open': $sidebar.showSidebar }" class="wrapper">
-    <notifications></notifications>
+    <notifications />
     <side-bar
-        :background-color="sidebarBackground"
-        :short-title="$t('sidebar.shortTitle')"
-        :title="$t('sidebar.title')"
-        auto-close
+      :background-color="sidebarBackground"
+      :short-title="$t('sidebar.shortTitle')"
+      :title="$t('sidebar.title')"
+      auto-close
     >
-      <template slot="links" slot-scope="props">
+      <template slot="links">
         <sidebar-item
-            :link="{
+          :link="{
             name: $t('sidebar.dashboard'),
             icon: 'tim-icons icon-chart-pie-36',
             path: '/'
           }"
-        >
-        </sidebar-item>
+        />
         <sidebar-item
-            :link="{
+          :link="{
             name: $t('sidebar.job-orders'),
             icon: 'tim-icons icon-bullet-list-67',
             path: '/job-orders'
           }"
         />
         <sidebar-item
-            :link="{
-            name: $t('sidebar.sales'),
-            icon: 'tim-icons icon-chart-bar-32',
-            path: '/sales',
-          }"
-        />
-<!--          <sidebar-item
-              :link="{
-            name: $t('sidebar.sales-report'),
-            icon: 'tim-icons icon-chart-bar-32',
-            path: '/sales'
-          }"
-          />
-          <sidebar-item
-              :link="{
-            name: $t('sidebar.sales-summary'),
-            icon: 'tim-icons icon-chart-bar-32',
-            path: '/sales/summary'
-          }"
-          />-->
-        <sidebar-item
-            :link="{
-            name: $t('sidebar.sales-summary'),
-            icon: 'tim-icons icon-chart-pie-36',
-            path: '/sales/summary'
+          :link="{
+            name: $t('sidebar.customers'),
+            icon: 'tim-icons icon-single-02',
+            path: '/customers',
           }"
         />
         <sidebar-item
-            :link="{
-            name: $t('sidebar.sale-transactions'),
+          :link="{
+            name: $t('sidebar.billings'),
             icon: 'tim-icons icon-coins',
-            path: '/sales/transactions'
+            path: '/billings',
           }"
         />
         <hr class="menu-separator">
         <sidebar-item
-            :link="{
-            name: $t('sidebar.partners'),
+          :link="{
+            name: $t('sidebar.branches'),
             icon: 'tim-icons icon-bank',
-            path: '/partners'
+            path: '/branches'
           }"
         />
         <sidebar-item
-            :link="{
+          :link="{
             name: $t('sidebar.users'),
             icon: 'tim-icons icon-key-25',
             path: '/users'
           }"
-        >
-        </sidebar-item>
+        />
         <sidebar-item
-            :link="{
+          :link="{
             name: $t('sidebar.bandwidth-profiles'),
             icon: 'tim-icons icon-cloud-download-93',
             path: '/bandwidth-profiles'
           }"
         />
         <sidebar-item
-            :link="{
+          :link="{
             name: $t('sidebar.plans'),
             icon: 'tim-icons icon-app',
             path: '/plans'
           }"
         />
         <sidebar-item
-            :link="{
-            name: $t('sidebar.allocations'),
-            icon: 'tim-icons icon-tag',
-            path: '/allocations'
+          :link="{
+            name: $t('sidebar.address-pools'),
+            icon: 'tim-icons icon-planet',
+            path: '/address-pools'
           }"
         />
         <sidebar-item
-            :link="{
+          :link="{
             name: $t('sidebar.nas'),
             icon: 'tim-icons icon-vector',
             path: '/nas'
           }"
         />
-        <sidebar-item
-            :link="{
-            name: $t('sidebar.settings'),
-            icon: 'tim-icons icon-settings',
-            path: '/settings'
-          }"
-        />
-        <!--        <sidebar-item
-                  :link="{
-                    name: $t('sidebar.icons'),
-                    icon: 'tim-icons icon-atom',
-                    path: '/icons'
-                  }"
-                >
-                </sidebar-item>
-                <sidebar-item
-                  :link="{
-                    name: $t('sidebar.maps'),
-                    icon: 'tim-icons icon-pin',
-                    path: '/google'
-                  }"
-                >
-                </sidebar-item>
-
-                <sidebar-item
-                  :link="{
-                    name: $t('sidebar.notifications'),
-                    icon: 'tim-icons icon-bell-55',
-                    path: '/notifications'
-                  }"
-                >
-                </sidebar-item>
-
-                <sidebar-item
-                  :link="{
-                    name: $t('sidebar.regularTables'),
-                    icon: 'tim-icons icon-puzzle-10',
-                    path: '/regular'
-                  }"
-                ></sidebar-item>
-
-                <sidebar-item
-                  :link="{
-                    name: $t('sidebar.typography'),
-                    icon: 'tim-icons icon-align-center',
-                    path: '/typography'
-                  }"
-                ></sidebar-item>-->
       </template>
     </side-bar>
     <div :data="sidebarBackground" class="main-panel">
-      <dashboard-navbar></dashboard-navbar>
-      <router-view name="header"></router-view>
+      <dashboard-navbar />
+      <router-view name="header" />
 
       <div
-          :class="{ content: !isFullScreenRoute }"
-          @click="toggleSidebar"
+        :class="{ content: !isFullScreenRoute }"
+        @click="toggleSidebar"
       >
         <zoom-center-transition :duration="200" mode="out-in">
           <!-- your content here -->
-          <nuxt></nuxt>
+          <nuxt />
         </zoom-center-transition>
       </div>
-      <content-footer v-if="!isFullScreenRoute"></content-footer>
+      <content-footer v-if="!isFullScreenRoute" />
     </div>
   </div>
 </template>
 <script>
 /* eslint-disable no-new */
-import PerfectScrollbar from 'perfect-scrollbar';
-import 'perfect-scrollbar/css/perfect-scrollbar.css';
-import SidebarShare from '@/components/Layout/SidebarSharePlugin';
-import DashboardNavbar from '@/components/Layout/DashboardNavbar.vue';
-import ContentFooter from '@/components/Layout/ContentFooter.vue';
-import DashboardContent from '@/components/Layout/Content.vue';
-import {SlideYDownTransition, ZoomCenterTransition} from 'vue2-transitions';
+import PerfectScrollbar from 'perfect-scrollbar'
+import 'perfect-scrollbar/css/perfect-scrollbar.css'
+import DashboardNavbar from '@/components/Layout/DashboardNavbar.vue'
+import ContentFooter from '@/components/Layout/ContentFooter.vue'
+import { ZoomCenterTransition } from 'vue2-transitions'
 
-function hasElement(className) {
-  return document.getElementsByClassName(className).length > 0;
+function hasElement (className) {
+  return document.getElementsByClassName(className).length > 0
 }
 
-function initScrollbar(className) {
+function initScrollbar (className) {
   if (hasElement(className)) {
-    new PerfectScrollbar(`.${className}`);
+    new PerfectScrollbar(`.${className}`)
   } else {
     // try to init it later in case this component is loaded async
     setTimeout(() => {
-      initScrollbar(className);
-    }, 100);
+      initScrollbar(className)
+    }, 100)
   }
 }
 
@@ -198,69 +125,66 @@ export default {
   components: {
     DashboardNavbar,
     ContentFooter,
-    DashboardContent,
-    SlideYDownTransition,
-    ZoomCenterTransition,
-    SidebarShare
+    ZoomCenterTransition
   },
-  data() {
-    return {};
+  data () {
+    return {}
   },
   computed: {
-    isFullScreenRoute() {
+    isFullScreenRoute () {
       return this.$route.path === '/maps/full-screen'
     },
-    sidebarBackground(){
+    sidebarBackground () {
       return this.$store.state.settings.backgroundColor
     }
   },
+  beforeMount () {
+    this.toggleMode()
+    this.setCurrentBackgroundColor()
+  },
+  mounted () {
+    this.initScrollbar()
+  },
   methods: {
-    toggleSidebar() {
+    toggleSidebar () {
       if (this.$sidebar.showSidebar) {
-        this.$sidebar.displaySidebar(false);
+        this.$sidebar.displaySidebar(false)
       }
     },
-    setCurrentBackgroundColor() {
-     const lsValue = window.localStorage.getItem('themeBackgroundColor')
+    setCurrentBackgroundColor () {
+      const lsValue = window.localStorage.getItem('themeBackgroundColor')
       const value = lsValue === null ? 'blue' : lsValue
       this.$store.commit('settings/backgroundColor', value)
     },
-    initScrollbar() {
-      let docClasses = document.body.classList;
-      let isWindows = navigator.platform.startsWith('Win');
+    initScrollbar () {
+      const docClasses = document.body.classList
+      const isWindows = navigator.platform.startsWith('Win')
       if (isWindows) {
         // if we are on windows OS we activate the perfectScrollbar function
-        initScrollbar('sidebar');
-        initScrollbar('main-panel');
-        initScrollbar('sidebar-wrapper');
+        initScrollbar('sidebar')
+        initScrollbar('main-panel')
+        initScrollbar('sidebar-wrapper')
 
-        docClasses.add('perfect-scrollbar-on');
+        docClasses.add('perfect-scrollbar-on')
       } else {
-        docClasses.add('perfect-scrollbar-off');
+        docClasses.add('perfect-scrollbar-off')
       }
     },
-    toggleMode() {
+    toggleMode () {
       const lsValue = window.localStorage.getItem('themeIsDarkMode')
       const lsInDarkMode = lsValue === '1' || lsValue === null
       this.$store.commit('settings/setDarkMode', lsInDarkMode)
 
       const isDarkMode = this.$store.state.settings.darkMode
-      let docClasses = document.body.classList;
+      const docClasses = document.body.classList
       if (isDarkMode) {
-        docClasses.remove('white-content');
+        docClasses.remove('white-content')
       } else {
-        docClasses.add('white-content');
+        docClasses.add('white-content')
       }
-    },
-  },
-  beforeMount() {
-    this.toggleMode()
-    this.setCurrentBackgroundColor()
-  },
-  mounted() {
-    this.initScrollbar();
+    }
   }
-};
+}
 </script>
 <style lang="scss">
 $scaleSize: 0.95;
