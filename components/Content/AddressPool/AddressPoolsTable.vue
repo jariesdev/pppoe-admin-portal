@@ -1,15 +1,19 @@
 <template>
   <table-card title="Address Pools" class="address-pools">
-    <ServerTable url="/api/address-pools" :headers="tableHeaders" />
+    <ServerTable ref="addressPools" url="/api/address-pools" :headers="tableHeaders">
+      <template #item_actions="{row}">
+        <TableActions :data="row" :actions="tableActions" />
+      </template>
+    </ServerTable>
     <div>
       <base-button type="info" @click="addNew()">
         Add New
       </base-button>
-      <el-dialog :visible="formDialogVisible" modal :close-on-click-modal="false">
+      <el-dialog :visible="formDialogVisible" modal :close-on-click-modal="false" :show-close="false">
         <template #title>
           {{ editAddressPoolId ? 'Edit' : 'New' }} Address Pool
         </template>
-        <AddressPoolForm :address-pool-id="editAddressPoolId" @cancel="cancel()" />
+        <AddressPoolForm :address-pool-id="editAddressPoolId" @success="formSuccess()" @cancel="formCancel()" />
       </el-dialog>
     </div>
   </table-card>
@@ -19,6 +23,7 @@
 import ServerTable from '~/components/Tables/ServerTable'
 import { defaultDateTimeFormat } from '~/util/utilities'
 import AddressPoolForm from '~/components/Content/AddressPool/AddressPoolForm'
+import TableActions from '~/components/Tables/TableActions'
 
 const tableHeaders = [
   {
@@ -33,15 +38,33 @@ const tableHeaders = [
     label: 'Date Created',
     field: 'created_at',
     formatValue: value => defaultDateTimeFormat(value)
+  },
+  {
+    label: 'Actions',
+    field: 'actions'
   }
 ]
 
 export default {
   name: 'AddressPoolsTable',
-  components: { AddressPoolForm, ServerTable },
+  components: { TableActions, AddressPoolForm, ServerTable },
   data () {
+    const tableActions = [
+      {
+        label: 'Edit',
+        icon: 'tim-icons icon-pencil',
+        on: {
+          click: (row) => {
+            this.editAddressPoolId = row.id
+            this.formDialogVisible = true
+          }
+        }
+      }
+    ]
+
     return {
       tableHeaders,
+      tableActions,
       formDialogVisible: false,
       editAddressPoolId: null
     }
@@ -51,10 +74,18 @@ export default {
       this.editAddressPoolId = null
       this.formDialogVisible = true
     },
-    cancel () {
+    formSuccess () {
+      this.formDialogVisible = false
+      this.editAddressPoolId = null
+      this.reloadTable()
+    },
+    formCancel () {
       this.formDialogVisible = false
       this.editAddressPoolId = null
       this.$emit('cancel')
+    },
+    reloadTable () {
+      this.$refs.addressPools.loadData()
     }
   }
 }
