@@ -1,7 +1,7 @@
 <template>
   <div class="billings">
     <table-card title="Billings">
-      <ServerTable url="/api/billings" :headers="tableHeaders">
+      <ServerTable ref="billingTable" url="/api/billings" :headers="tableHeaders">
         <template #item_total_fee="{value}">
           {{ value | formatNumber({format: '0,0.00'}) }}
         </template>
@@ -15,6 +15,9 @@
         </template>
       </ServerTable>
     </table-card>
+    <el-dialog :visible="showPaymentDialog" title="Set Paid" :show-close="false" :close-on-click-modal="false">
+      <BillingPaymentForm v-if="showPaymentDialog" :billing-id="setPaidBillingId" @success="formSuccess()" @cancel="formCancel()" />
+    </el-dialog>
   </div>
 </template>
 
@@ -22,6 +25,7 @@
 import ServerTable from '~/components/Tables/ServerTable'
 import TableActions from '~/components/Tables/TableActions'
 import request from '~/mixins/request'
+import BillingPaymentForm from '~/components/Content/Billing/BillingPaymentForm'
 
 const tableHeaders = [
   {
@@ -70,6 +74,7 @@ const tableHeaders = [
 export default {
   name: 'BillingsTable',
   components: {
+    BillingPaymentForm,
     TableActions,
     ServerTable
   },
@@ -84,12 +89,23 @@ export default {
             this.downloadPdf(row)
           }
         }
+      },
+      {
+        label: 'Set Paid',
+        icon: 'tim-icons icon-check-2',
+        on: {
+          click: (row) => {
+            this.setPaid(row)
+          }
+        }
       }
     ]
 
     return {
       tableHeaders,
-      tableActions
+      tableActions,
+      showPaymentDialog: false,
+      setPaidBillingId: null
     }
   },
   methods: {
@@ -97,6 +113,22 @@ export default {
       const url = `/api/billings/${row.id}/download`
       const filename = `${row.billing_reference_no}.pdf`
       this.downloadFromServer(url, filename, {}, {})
+    },
+    setPaid (row) {
+      this.setPaidBillingId = row.id
+      this.showPaymentDialog = true
+    },
+    formSuccess () {
+      this.setPaidBillingId = null
+      this.showPaymentDialog = false
+      this.reloadTable()
+    },
+    formCancel () {
+      this.setPaidBillingId = null
+      this.showPaymentDialog = false
+    },
+    reloadTable () {
+      this.$refs.billingTable.loadData()
     }
   }
 }
