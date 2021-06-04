@@ -4,7 +4,8 @@
     <side-bar
       :background-color="sidebarBackground"
       :short-title="$t('sidebar.shortTitle')"
-      :title="$t('sidebar.title')"
+      :title="appName"
+      :logo="appLogo"
       auto-close
     >
       <template slot="links">
@@ -112,6 +113,8 @@ import 'perfect-scrollbar/css/perfect-scrollbar.css'
 import DashboardNavbar from '@/components/Layout/DashboardNavbar.vue'
 import ContentFooter from '@/components/Layout/ContentFooter.vue'
 import { ZoomCenterTransition } from 'vue2-transitions'
+import { mapState } from 'vuex'
+import { find } from 'lodash'
 
 function hasElement (className) {
   return document.getElementsByClassName(className).length > 0
@@ -137,12 +140,26 @@ export default {
   data () {
     return {}
   },
+  async fetch () {
+    await this.$store.dispatch('settings/load')
+  },
   computed: {
+    ...mapState({
+      generalSettings: state => state.settings.generalSettings
+    }),
     isFullScreenRoute () {
       return this.$route.path === '/maps/full-screen'
     },
     sidebarBackground () {
       return this.$store.state.settings.backgroundColor
+    },
+    appName () {
+      const found = find(this.generalSettings, { name: 'company_name' })
+      return found ? found.value : this.$t('sidebar.title')
+    },
+    appLogo () {
+      const found = find(this.generalSettings, { name: 'system_logo' })
+      return found ? found.value : this.$t('sidebar.title')
     }
   },
   beforeMount () {
