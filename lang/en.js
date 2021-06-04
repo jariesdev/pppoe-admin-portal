@@ -50,6 +50,7 @@ module.exports = {
     'sales-summary': 'Sales Summary',
     'sale-transactions': 'Sale Transactions',
     settings: 'Settings',
-    customers: 'Customers'
+    customers: 'Customers',
+    'address-pools': 'Address Pools'
   }
 }

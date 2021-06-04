@@ -60,6 +60,13 @@
         />
         <sidebar-item
           :link="{
+            name: $t('sidebar.address-pools'),
+            icon: 'tim-icons icon-app',
+            path: '/address-pools'
+          }"
+        />
+        <sidebar-item
+          :link="{
             name: $t('sidebar.allocations'),
             icon: 'tim-icons icon-tag',
             path: '/allocations'
