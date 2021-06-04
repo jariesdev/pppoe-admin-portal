@@ -51,6 +51,7 @@ module.exports = {
     'sale-transactions': 'Sale Transactions',
     settings: 'Settings',
     customers: 'Customers',
-    'address-pools': 'Address Pools'
+    'address-pools': 'Address Pools',
+    billings: 'Billings'
   }
 }

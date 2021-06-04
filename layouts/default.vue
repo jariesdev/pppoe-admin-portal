@@ -29,6 +29,13 @@
             path: '/customers',
           }"
         />
+        <sidebar-item
+          :link="{
+            name: $t('sidebar.billings'),
+            icon: 'tim-icons icon-coins',
+            path: '/billings',
+          }"
+        />
         <hr class="menu-separator">
         <sidebar-item
           :link="{
