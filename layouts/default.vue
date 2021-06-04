@@ -68,7 +68,7 @@
         <sidebar-item
           :link="{
             name: $t('sidebar.address-pools'),
-            icon: 'tim-icons icon-app',
+            icon: 'tim-icons icon-planet',
             path: '/address-pools'
           }"
         />
