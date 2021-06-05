@@ -4,9 +4,9 @@
       <h5>PPPoE Service</h5>
       <div class="mx-auto" />
       <el-popover popper-class="radius-server-settings-popper" width="250" title="Configurations">
-        <el-button slot="reference" size="sm">
+        <a slot="reference" href="#" @click.prevent>
           <i class="tim-icons icon-settings-gear-63" />
-        </el-button>
+        </a>
         <pppoe-service-settings :nas-id="nasId" />
       </el-popover>
     </div>
