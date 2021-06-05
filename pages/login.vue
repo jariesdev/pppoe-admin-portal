@@ -1,10 +1,9 @@
 <template>
   <div class="row login-page">
     <notifications />
-    <div class="col-xl-3 col-md-4 ml-auto mr-auto">
-      <card class="card card-white card-login">
+    <div class="login-wrap col ml-auto mr-auto">
+      <card class="card card-white bg-dark">
         <template #header>
-          <img :src="cardImage" alt="">
           <h1 class="card-title">
             Log in
           </h1>
@@ -17,27 +16,27 @@
         <form class="pb-3" @submit.prevent="userLogin">
           <div class="control-wrap mb-4">
             <div class="form-group">
-              <label for="username">Username</label>
               <base-input
                 id="username"
                 v-model="login.username"
+                label="Username"
                 addon-left-icon="tim-icons icon-email-85"
                 type="text"
                 autofocus
               />
             </div>
             <div class="form-group">
-              <label for="password">Password</label>
               <base-input
                 id="password"
                 v-model="login.password"
+                label="Password"
                 addon-left-icon="tim-icons icon-lock-circle"
                 type="password"
               />
             </div>
           </div>
           <div>
-            <base-button block native-type="submit" type="info" :loading="loading">
+            <base-button block native-type="submit" :loading="loading" class="submit-button">
               {{ loading ? 'Please wait...' : 'Login' }}
             </base-button>
           </div>
@@ -108,8 +107,51 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.login-wrap {
+  max-width: 500px;
+}
+
 .login-page {
   padding-top: 150px;
+}
+
+.card {
+  box-shadow: 0 0 10px rgba(#ff002a, 0.4);
+  transition: all ease 1s;
+
+  &:focus-within,
+  &:active {
+    box-shadow: 0 0 10px rgba(#ff002a, 0.5);
+  }
+
+  .card-title {
+    color: #FFFFFF;
+    font-weight: bold;
+  }
+}
+
+.form-group {
+  ::v-deep {
+    label {
+      color: #FFFFFF !important;
+    }
+
+    .input-group {
+
+      .input-group-text {
+        background: transparent !important;
+        color: #FFFFFF;
+        border-width: 1px;
+        border-color: #FFFFFF !important;
+      }
+    }
+
+    .form-control {
+      color: #FFFFFF;
+      background: transparent !important;
+      border-color: #FFFFFF !important;
+    }
+  }
 }
 
 .card-login {
