@@ -13,5 +13,6 @@ export const paymentModes = Object.freeze({
   CASH: 'CASH',
   GCASH: 'GCASH',
   PAYMAYA: 'PAYMAYA',
-  CARD_PAYMENT: 'CARD_PAYMENT'
+  CARD_PAYMENT: 'CARD_PAYMENT',
+  BANK_TRANSFER: 'BANK_TRANSFER'
 })
