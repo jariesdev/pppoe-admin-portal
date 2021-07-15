@@ -3,21 +3,21 @@
     <div v-if="form.errors.has('name')" class="alert alert-danger">
       <strong>Profile</strong> is already exists. You cannot have duplicate profile with same rate limit.
     </div>
-    <alert-errors v-else :form="form" />
+    <alert-errors v-else :form="form"/>
     <el-form label-position="top">
       <el-row :gutter="15" class="flex-wrap" type="flex">
         <el-col>
-          <el-form-item label="Rate Limit (Upload / Download)" required>
-            <el-select v-model="form.rate_limit" class="d-block">
-              <el-option v-for="(rateLimit,index) in availableRateLimits" :key="index" :value="rateLimit.rate_limit">
-                {{ rateLimit.rate_limit }}
-              </el-option>
-            </el-select>
+          <el-form-item label="Profile Name" required>
+            <el-input v-model="form.name" placeholder="Profile 1"/>
           </el-form-item>
         </el-col>
         <el-col>
-          <el-form-item label="Profile Name" required>
-            <el-input v-model="form.name" placeholder="1M/2M" readonly />
+          <el-form-item label="Rate Limit (Upload / Download)" required>
+            <div class="d-flex">
+              <el-input v-model="rateLimitUpload" class="flex-grow-1" v-numeral placeholder="2M" @change="addPrefix"/>
+              <span class="flex-shrink-1 px-2">/</span>
+              <el-input v-model="rateLimitDownload" class="flex-grow-1" v-numeral placeholder="2M" @change="addPrefix"/>
+            </div>
           </el-form-item>
         </el-col>
         <el-col>
@@ -28,14 +28,6 @@
               </el-option>
             </el-select>
           </el-form-item>
-        </el-col>
-        <el-col>
-          <el-form-item label="Local Address" required>
-            <el-input v-model="form.local_address" placeholder="192.xxx.xxx.xxx" />
-          </el-form-item>
-          <input-description>
-            Local IP address.
-          </input-description>
         </el-col>
       </el-row>
       <p class="font-italic text-muted text-right">
@@ -61,21 +53,21 @@ import alerts from '~/mixins/alerts'
 const numeral = require('numeral')
 
 const rateOptions =
-    map(Array(20), function (value, index) {
-      let rate = ++index
+  map(Array(20), function (value, index) {
+    let rate = ++index
 
-      if (index > 10) {
-        rate = (rate - 10) * 100
-      } else if (index > 5) {
-        rate = (rate - 5) * 10
-      }
+    if (index > 10) {
+      rate = (rate - 10) * 100
+    } else if (index > 5) {
+      rate = (rate - 5) * 10
+    }
 
-      return {
-        label: numeral(rate).format('0,0') + ' Mbps',
-        numericValue: rate,
-        value: rate + 'M'
-      }
-    })
+    return {
+      label: numeral(rate).format('0,0') + ' Mbps',
+      numericValue: rate,
+      value: rate + 'M'
+    }
+  })
 
 export default {
   name: 'BandwidthProfileForm',
@@ -95,8 +87,7 @@ export default {
       form: new Form({
         name: null,
         rate_limit: null,
-        address_pool: null,
-        local_address: null
+        address_pool: null
       }),
       rateOptions
     }
@@ -167,8 +158,7 @@ export default {
           this.form.fill({
             name: profile.name,
             rate_limit: profile.rate_limit,
-            address_pool: profile.address_pool,
-            local_address: profile.local_address
+            address_pool: profile.address_pool
           })
 
           const rateLimit = profile.rate_limit ? profile.rate_limit.split('/') : null
@@ -184,6 +174,19 @@ export default {
     rateLimitChange () {
       if (this.rateLimitUpload && this.rateLimitDownload) {
         this.form.name = `${this.rateLimitUpload}/${this.rateLimitDownload}`
+      }
+    },
+    addPrefix () {
+      if (this.rateLimitUpload && !/M/i.test(this.rateLimitUpload)) {
+        this.rateLimitUpload = this.rateLimitUpload + 'M'
+      }
+
+      if (this.rateLimitDownload && !/M/i.test(this.rateLimitDownload)) {
+        this.rateLimitDownload = this.rateLimitDownload + 'M'
+      }
+
+      if (this.rateLimitUpload && this.rateLimitDownload) {
+        this.form.rate_limit = [this.rateLimitUpload, this.rateLimitDownload].join('/')
       }
     }
   }
