@@ -66,9 +66,6 @@
         <traffic-chart3 :access-point-id="selectedAccessPoint" :nas-id="nasId" />
       </div>
       <div class="col-lg-6 col-xl-4">
-        <hotspot-connected :access-point-id="selectedAccessPoint" :nas-id="nasId" />
-      </div>
-      <div class="col-lg-6 col-xl-4">
         <router-firmware :nas-id="nasId" />
       </div>
       <div class="col-lg-6 col-xl-4">
@@ -104,7 +101,6 @@ import RouterFirmware from '~/components/Content/NAS/Widgets/RouterFirmware'
 import RouterClock from '~/components/Content/NAS/Widgets/RouterClock'
 import TrClient from '~/components/Content/NAS/Widgets/TrClient'
 import NasInterfaces from '~/components/Content/NAS/Widgets/NasInterfaces'
-import HotspotConnected from '~/components/Content/NAS/Widgets/HotspotConnected'
 import RadiusSetup from '~/components/Content/NAS/Widgets/RadiusSetup'
 import TrafficChart3 from '~/components/Content/NAS/Widgets/TrafficChart3'
 import PppoeService from '~/components/Content/NAS/Widgets/PppoeService'
@@ -117,7 +113,6 @@ export default {
     PppoeService,
     TrafficChart3,
     RadiusSetup,
-    HotspotConnected,
     NasInterfaces,
     TrClient,
     RouterClock,
