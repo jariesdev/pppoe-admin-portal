@@ -66,9 +66,6 @@
         <traffic-chart3 :access-point-id="selectedAccessPoint" :nas-id="nasId" />
       </div>
       <div class="col-lg-6 col-xl-4">
-        <dhcp-connected :access-point-id="selectedAccessPoint" :nas-id="nasId" />
-      </div>
-      <div class="col-lg-6 col-xl-4">
         <hotspot-connected :access-point-id="selectedAccessPoint" :nas-id="nasId" />
       </div>
       <div class="col-lg-6 col-xl-4">
@@ -96,9 +93,6 @@
       <div class="col-lg-6 col-xl-4">
         <address-pools :nas-id="nasId" />
       </div>
-      <div class="col-lg-6 col-xl-6">
-        <pppoe-profiles :nas-id="nasId" />
-      </div>
     </div>
   </div>
 </template>
@@ -106,7 +100,6 @@
 <script>
 import SystemInformation from '~/components/Content/NAS/Widgets/SystemInformation'
 import SystemTemperature from '~/components/Content/NAS/Widgets/SystemTemperature'
-import DhcpConnected from '~/components/Content/NAS/Widgets/DhcpConnected'
 import RouterFirmware from '~/components/Content/NAS/Widgets/RouterFirmware'
 import RouterClock from '~/components/Content/NAS/Widgets/RouterClock'
 import TrClient from '~/components/Content/NAS/Widgets/TrClient'
@@ -116,12 +109,10 @@ import RadiusSetup from '~/components/Content/NAS/Widgets/RadiusSetup'
 import TrafficChart3 from '~/components/Content/NAS/Widgets/TrafficChart3'
 import PppoeService from '~/components/Content/NAS/Widgets/PppoeService'
 import AddressPools from '~/components/Content/NAS/Widgets/AddressPools'
-import PppoeProfiles from '~/components/Content/NAS/Widgets/PppoeProfiles'
 
 export default {
   name: 'ApDashboard',
   components: {
-    PppoeProfiles,
     AddressPools,
     PppoeService,
     TrafficChart3,
@@ -131,7 +122,6 @@ export default {
     TrClient,
     RouterClock,
     RouterFirmware,
-    DhcpConnected,
     SystemTemperature,
     SystemInformation
   },
