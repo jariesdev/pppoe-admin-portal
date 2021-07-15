@@ -35,13 +35,6 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="24" :lg="12">
-          <el-form-item label="Set Auto Assign">
-            <el-checkbox v-model="form.auto_assign">
-              Auto Assign
-            </el-checkbox>
-          </el-form-item>
-        </el-col>
       </el-row>
       <div class="d-flex">
         <div class="ml-auto" />
@@ -74,8 +67,7 @@ export default {
       form: new Form({
         contract_start: null,
         nas_id: null,
-        bandwidth_profile: null,
-        auto_assign: true
+        bandwidth_profile: null
       })
     }
   },
