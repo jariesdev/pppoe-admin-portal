@@ -54,7 +54,7 @@
         />
         <sidebar-item
           :link="{
-            name: $t('sidebar.bandwidth-profiles'),
+            name: $t('sidebar.pppoe-profiles'),
             icon: 'tim-icons icon-cloud-download-93',
             path: '/bandwidth-profiles'
           }"

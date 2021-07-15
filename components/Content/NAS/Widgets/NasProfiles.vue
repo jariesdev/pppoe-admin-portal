@@ -4,7 +4,7 @@
       <el-table
         ref="nasProfileTable"
         :data="bandwidthProfiles"
-        empty-text="No available bandwidth profile."
+        empty-text="No available PPPoE profile."
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="55" column-key="id" />

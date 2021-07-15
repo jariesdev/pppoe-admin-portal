@@ -42,7 +42,7 @@ module.exports = {
     users: 'Users',
     plans: 'Plans',
     'job-orders': 'Job Orders',
-    'bandwidth-profiles': 'Bandwidth Profiles',
+    'pppoe-profiles': 'PPPOE Profiles',
     nas: 'NAS',
     allocations: 'Allocations',
     sales: 'Sales',

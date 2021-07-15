@@ -137,7 +137,7 @@ export default {
           this.$emit('success', data.data)
           this.$notify({
             type: 'success',
-            message: 'Bandwidth profile has been saved.'
+            message: 'PPPoE profile has been saved.'
           })
         })
         .catch(() => {

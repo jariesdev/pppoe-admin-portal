@@ -11,6 +11,9 @@
 <script>
 import NasInfo from '~/components/Content/NAS/NasInfo'
 
+/**
+ * @todo add PPPoE profiles checkboxes
+ */
 export default {
   components: { NasInfo },
   data () {
