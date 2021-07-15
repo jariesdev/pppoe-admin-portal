@@ -1,49 +1,23 @@
 <template>
   <div class="row main-row">
-    <div :class="{ 'text-right': isRTL }" class="col-lg-6">
+    <div class="col-12">
       <DailySalesChart />
     </div>
-    <div class="col-lg-5 d-none">
-      <card :header-classes="{ 'text-right': isRTL }" type="tasks">
-        <template slot="header" class="d-inline">
-          <h6 class="title d-inline">
-            Tasks (5)
-          </h6>
-          <p class="card-category d-inline">
-            Today
-          </p>
-
-          <base-dropdown
-            class="float-right"
-            menu-on-right=""
-            tag="div"
-            title-classes="btn btn-link btn-icon"
-          >
-            <i slot="title" class="tim-icons icon-settings-gear-63" />
-            <nuxt-link class="dropdown-item" to="/">
-              Action
-            </nuxt-link>
-            <nuxt-link class="dropdown-item" to="/">
-              Another action
-            </nuxt-link>
-            <nuxt-link class="dropdown-item" to="/">
-              Something else
-            </nuxt-link>
-          </base-dropdown>
-        </template>
-        <div class="table-full-width table-responsive">
-          <task-list />
-        </div>
-      </card>
+    <div class="col-12">
+      <ConnectedUsersCard />
+    </div>
+    <div class="col-12">
+      <AuthFailuresCard />
     </div>
   </div>
 </template>
 <script>
 import * as chartConfigs from '@/components/Charts/config'
-import TaskList from '@/components/Dashboard/TaskList'
 import config from '@/config'
 import { Table, TableColumn } from 'element-ui'
 import DailySalesChart from '~/components/Content/Sale/DailySalesChart'
+import ConnectedUsersCard from '~/components/Content/Dashboard/ConnectedUsersCard'
+import AuthFailuresCard from '~/components/Content/Dashboard/AuthFailuresCard'
 
 const bigChartData = [
   [100, 70, 90, 70, 85, 60, 75, 60, 90, 80, 110, 100],
@@ -69,8 +43,9 @@ const bigChartDatasetOptions = {
 export default {
   name: 'Dashboard',
   components: {
+    AuthFailuresCard,
+    ConnectedUsersCard,
     DailySalesChart,
-    TaskList,
     [Table.name]: Table,
     [TableColumn.name]: TableColumn
   },

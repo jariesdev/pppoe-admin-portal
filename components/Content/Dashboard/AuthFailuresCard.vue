@@ -1,37 +1,41 @@
 <template>
   <card card-body-classes="table-full-width">
     <template slot="header" class="d-inline">
-      <h6 class="title d-inline">Auth Failures</h6>
-      <p class="card-category d-inline">{{ remainingTimeFormat }}</p>
+      <h6 class="title d-inline">
+        Auth Failures
+      </h6>
+      <p class="card-category d-inline">
+        {{ remainingTimeFormat }}
+      </p>
 
       <base-dropdown
-          class="float-right"
-          menu-on-right=""
-          tag="div"
-          title-classes="btn btn-link btn-icon"
+        class="float-right"
+        menu-on-right=""
+        tag="div"
+        title-classes="btn btn-link btn-icon"
       >
-        <i slot="title" class="tim-icons icon-settings-gear-63"></i>
+        <i slot="title" class="tim-icons icon-settings-gear-63" />
         <a class="dropdown-item" href="" @click.prevent="resetCountdownAndReload()"> Refresh </a>
       </base-dropdown>
     </template>
-    <AuthFailures ref="authFailure"/>
+    <AuthFailures ref="authFailure" />
   </card>
 </template>
 <script>
-import AuthFailures from "~/components/Content/Statistics/AuthFailures";
-import intervals from "~/mixins/intervals";
+import AuthFailures from '~/components/Content/Statistics/AuthFailures'
+import intervals from '~/mixins/intervals'
 
 export default {
   name: 'AuthFailuresCard',
-  components: {AuthFailures},
+  components: { AuthFailures },
   mixins: [intervals],
-  data() {
+  data () {
     return {
       refreshCountdown: 0
     }
   },
   computed: {
-    remainingTimeFormat() {
+    remainingTimeFormat () {
       if (this.refreshCountdown > 60) {
         const sec = this.refreshCountdown % 60
         return Math.floor(this.refreshCountdown / 60) + ':' + String(sec).padStart(2, '0')
@@ -40,26 +44,26 @@ export default {
       }
     }
   },
-  mounted() {
+  mounted () {
     this.setInterval(this.decreaseCountdownTime, 1000)
   },
   methods: {
-    reloadTable() {
-      if(this.$refs['authFailure']){
-        this.$refs['authFailure'].reloadTable()
+    reloadTable () {
+      if (this.$refs.authFailure) {
+        this.$refs.authFailure.reloadTable()
       }
     },
-    decreaseCountdownTime() {
+    decreaseCountdownTime () {
       if (this.refreshCountdown === 0) {
         this.reloadTable()
         this.resetCountdown()
       }
       this.refreshCountdown -= 1
     },
-    resetCountdown() {
+    resetCountdown () {
       this.refreshCountdown = 10 * 60
     },
-    resetCountdownAndReload() {
+    resetCountdownAndReload () {
       this.reloadTable()
       this.resetCountdown()
     }
