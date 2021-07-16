@@ -40,7 +40,8 @@ const tableHeaders = [
   },
   {
     label: 'Approved By',
-    field: 'approved_by'
+    field: 'approved_by',
+    formatValue: (value, row) => row.approved_by ? row.approved_by.name : ''
   },
   {
     label: 'Approved Date',

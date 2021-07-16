@@ -11,7 +11,7 @@
           <span v-if="planApplication.customer">{{ planApplication.customer.first_name }} {{ planApplication.customer.last_name }}</span>
         </div>
         <div class="col-6 col-lg-4 mb-2">
-          <strong class="pr-2">Current Plan:</strong>>
+          <strong class="pr-2">Current Plan:</strong>
           <span v-if="planApplication.current_plan">{{ planApplication.current_plan.description }}</span>
         </div>
         <div class="col-6 col-lg-4 mb-2">
@@ -20,7 +20,7 @@
         </div>
         <div class="col-6 col-lg-4 mb-2">
           <strong class="pr-2">Approved By:</strong>
-          <span>{{ planApplication.approved_by }}</span>
+          <span>{{ planApplication.approved_by ? planApplication.approved_by.name : '' }}</span>
         </div>
         <div class="col-6 col-lg-4 mb-2">
           <strong class="pr-2">Approved Date:</strong>
@@ -30,7 +30,7 @@
       </div>
     </div>
 
-    <slot />
+    <slot :plan-application="planApplication" />
   </card>
 </template>
 
