@@ -56,9 +56,14 @@
         </el-col>
         <el-col :lg="24" :span="24">
           <el-form-item label="City" required>
-            <el-select v-model="form.city_id" class="d-block">
+            <el-select v-model="form.city_id" class="d-block" filterable>
               <el-option v-for="city in cities" :key="city.id" :label="city.name" :value="city.id" />
             </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :lg="24" :span="24">
+          <el-form-item label="Area Code">
+            <el-input v-model="form.area_code" class="d-block" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -100,7 +105,7 @@
         </el-col>
         <el-col :lg="12" :span="24">
           <el-form-item label="Customer Profile" required>
-            <el-input v-model="form.customer_profile" class="d-block" />
+            <el-input v-model="form.customer_profile" class="d-block" placeholder="e.g. Work From Home" />
           </el-form-item>
         </el-col>
         <el-col :lg="12" :span="24">
@@ -138,6 +143,10 @@ const accountTypes = [
   {
     label: 'Regular',
     value: accountTypeConstants.REGULAR
+  },
+  {
+    label: 'Complimentary',
+    value: accountTypeConstants.COMPLIMENTARY
   }
 ]
 
@@ -158,6 +167,7 @@ export default {
         address_1: null,
         address_2: null,
         city_id: null,
+        area_code: null,
         age: null,
         email: null,
         customer_profile: null,

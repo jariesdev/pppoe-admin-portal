@@ -37,6 +37,13 @@
             path: '/billings',
           }"
         />
+        <sidebar-item
+          :link="{
+            name: $t('sidebar.plan-applications'),
+            icon: 'tim-icons icon-wallet-43',
+            path: '/plan-applications',
+          }"
+        />
         <hr class="menu-separator">
         <sidebar-item
           :link="{
@@ -54,7 +61,7 @@
         />
         <sidebar-item
           :link="{
-            name: $t('sidebar.bandwidth-profiles'),
+            name: $t('sidebar.pppoe-profiles'),
             icon: 'tim-icons icon-cloud-download-93',
             path: '/bandwidth-profiles'
           }"

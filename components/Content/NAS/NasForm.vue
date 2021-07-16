@@ -31,7 +31,7 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <h5>Access Point</h5>
+      <h5>NAS API Configuration</h5>
       <el-row type="flex" class="flex-wrap" :gutter="15">
         <el-col :lg="12">
           <el-form-item label="IP Address" required>

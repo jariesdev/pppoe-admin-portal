@@ -5,11 +5,14 @@ export const radiusAttributes = Object.freeze({
 })
 
 export const accountTypes = Object.freeze({
-  REGULAR: 'Regular'
+  REGULAR: 'Regular',
+  COMPLIMENTARY: 'Complimentary'
 })
+
 export const paymentModes = Object.freeze({
   CASH: 'CASH',
   GCASH: 'GCASH',
   PAYMAYA: 'PAYMAYA',
-  CARD_PAYMENT: 'CARD_PAYMENT'
+  CARD_PAYMENT: 'CARD_PAYMENT',
+  BANK_TRANSFER: 'BANK_TRANSFER'
 })

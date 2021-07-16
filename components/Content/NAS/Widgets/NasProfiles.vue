@@ -4,7 +4,7 @@
       <el-table
         ref="nasProfileTable"
         :data="bandwidthProfiles"
-        empty-text="No available bandwidth profile."
+        empty-text="No available PPPoE profile."
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="55" column-key="id" />
@@ -15,17 +15,13 @@
   </div>
 </template>
 <script>
-import { debounce, differenceWith, intersectionWith, map } from 'lodash'
+import { debounce, intersectionWith, map } from 'lodash'
 import { mapState } from 'vuex'
 
 export default {
   name: 'NasProfiles',
   props: {
     nasId: {
-      type: Number,
-      required: true
-    },
-    accessPointId: {
       type: Number,
       required: true
     }
@@ -41,7 +37,7 @@ export default {
   async fetch () {
     this.loading = true
     const p1 = await this.$store.dispatch('bandwidth-profile/load')
-    const p2 = await this.$axios.$get(`/api/nas/${this.nasId}/accesspoints/${this.accessPointId}/profiles`)
+    const p2 = await this.$axios.$get(`/api/nas/${this.nasId}/pppoe-profiles`)
       .then(({ data }) => data)
       .catch(_ => [])
 
@@ -70,15 +66,9 @@ export default {
       this.visibleProfileSelection = true
     },
     saveBandwidthProfiles () {
-      this.$axios.$post(`nas/${this.nasId}/accesspoints/${this.accessPointId}/profiles`, {
+      this.$axios.$post(`/api/nas/${this.nasId}/pppoe-profiles`, {
         bandwidth_profile_id: map(this.selectedBandwidthProfiles, o => o.id)
       })
-      const unselectedProfiles = differenceWith(this.nasProfiles, this.selectedBandwidthProfiles, (np, sbp) => np.name === sbp.name)
-      if (unselectedProfiles.length > 0) {
-        this.$axios.$post(`nas/${this.nasId}/accesspoints/${this.accessPointId}/profiles-delete`, {
-          nas_profile_id: map(unselectedProfiles, o => o.id)
-        })
-      }
     },
     handleSelectionChange (value) {
       this.selectedBandwidthProfiles = value

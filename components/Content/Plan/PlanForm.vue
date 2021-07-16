@@ -10,7 +10,7 @@
           </el-form-item>
         </el-col>
         <el-col :lg="12" :span="24">
-          <el-form-item label="Bandwidth Profile" required>
+          <el-form-item label="PPPoE Profile" required>
             <el-select v-model="form.rate_limit" class="d-block" placeholder="Select Rate Limit">
               <el-option
                 v-for="bandwidthProfile in bandwidthProfiles"

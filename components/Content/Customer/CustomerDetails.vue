@@ -54,7 +54,7 @@
     <div class="row">
       <div v-if="customer.bandwidth_profile" class="col-lg-6">
         <p>
-          Bandwidth profile:
+          PPPoE profile:
           <strong>{{ customer.bandwidth_profile.name }}</strong>
         </p>
       </div>

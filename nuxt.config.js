@@ -121,7 +121,8 @@ export default {
     }
   },
   auth: {
-    localStorage: {
+    localStorage: false,
+    cookie: {
       prefix: 'admin_auth.'
     },
     strategies: {

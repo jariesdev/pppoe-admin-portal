@@ -1,8 +1,8 @@
 <template>
   <div>
-    <TableCard title="Bandwidth Profiles">
+    <TableCard title="PPPoE Profiles">
       <p>
-        Manage bandwidth profiles which are import by the system to each deployed access points.
+        Manage PPPoE profiles which are import by the system to each deployed access points.
       </p>
       <ServerTable ref="mainTable" :headers="tableHeaders" url="/api/pppoe-profiles" :query-params="queryParams">
         <template #item_actions="{row}">
@@ -16,7 +16,7 @@
       </base-button>
       <el-dialog :visible.sync="visibleBandwidthProfileFormDialog">
         <template #title>
-          {{ editBandwidthProfile !== null ? 'Edit' : 'New' }} Bandwidth Profile
+          {{ editBandwidthProfile !== null ? 'Edit' : 'New' }} PPPoE Profile
         </template>
         <BandwidthProfileForm
           v-if="visibleBandwidthProfileFormDialog"
@@ -86,7 +86,7 @@ export default {
         icon: 'tim-icons icon-simple-remove text-danger',
         on: {
           click: async ({ id }) => {
-            const confirmed = await this.$confirm('You are about to DELETE bandwidth profile. Continue?', 'Confirm Delete', {
+            const confirmed = await this.$confirm('You are about to DELETE PPPoE profile. Continue?', 'Confirm Delete', {
               type: 'error'
             }).catch(() => false)
             if (!confirmed) { return }
@@ -96,7 +96,7 @@ export default {
               this.reloadTable()
               this.$notify({
                 type: 'success',
-                message: 'Bandwidth Profile has been deleted.'
+                message: 'PPPoE Profile has been deleted.'
               })
             } catch (e) {
               this.showRequestErrorMessage()

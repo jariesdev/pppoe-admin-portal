@@ -65,7 +65,7 @@ export default {
   },
   fetch () {
     this.loading = true
-    this.$axios.$get(`/api/nas/${this.nasId}/accesspoints/${this.accessPointId}/hotspot-connected`)
+    this.$axios.$get(`/api/nas/${this.nasId}/hotspot-connected`)
       .then(({ data }) => {
         this.tableData = data
       })

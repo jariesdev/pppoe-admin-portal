@@ -29,16 +29,8 @@ const headers = [
     field: 'duration'
   },
   {
-    label: 'Hot Spot Ip Address',
-    field: 'hotSpotIpAddress'
-  },
-  {
-    label: 'MT Controller Address',
-    field: 'mtControllerAddress'
-  },
-  {
-    label: 'Termination Cause',
-    field: 'terminationCause'
+    label: 'NAS',
+    field: 'nasshortname'
   }
 ]
 

@@ -79,7 +79,7 @@
           </el-form-item>
         </el-col>
         <el-col :lg="12" :span="24">
-          <el-form-item label="Bandwidth Profile">
+          <el-form-item label="PPPoE Profile">
             <el-select v-model="form.bandwidth_profile" class="d-block">
               <el-option
                 v-for="bandwidthProfile in bandwidthProfiles"

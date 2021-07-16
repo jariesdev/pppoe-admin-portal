@@ -234,7 +234,7 @@ export default {
     async loadData () {
       this.loading = true
       try {
-        const { data } = await this.$axios.$get(`/api/nas/${this.nasId}/accesspoints/${this.accessPointId}/ethernet-graph`)
+        const { data } = await this.$axios.$get(`/api/nas/${this.nasId}/ethernet-graph`)
         const dataWithTime = map(data || [], (object) => {
           object.response_time = new Date()
           return object

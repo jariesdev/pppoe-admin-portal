@@ -1,10 +1,10 @@
 <template>
   <div class="account-settings" title="Account Settings">
     <el-tabs tab-position="left" value="bandwidth-profile" type="border-card" class="mb-3">
-      <el-tab-pane name="bandwidth-profile" label="Bandwidth Profile">
+      <el-tab-pane name="bandwidth-profile" label="PPPoE Profile">
         <div>
           <el-form>
-            <el-form-item label="Bandwidth Profile">
+            <el-form-item label="PPPoE Profile">
               <el-select v-model="bandwidthProfile" class="d-block">
                 <el-option
                   v-for="profile in bandwidthProfiles"
@@ -36,7 +36,7 @@
                 <el-option v-for="nas in nasItems" :key="nas.id" :value="nas.id" :label="`${nas.ap_address} (${nas.shortname})`" />
               </el-select>
             </el-form-item>
-            <el-form-item v-show="planChanged" label="Bandwidth Profile">
+            <el-form-item v-show="planChanged" label="PPPoE Profile">
               <el-select v-model="accountPlan.bandwidth_profile" class="d-block">
                 <el-option
                   v-for="profile in bandwidthProfiles"
@@ -152,7 +152,7 @@ export default {
           this.originalPlanId = this.accountPlan.plan_id
           this.$notify({
             type: 'success',
-            message: 'Bandwidth profile has been updated.'
+            message: 'PPPoE profile has been updated.'
           })
         })
         .catch(() => {
