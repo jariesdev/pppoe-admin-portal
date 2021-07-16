@@ -1,27 +1,35 @@
 <template>
   <div class="server-table">
-    <el-table v-loading="loading"
-              :data="tableData"
-              :default-expand-all="defaultExpandAll"
-              :row-class-name="rowClassName"
-              :align="align">
+    <el-table
+      v-loading="loading"
+      :data="tableData"
+      :default-expand-all="defaultExpandAll"
+      :row-class-name="rowClassName"
+      :align="align"
+    >
       <template #empty>
         <slot name="empty">
           <span>No record found yet.</span>
         </slot>
       </template>
-      <slot name="before"/>
+      <slot name="before" />
       <el-table-column v-if="$scopedSlots.expand" type="expand">
         <template slot-scope="props">
-          <slot v-bind="props" name="expand"/>
+          <slot v-bind="props" name="expand" />
         </template>
       </el-table-column>
       <el-table-column
-          v-for="(header,index) in headers"
-          :key="index"
-          :label="header.label">
+        v-for="(header,index) in headers"
+        :key="index"
+        :label="header.label"
+      >
         <template #default="{row}">
-          <slot :header="header" :name="'item_' + header.field" :row="row" :value="getColumnValue(row, header)">
+          <!--deprecated slot-->
+          <slot v-if="$slots[`item_${header.field}`]" :header="header" :name="'item_' + header.field" :row="row" :value="getColumnValue(row, header)">
+            {{ getColumnValue(row, header) }}
+          </slot>
+          <!--new slot-->
+          <slot v-else :header="header" :name="header.field" :row="row" :value="getColumnValue(row, header)">
             {{ getColumnValue(row, header) }}
           </slot>
         </template>
@@ -31,39 +39,41 @@
       </template>
     </el-table>
     <div class="d-flex align-items-center">
-      <slot name="before-pagination"/>
-      <div class="ml-auto"/>
+      <slot name="before-pagination" />
+      <div class="ml-auto" />
       <div v-if="!hidePagination" class="pagination d-flex align-items-center">
-        <div v-show="itemsFrom !== undefined && itemsTo !== undefined">Items {{ itemsFrom }} to {{ itemsTo }}</div>
+        <div v-show="itemsFrom !== undefined && itemsTo !== undefined">
+          Items {{ itemsFrom }} to {{ itemsTo }}
+        </div>
         <el-pagination
-            :current-page.sync="tableQuery.page"
-            :page-count="totalPages"
-            :page-size.sync="tableQuery.perPage"
-            background
-            layout="prev, next, sizes"
-            @current-change="loadData"
-            @size-change="loadData">
-        </el-pagination>
+          :current-page.sync="tableQuery.page"
+          :page-count="totalPages"
+          :page-size.sync="tableQuery.perPage"
+          background
+          layout="prev, next, sizes"
+          @current-change="loadData"
+          @size-change="loadData"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import {forEach, get, map} from 'lodash'
-import {Pagination, Table, TableColumn} from 'element-ui'
-import alertsMixin from "~/mixins/alerts";
-import XLSX from "xlsx";
-import moment from "moment";
+import { forEach, get, map } from 'lodash'
+import { Pagination, Table, TableColumn } from 'element-ui'
+import XLSX from 'xlsx'
+import moment from 'moment'
+import alertsMixin from '~/mixins/alerts'
 
 export default {
   name: 'ServerTable',
-  mixins: [alertsMixin],
   components: {
     [Table.name]: Table,
     [TableColumn.name]: TableColumn,
     [Pagination.name]: Pagination
   },
+  mixins: [alertsMixin],
   props: {
     url: {
       type: String,
@@ -97,12 +107,9 @@ export default {
       type: String,
       required: false,
       default: 'left'
-    },
+    }
   },
-  async fetch() {
-    await this.loadData()
-  },
-  data() {
+  data () {
     return {
       loading: false,
       tableData: [],
@@ -115,34 +122,37 @@ export default {
       itemsTo: undefined
     }
   },
+  async fetch () {
+    await this.loadData()
+  },
   watch: {
-    /*tableQuery: {
+    /* tableQuery: {
       handler() {
         this.$nextTick(this.$fetch)
       },
       deep: true
-    },*/
+    }, */
     queryParams: {
-      handler() {
+      handler () {
         this.$nextTick(this.$fetch)
       },
       deep: true
     },
-    url() {
+    url () {
       this.$nextTick(this.$fetch)
     }
   },
   methods: {
-    async loadData() {
+    async loadData () {
       this.loading = true
       const query = Object.assign({
         page: this.tableQuery.page,
-        perPage: this.tableQuery.perPage,
+        perPage: this.tableQuery.perPage
       }, this.queryParams)
 
       try {
-        const response = await this.$axios.$get(this.url, {params: query})
-        const {data, meta, links} = response
+        const response = await this.$axios.$get(this.url, { params: query })
+        const { data, meta, links } = response
         this.tableData = data
         if (meta) {
           this.totalPages = meta.to
@@ -156,30 +166,30 @@ export default {
           this.totalPages = this.tableQuery.page
         }
 
-        this.$emit('success', {items: data, response, query})
+        this.$emit('success', { items: data, response, query })
       } catch (e) {
         this.showTableErrorMessage()
       } finally {
         this.loading = false
       }
     },
-    extractColumnValue(row, field) {
+    extractColumnValue (row, field) {
       return get(row, field)
     },
-    getColumnValue(row, header) {
+    getColumnValue (row, header) {
       return typeof header.formatValue === 'function' ? header.formatValue(this.extractColumnValue(row, header.field), row) : this.extractColumnValue(row, header.field)
     },
-    async exportTo(fileName, options, type = 'XLSX') {
-      const {headers, formatData} = Object.assign({
+    async exportTo (fileName, options, type = 'XLSX') {
+      const { headers, formatData } = Object.assign({
         headers: undefined,
         formatData: undefined
       }, options)
-      const {data} = await this.$axios.$get(this.url, {params: this.queryParams})
+      const { data } = await this.$axios.$get(this.url, { params: this.queryParams })
       if (typeof formatData === 'function') {
-        const exportData = formatData(data, headers);
-        this.handleExcelDownload(exportData, fileName, {headers})
+        const exportData = formatData(data, headers)
+        this.handleExcelDownload(exportData, fileName, { headers })
       } else if (typeof headers === 'object') {
-        const exportData = map(data, row => {
+        const exportData = map(data, (row) => {
           const newRow = {}
           forEach(headers, (header) => {
             const value = get(row, header.field, null)
@@ -193,39 +203,39 @@ export default {
         this.handleExcelDownload(data, fileName)
       }
     },
-    handleExcelDownload(jsonData, fileName, options = {}) {
-      const {headers} = options
-      let wsOptions = {};
+    handleExcelDownload (jsonData, fileName, options = {}) {
+      const { headers } = options
+      const wsOptions = {}
       if (Array.isArray(headers) && headers.length > 0) {
         wsOptions.header = headers
         wsOptions.skipHeader = false
       }
 
-      const worksheet = XLSX.utils.json_to_sheet(jsonData, wsOptions);
+      const worksheet = XLSX.utils.json_to_sheet(jsonData, wsOptions)
       const workbook = {
         Sheets: {
           Sheet1: worksheet
         },
         SheetNames: ['Sheet1']
-      };
-      const excelBuffer = XLSX.write(workbook, {bookType: 'xlsx', type: 'array'});
+      }
+      const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' })
 
-      const extension = '.xlsx';
+      const extension = '.xlsx'
 
-      const type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+      const type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8'
 
-      const blob = new Blob([excelBuffer], {type});
+      const blob = new Blob([excelBuffer], { type })
 
-      const currentTimeString = moment().format('YYYYMMDDHHmmss');
+      const currentTimeString = moment().format('YYYYMMDDHHmmss')
 
-      const downloadUrl = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = downloadUrl;
-      a.download = decodeURI(`${fileName}-${currentTimeString}${extension}`);
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      window.URL.revokeObjectURL(downloadUrl);
+      const downloadUrl = window.URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = downloadUrl
+      a.download = decodeURI(`${fileName}-${currentTimeString}${extension}`)
+      document.body.appendChild(a)
+      a.click()
+      a.remove()
+      window.URL.revokeObjectURL(downloadUrl)
     }
   }
 }

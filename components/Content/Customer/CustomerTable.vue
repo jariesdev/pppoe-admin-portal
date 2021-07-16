@@ -40,7 +40,7 @@ const tableHeaders = [
     field: 'account_type'
   },
   {
-    label: 'Contact Start',
+    label: 'Contract Start',
     field: 'contract_start'
   },
   {

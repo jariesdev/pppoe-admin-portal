@@ -1,23 +1,29 @@
 <template>
   <div class="billing-form">
-    <alert-errors :form="form" />
+    <alert-errors :form="form"/>
     <el-form label-position="top" :disabled="form.busy">
       <el-form-item label="Amount Paid" required>
-        <el-input v-model="form.amount_paid" type="number" />
+        <el-input v-model="form.amount_paid" type="number"/>
       </el-form-item>
       <el-form-item label="Mode of Payment" required>
-        <el-select v-model="form.mode_of_payment" class="d-block">
-          <el-option v-for="(mode,index) in modeOfPayments" :key="index" :label="mode.label" :value="mode.value" />
+        <el-select
+          v-model="selectedModeOfPayment"
+          class="d-block"
+          @change="selectedModeOfPaymentChange"
+          :class="{'mb-2': selectedModeOfPayment === 'others'}"
+        >
+          <el-option v-for="(mode,index) in modeOfPayments" :key="index" :label="mode.label" :value="mode.value"/>
         </el-select>
+        <el-input v-show="selectedModeOfPayment === 'others'" v-model="form.mode_of_payment"/>
       </el-form-item>
       <el-form-item label="Payment Reference No." required>
-        <el-input v-model="form.payment_reference_no" />
+        <el-input v-model="form.payment_reference_no"/>
       </el-form-item>
       <el-form-item label="Remarks">
-        <el-input v-model="form.remarks" type="textarea" />
+        <el-input v-model="form.remarks" type="textarea"/>
       </el-form-item>
       <div class="d-flex">
-        <div class="ml-auto" />
+        <div class="ml-auto"/>
         <base-button type="primary" :loading="form.busy" @click="submit()">
           Save
         </base-button>
@@ -35,22 +41,26 @@ import { paymentModes } from '~/assets/js/constants'
 import alerts from '~/mixins/alerts'
 
 const modeOfPayments = [
-//   {
-//     label: 'CASH',
-//     value: paymentModes.CASH
-//   },
+  {
+    label: 'CASH',
+    value: paymentModes.CASH
+  },
   {
     label: 'GCASH',
     value: paymentModes.GCASH
+  },
+  {
+    label: 'PAYMAYA',
+    value: paymentModes.PAYMAYA
+  },
+  {
+    label: 'Bank Transfer',
+    value: paymentModes.BANK_TRANSFER
+  },
+  {
+    label: 'Others',
+    value: 'others'
   }
-  // {
-  //   label: 'PAYMAYA',
-  //   value: paymentModes.PAYMAYA
-  // },
-  // {
-  //   label: 'Credit/Debit Card',
-  //   value: paymentModes.CARD_PAYMENT
-  // }
 ]
 
 export default {
@@ -65,6 +75,7 @@ export default {
   data () {
     return {
       modeOfPayments,
+      selectedModeOfPayment: '',
       form: new Form({
         amount_paid: null,
         mode_of_payment: null,
@@ -75,7 +86,7 @@ export default {
   },
   methods: {
     submit () {
-      this.form.post(`/api/admin/billings/${this.billingId}/paid`)
+      this.form.post(`/api/billings/${this.billingId}/paid`)
         .then(() => {
           this.$notify({
             type: 'success',
@@ -91,6 +102,13 @@ export default {
       this.form.reset()
       this.form.clear()
       this.$emit('cancel')
+    },
+    selectedModeOfPaymentChange () {
+      if (this.selectedModeOfPayment !== 'others') {
+        this.form.mode_of_payment = this.selectedModeOfPayment
+      } else {
+        this.form.mode_of_payment = ''
+      }
     }
   }
 }
