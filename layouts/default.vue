@@ -37,6 +37,13 @@
             path: '/billings',
           }"
         />
+        <sidebar-item
+          :link="{
+            name: $t('sidebar.plan-applications'),
+            icon: 'tim-icons icon-wallet-43',
+            path: '/plan-applications',
+          }"
+        />
         <hr class="menu-separator">
         <sidebar-item
           :link="{
