@@ -26,7 +26,7 @@ export default {
     return {
       jobOrderId: null,
       showApprovalForm: false,
-      isApproved: false
+      isApproved: true
     }
   },
   fetch () {
