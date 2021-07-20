@@ -4,10 +4,14 @@
     <card v-if="showApprovalForm" title="Approve Job Order">
       <JobOrderApprovalForm :job-order-id="jobOrderId" />
     </card>
-    <div>
+    <div class="d-flex">
       <base-button @click="$router.back()">
         Back
       </base-button>
+      <div class="mx-auto" />
+      <nuxt-link v-show="!isApproved" class="btn btn-info" :to="`/job-orders/${jobOrderId}/edit`">
+        Edit
+      </nuxt-link>
     </div>
   </div>
 </template>
@@ -21,7 +25,8 @@ export default {
   data () {
     return {
       jobOrderId: null,
-      showApprovalForm: false
+      showApprovalForm: false,
+      isApproved: false
     }
   },
   fetch () {
@@ -34,7 +39,8 @@ export default {
   },
   methods: {
     jobOrderLoaded (jobOrder) {
-      this.showApprovalForm = !jobOrder.is_approved
+      this.isApproved = jobOrder.is_approved
+      this.showApprovalForm = !this.isApproved
     }
   }
 }

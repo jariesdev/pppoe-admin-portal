@@ -134,7 +134,7 @@
 
 <script>
 import { Form } from 'vform'
-import { mapState } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 import alerts from '~/mixins/alerts'
 import salutations from '~/assets/data/salutation.json'
 import { accountTypes as accountTypeConstants } from '~/assets/js/constants'
@@ -153,6 +153,13 @@ const accountTypes = [
 export default {
   name: 'JobOrderForm',
   mixins: [alerts],
+  props: {
+    jobOrderId: {
+      type: Number,
+      required: false,
+      default: null
+    }
+  },
   data () {
     return {
       loading: false,
@@ -190,12 +197,25 @@ export default {
     ...mapState({
       plans: state => state.plan.plans,
       cities: state => state.city.cities
-    })
+    }),
+    isEditing () {
+      return this.jobOrderId !== null
+    }
+  },
+  mounted () {
+    if (this.isEditing) {
+      this.initializeForm()
+    }
   },
   methods: {
+    ...mapActions({
+      getJobOrder: 'job-order/get'
+    }),
     submit () {
       this.processing = true
-      this.form.post('/api/job-orders')
+      const url = this.isEditing ? `/api/job-orders/${this.jobOrderId}` : '/api/job-orders'
+      const method = this.isEditing ? 'put' : 'post'
+      this.form.submit(method, url)
         .then(({ data }) => {
           this.$notify({
             type: 'success',
@@ -233,6 +253,29 @@ export default {
         .catch(() => {
           this.partnerBranches = []
         })
+    },
+    async initializeForm () {
+      const jobOrder = await this.getJobOrder(this.jobOrderId)
+      this.form.fill({
+        salutation: jobOrder.salutation,
+        first_name: jobOrder.first_name,
+        last_name: jobOrder.last_name,
+        mobile_no: jobOrder.mobile_no,
+        address_1: jobOrder.address_1,
+        address_2: jobOrder.address_2,
+        city_id: jobOrder.city_id,
+        area_code: jobOrder.area_code,
+        age: jobOrder.age,
+        email: jobOrder.email,
+        customer_profile: jobOrder.customer_profile,
+        plan_id: jobOrder.plan_id,
+        account_type: jobOrder.account_type,
+        username: jobOrder.username,
+        password: jobOrder.password,
+        misc_fee: jobOrder.misc_fee,
+        misc_remarks: jobOrder.misc_remarks,
+        amount_paid: jobOrder.amount_paid
+      })
     }
   }
 }
