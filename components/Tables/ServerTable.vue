@@ -31,7 +31,6 @@
         </template>
       </el-table-column>
       <template #append>
-        Content/Sale/SalesCard.vue
         <slot name="append" />
       </template>
     </el-table>
