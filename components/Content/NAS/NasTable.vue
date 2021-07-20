@@ -6,12 +6,12 @@
       </p>
 
       <ServerTable ref="mainTable" :headers="tableHeaders" :query-params="queryParams" url="/api/nas">
-        <template #item_nasname="{row: {id},value}">
+        <template #nasname="{row: {id},value}">
           <nuxt-link :to="`nas/${id}`">
             {{ value }}
           </nuxt-link>
         </template>
-        <template slot="item_actions" slot-scope="{row}">
+        <template slot="actions" slot-scope="{row}">
           <TableActions :actions="tableActions" :data="row" />
         </template>
       </ServerTable>

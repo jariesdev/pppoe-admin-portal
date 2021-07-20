@@ -24,12 +24,8 @@
         :label="header.label"
       >
         <template #default="{row}">
-          <!--deprecated slot-->
-          <slot v-if="$slots[`item_${header.field}`]" :header="header" :name="'item_' + header.field" :row="row" :value="getColumnValue(row, header)">
-            {{ getColumnValue(row, header) }}
-          </slot>
           <!--new slot-->
-          <slot v-else :header="header" :name="header.field" :row="row" :value="getColumnValue(row, header)">
+          <slot :header="header" :name="header.field" :row="row" :value="getColumnValue(row, header)">
             {{ getColumnValue(row, header) }}
           </slot>
         </template>

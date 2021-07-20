@@ -5,10 +5,10 @@
         Manage users/employees who access the system.
       </p>
       <ServerTable ref="serverTable" :headers="tableHeaders" :query-params="queryParams" url="/api/employees">
-        <template #item_name="{row,value}">
+        <template #name="{row,value}">
           {{ value }} <sup v-show="isCurrentUser(row)">(You)</sup>
         </template>
-        <template #item_actions="{row}">
+        <template #actions="{row}">
           <TableActions :actions="tableActions" :data="row" />
         </template>
       </ServerTable>

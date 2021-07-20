@@ -5,15 +5,15 @@
         Manage system job orders. Job orders helps you track what happening on the system.
       </p>
       <ServerTable ref="mainTable" :headers="tableHeaders" url="/api/job-orders" :query-params="queryParams">
-        <template #item_id="{row, value}">
+        <template #id="{row, value}">
           <nuxt-link :to="`/job-orders/${row.id}`">
             {{ value }}
           </nuxt-link>
         </template>
-        <template #item_actions="{row}">
+        <template #actions="{row}">
           <TableActions :actions="tableActions" :data="row" />
         </template>
-        <template #item_is_approved="{row}">
+        <template #is_approved="{row}">
           <el-tag :type="row.is_approved ? 'success' : 'info'" size="small">
             {{ row.is_approved ? 'Yes' : 'No' }}
           </el-tag>

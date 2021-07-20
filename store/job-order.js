@@ -1,8 +1,8 @@
 export const actions = {
-  async delete (_, partnerId) {
-    return await this.$axios.$delete('/api/job-orders/' + partnerId)
+  async delete (_, id) {
+    return await this.$axios.$delete('/api/job-orders/' + id)
   },
-  async get (_, partnerId) {
-    return await this.$axios.$get('/api/job-orders/' + partnerId).then(({ data }) => data)
+  async get (_, id) {
+    return await this.$axios.$get('/api/job-orders/' + id).then(({ data }) => data)
   }
 }

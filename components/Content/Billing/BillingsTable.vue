@@ -2,20 +2,20 @@
   <div class="billings">
     <table-card title="Billings">
       <ServerTable ref="billingTable" url="/api/billings" :headers="tableHeaders">
-        <template #item_billing_reference_no="{value,row}">
+        <template #billing_reference_no="{value,row}">
           <nuxt-link :to="`/billings/${row.id}`">
             {{ value }}
           </nuxt-link>
         </template>
-        <template #item_total_fee="{value}">
+        <template #total_fee="{value}">
           {{ value | formatNumber({format: '0,0.00'}) }}
         </template>
-        <template #item_is_paid="{value}">
+        <template #is_paid="{value}">
           <el-tag :type="value ? `success` : 'warning'" size="small">
             {{ value ? `Yes` : 'No' }}
           </el-tag>
         </template>
-        <template #item_actions="{row}">
+        <template #actions="{row}">
           <TableActions :data="row" :actions="tableActions" />
         </template>
       </ServerTable>

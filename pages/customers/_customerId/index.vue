@@ -5,7 +5,10 @@
         <CustomerDetails :customer-id="customerId">
           <template #footer>
             <div class="d-flex">
-              <div class="ml-auto"/>
+              <div class="ml-auto" />
+              <base-button class="mr-3" type="danger" @click="deleteCustomer()">
+                Delete
+              </base-button>
               <base-button class="mr-2" type="warning" @click="disconnect()">
                 Disconnect Access
               </base-button>
@@ -17,7 +20,7 @@
         </CustomerDetails>
       </el-tab-pane>
       <el-tab-pane name="account-settings" label="Account Settings">
-        <CustomerAccountSettings :customer-id="customerId"/>
+        <CustomerAccountSettings :customer-id="customerId" />
       </el-tab-pane>
     </el-tabs>
     <div>
@@ -33,11 +36,11 @@ import CustomerAccountSettings from '~/components/Content/Customer/CustomerAccou
 import alerts from '~/mixins/alerts'
 
 export default {
-  mixins: [alerts],
   components: {
     CustomerAccountSettings,
     CustomerDetails
   },
+  mixins: [alerts],
   data: () => ({
     customerId: null,
     activeTab: 'details'
@@ -68,6 +71,28 @@ export default {
             type: 'danger',
             message
           })
+        })
+    },
+    async deleteCustomer () {
+      const confirmed = await this.$confirm('Are you sure to delete this user.', {
+        type: 'error',
+        title: 'Confirm User Delete'
+      }).catch(() => false)
+
+      if (!confirmed) {
+        return
+      }
+
+      this.$axios.$delete(`/api/customers/${this.customerId}`)
+        .then(() => {
+          this.$router.push('/customers')
+          this.$notify({
+            type: 'success',
+            message: 'Successfully deleted the user.'
+          })
+        })
+        .catch(({ response: { data: { message } } }) => {
+          this.showRequestErrorMessage()
         })
     }
   }

@@ -4,10 +4,10 @@
       Manage partner's branches.
     </p>
     <ServerTable ref="serverTable" :headers="tableHeaders" url="/api/branches">
-      <template #item_coordinates="{row,value}">
+      <template #coordinates="{row,value}">
         <a :href="`http://www.google.com/maps/place/${row.latitude},${row.longitude}`" target="_blank">{{ value }}</a>
       </template>
-      <template #item_actions="{row}">
+      <template #actions="{row}">
         <TableActions :actions="tableActions" :data="row" />
       </template>
     </ServerTable>

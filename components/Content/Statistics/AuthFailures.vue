@@ -4,7 +4,7 @@
       <template #empty>
         All good, no authentication failures.
       </template>
-      <template #item_username="{row,value}">
+      <template #username="{row,value}">
         <a href="" @click.prevent="showMoreDetails=row">{{ value }}</a>
       </template>
     </ServerTable>

@@ -8,35 +8,43 @@
         <template #empty>
           No users assigned yet.
         </template>
-        <template v-slot:item_admin="{row, value}">
+        <template #item_admin="{row, value}">
           <el-tag :type="value ? 'warning' : 'success'" size="small">
             {{ value ? 'Administrator' : 'Standard' }}
           </el-tag>
         </template>
-        <template #item_actions="{row}">
-          <TableActions :actions="tableActions" :data="row"/>
+        <template #actions="{row}">
+          <TableActions :actions="tableActions" :data="row" />
         </template>
       </server-table>
       <div>
-        <base-button type="primary" @click="addUser()">Add User</base-button>
+        <base-button type="primary" @click="addUser()">
+          Add User
+        </base-button>
       </div>
       <el-dialog
         :before-close="(done)=>{ showAddUserDialog = false; done() ;}"
         :title="editUserId ? 'Edit User' : 'New User'"
         :visible="showAddUserDialog"
-        modal>
-        <partner-user-form v-if="showAddUserDialog" :edit-user="editUserId" :partner-id="partnerId"
-                           @cancel="formCancel()" @success="formSuccess($event)"/>
+        modal
+      >
+        <partner-user-form
+          v-if="showAddUserDialog"
+          :edit-user="editUserId"
+          :partner-id="partnerId"
+          @cancel="formCancel()"
+          @success="formSuccess($event)"
+        />
       </el-dialog>
     </table-card>
   </div>
 </template>
 
 <script>
-import ServerTable from "~/components/Tables/ServerTable";
-import TableActions from "~/components/Tables/TableActions";
-import PartnerUserForm from "~/components/Content/Partner/PartnerUserForm";
-import {mapActions} from "vuex";
+import { mapActions } from 'vuex'
+import ServerTable from '~/components/Tables/ServerTable'
+import TableActions from '~/components/Tables/TableActions'
+import PartnerUserForm from '~/components/Content/Partner/PartnerUserForm'
 
 const tableHeaders = [
   {
@@ -54,15 +62,15 @@ const tableHeaders = [
 ]
 
 export default {
-  name: "PartnerUsersTable",
-  components: {PartnerUserForm, TableActions, ServerTable},
+  name: 'PartnerUsersTable',
+  components: { PartnerUserForm, TableActions, ServerTable },
   props: {
     partnerId: {
       type: Number,
       required: true
     }
   },
-  data() {
+  data () {
     const tableActions = [
       {
         label: 'Edit',
@@ -79,10 +87,10 @@ export default {
         icon: 'tim-icons icon-simple-remove text-danger',
         on: {
           click: async (row) => {
-            const confirmed = await this.$confirm('Delete partner\'s user.', 'Confirm Delete', {type: 'warning'})
+            const confirmed = await this.$confirm('Delete partner\'s user.', 'Confirm Delete', { type: 'warning' })
               .catch(() => false)
 
-            if (!confirmed) return
+            if (!confirmed) { return }
 
             await this.deletePartnerUser({
               partnerId: this.partnerId,
@@ -105,10 +113,10 @@ export default {
     ...mapActions({
       deletePartnerUser: 'partner-user/delete'
     }),
-    addUser() {
+    addUser () {
       this.showAddUserDialog = true
     },
-    formSuccess(data) {
+    formSuccess (data) {
       this.showAddUserDialog = false
       this.editUserId = null
 
@@ -119,11 +127,11 @@ export default {
 
       this.reloadTable()
     },
-    formCancel() {
+    formCancel () {
       this.showAddUserDialog = false
       this.editUserId = null
     },
-    reloadTable() {
+    reloadTable () {
       this.$refs.userTable.loadData()
     }
   }
