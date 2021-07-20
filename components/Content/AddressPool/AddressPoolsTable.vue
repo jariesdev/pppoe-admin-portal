@@ -1,7 +1,7 @@
 <template>
   <table-card title="Address Pools" class="address-pools">
     <ServerTable ref="addressPools" url="/api/address-pools" :headers="tableHeaders">
-      <template #item_actions="{row}">
+      <template #actions="{row}">
         <TableActions :data="row" :actions="tableActions" />
       </template>
     </ServerTable>

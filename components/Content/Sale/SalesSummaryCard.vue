@@ -2,10 +2,12 @@
   <TableCard>
     <template #header>
       <div class="d-flex">
-        <h2 class="card-title">Sales Summary</h2>
-        <div class="mx-auto"/>
+        <h2 class="card-title">
+          Sales Summary
+        </h2>
+        <div class="mx-auto" />
         <base-button :type="showFilter ? 'info' : ''" icon @click="showFilter=!showFilter">
-          <i class="fas fa-filter"></i>
+          <i class="fas fa-filter" />
         </base-button>
       </div>
     </template>
@@ -13,13 +15,13 @@
       <el-form class="row" label-position="top">
         <div class="col-lg-6 col-xl-3">
           <el-form-item label="Sold Date">
-            <el-date-picker v-model="filters.dateRange" type="daterange" value-format="yyyy-MM-dd"/>
+            <el-date-picker v-model="filters.dateRange" type="daterange" value-format="yyyy-MM-dd" />
           </el-form-item>
         </div>
         <div class="col-lg-6 col-xl-3">
           <el-form-item label="Select Partner">
             <el-select v-model="filters.partner" class="d-block" clearable>
-              <el-option v-for="partner in partners" :key="partner.id" :label="partner.name" :value="partner.id"/>
+              <el-option v-for="partner in partners" :key="partner.id" :label="partner.name" :value="partner.id" />
             </el-select>
           </el-form-item>
         </div>
@@ -32,9 +34,13 @@
                 </div>-->
       </el-form>
       <div>
-        <div class="ml-auto"/>
-        <base-button type="primary" @click="updateTableQuery()">Filter</base-button>
-        <base-button @click="clearFilter()">Reset</base-button>
+        <div class="ml-auto" />
+        <base-button type="primary" @click="updateTableQuery()">
+          Filter
+        </base-button>
+        <base-button @click="clearFilter()">
+          Reset
+        </base-button>
       </div>
     </div>
     <ServerTable
@@ -43,25 +49,25 @@
       :query-params="queryParams"
       class="mb-3"
       default-expand-all
-      url="/api/sales-summary">
-      <template #item_month="{row}">
+      url="/api/sales-summary"
+    >
+      <template #month="{row}">
         {{ row.year }} {{ row.month }}
       </template>
-      <template #item_actions="{row}">
-        <TableActions :data="row" :actions="tableActions"></TableActions>
+      <template #actions="{row}">
+        <TableActions :data="row" :actions="tableActions" />
       </template>
     </ServerTable>
   </TableCard>
 </template>
 <script>
-import ServerTable from "~/components/Tables/ServerTable";
-import TableActions from "~/components/Tables/TableActions";
-import TableActionButton from "~/components/Tables/TableActionButton";
-import TableCard from "~/components/Cards/TableCard";
-import {mapState} from "vuex";
-import alerts from "~/mixins/alerts";
-import {defaultDateTimeFormat} from "~/util/utilities";
-import {findIndex, reject} from "lodash";
+import { mapState } from 'vuex'
+import { findIndex, reject } from 'lodash'
+import ServerTable from '~/components/Tables/ServerTable'
+import TableActions from '~/components/Tables/TableActions'
+import TableCard from '~/components/Cards/TableCard'
+import alerts from '~/mixins/alerts'
+import { defaultDateTimeFormat } from '~/util/utilities'
 
 const numeral = require('numeral')
 
@@ -85,28 +91,24 @@ const tableHeaders = [
   {
     label: 'Total Sales',
     field: 'total_amount_sold',
-    formatValue: (value) => numeral(value).format('0,0.00')
+    formatValue: value => numeral(value).format('0,0.00')
   },
   {
     label: 'Date Generated',
     field: 'created_at',
-    formatValue: (value) => defaultDateTimeFormat(value)
+    formatValue: value => defaultDateTimeFormat(value)
   },
   {
     label: 'Actions',
     field: 'actions'
-  },
+  }
 ]
 
 export default {
   name: 'SalesSummaryCard',
-  components: {TableCard, TableActionButton, TableActions, ServerTable},
+  components: { TableCard, TableActions, ServerTable },
   mixins: [alerts],
-  fetch() {
-    this.$store.dispatch('partner/load')
-    this.$store.dispatch('plan/load')
-  },
-  data() {
+  data () {
     const tableActions = [
       {
         label: 'Export',
@@ -126,43 +128,47 @@ export default {
       tableHeaders,
       tableActions,
       queryParams: {
-        search: null,
+        search: null
       },
       showFilter: false,
       filters: {
         dateRange: [],
         partner: null,
         branch: null,
-        plan: null,
+        plan: null
       },
       activeExport: []
     }
+  },
+  fetch () {
+    this.$store.dispatch('partner/load')
+    this.$store.dispatch('plan/load')
   },
   computed: {
     ...mapState({
       partners: state => state.partner.partners,
       plans: state => state.plan.plans
     }),
-    isExporting() {
+    isExporting () {
       return this.activeExport.length > 0
     }
   },
-  mounted() {
+  mounted () {
     this.$root.$on('search-submitted', (value) => {
       this.queryParams.search = value
     })
   },
   methods: {
-    updateTableQuery() {
+    updateTableQuery () {
       this.queryParams = Object.assign({}, this.queryParams, {
         from: this.filters.dateRange ? this.filters.dateRange[0] : undefined,
         to: this.filters.dateRange ? this.filters.dateRange[1] : undefined,
         per_partner: this.filters.partner,
         per_branch: this.filters.branch,
-        per_plan: this.filters.plan,
+        per_plan: this.filters.plan
       })
     },
-    clearFilter() {
+    clearFilter () {
       this.filters.dateRange = null
       this.filters.partner = null
       this.filters.branch = null
@@ -170,20 +176,20 @@ export default {
 
       this.updateTableQuery()
     },
-    getPlanSalesPerformance(plan) {
+    getPlanSalesPerformance (plan) {
       return Number((plan.sold - plan.total_vouchers) * plan.cost)
     },
-    exportSalesSummary(row) {
+    exportSalesSummary (row) {
       this.activeExport.push(row.id)
-      const exportQuery = {...this.queryParams}
+      const exportQuery = { ...this.queryParams }
       this.$axios.$get(`/api/sales-summary/${row.id}/export`, {
         params: exportQuery,
         responseType: 'blob'
       })
-        .then(data => {
+        .then((data) => {
           const extension = 'xlsx'
-          const type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-          const url = window.URL.createObjectURL(new Blob([data], {type}))
+          const type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8'
+          const url = window.URL.createObjectURL(new Blob([data], { type }))
           const link = document.createElement('a')
           link.href = url
           const currentDate = new Date()

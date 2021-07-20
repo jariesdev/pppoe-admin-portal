@@ -2,7 +2,7 @@
   <div>
     <card title="Job Order Allocations">
       <ServerTable :headers="headers" :url="`/api/job-orders/${jobOrderId}/allocations`">
-        <template #item_voucher="{row, value}">
+        <template #voucher="{row, value}">
           <nuxt-link :to="`/allocations/${row.id}`">
             {{ value }}
           </nuxt-link>

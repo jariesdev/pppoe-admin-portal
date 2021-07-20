@@ -4,7 +4,7 @@
       <template #empty>
         No transactions yet.
       </template>
-      <template #item_remarks="{value}">
+      <template #remarks="{value}">
         <span v-if="!value">-</span>
         <el-popover v-else>
           <h5>Remarks</h5>

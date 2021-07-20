@@ -5,12 +5,12 @@
         <span>No access point yet.</span>
       </slot>
     </template>
-    <template slot="item_ap_address" slot-scope="{row,value}">
+    <template slot="ap_address" slot-scope="{row,value}">
       <slot name="item_ap_address" :row="row" :value="value">
         {{ value }}
       </slot>
     </template>
-    <template slot="item_actions" slot-scope="{row}">
+    <template slot="actions" slot-scope="{row}">
       <slot name="table_actions" :row="row" :actions="tableActions">
         <TableActions :actions="tableActions" :data="row" />
       </slot>

@@ -5,7 +5,7 @@
         Manage PPPoE profiles which are import by the system to each deployed access points.
       </p>
       <ServerTable ref="mainTable" :headers="tableHeaders" url="/api/pppoe-profiles" :query-params="queryParams">
-        <template #item_actions="{row}">
+        <template #actions="{row}">
           <TableActions :actions="tableActions" :data="row" />
         </template>
       </ServerTable>

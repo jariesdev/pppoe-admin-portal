@@ -6,7 +6,7 @@
         Plans are use when generating allocation vouchers.
       </p>
       <ServerTable ref="serverTable" :headers="tableHeaders" url="/api/plans" :query-params="queryParams">
-        <template #item_radius_value="{row,value}">
+        <template #radius_value="{row,value}">
           <el-popover v-if="row.radius_attribute === radiusAttributes.LOGIN_TIME" trigger="click" width="400">
             <a slot="reference" href="" @click.prevent>{{ value }}</a>
             <WeeklySchedule class="text-black-50" :content="value" />
@@ -18,7 +18,7 @@
             </p>
           </el-popover>
         </template>
-        <template #item_actions="{row}">
+        <template #actions="{row}">
           <TableActions :actions="tableActions" :data="row" />
         </template>
       </ServerTable>
