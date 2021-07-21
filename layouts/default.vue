@@ -171,7 +171,6 @@ export default {
   },
   beforeMount () {
     this.toggleMode()
-    this.setCurrentBackgroundColor()
   },
   mounted () {
     this.initScrollbar()
@@ -202,10 +201,6 @@ export default {
       }
     },
     toggleMode () {
-      const lsValue = window.localStorage.getItem('themeIsDarkMode')
-      const lsInDarkMode = lsValue === '1' || lsValue === null
-      this.$store.commit('settings/setDarkMode', lsInDarkMode)
-
       const isDarkMode = this.$store.state.settings.darkMode
       const docClasses = document.body.classList
       if (isDarkMode) {
