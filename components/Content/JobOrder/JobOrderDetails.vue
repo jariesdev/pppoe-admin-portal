@@ -114,7 +114,7 @@
       </el-col>
       <el-col :span="24" :lg="12">
         <p>
-          customer_profile:
+          Customer profile:
           <strong>{{ jobOrder.customer_profile }}</strong>
         </p>
       </el-col>
