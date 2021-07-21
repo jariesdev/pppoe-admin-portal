@@ -34,6 +34,9 @@
               />
             </el-select>
           </el-form-item>
+          <input-description :errors="form.errors.get('bandwidth_profile')">
+            Select PPPoE profile for this Job Order.
+          </input-description>
         </el-col>
       </el-row>
       <div class="d-flex">
