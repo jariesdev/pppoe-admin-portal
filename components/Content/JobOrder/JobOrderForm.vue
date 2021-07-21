@@ -6,7 +6,7 @@
       <el-row :gutter="15" class="flex-wrap" type="flex">
         <el-col :lg="4" :span="24">
           <el-form-item label="Title">
-            <el-select v-model="form.plan_id" class="d-block">
+            <el-select v-model="form.salutation" class="d-block">
               <el-option
                 v-for="(salutation,index) in salutations"
                 :key="index"
