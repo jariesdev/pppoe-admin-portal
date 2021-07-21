@@ -1,5 +1,6 @@
 <template>
   <div class="job-order approval-form">
+    <alert-errors :form="form" />
     <el-form v-model="formValid" label-position="top">
       <el-row type="flex" class="flex-wrap" :gutter="30">
         <el-col :span="24" :lg="12">
@@ -10,6 +11,9 @@
               placeholder="Pick a day"
             />
           </el-form-item>
+          <input-description :errors="form.errors.get('contract_start')">
+            Contract start date.
+          </input-description>
         </el-col>
         <el-col :span="24" :lg="12">
           <el-form-item label="Assigned NAS">
@@ -22,6 +26,9 @@
               />
             </el-select>
           </el-form-item>
+          <input-description :errors="form.errors.get('nas_id')">
+            Select NAS for this Job Order.
+          </input-description>
         </el-col>
         <el-col :span="24" :lg="12">
           <el-form-item label="PPPoE Profile">
@@ -34,6 +41,9 @@
               />
             </el-select>
           </el-form-item>
+          <input-description :errors="form.errors.get('bandwidth_profile')">
+            Select NAS for this Job Order.
+          </input-description>
         </el-col>
       </el-row>
       <div class="d-flex">
