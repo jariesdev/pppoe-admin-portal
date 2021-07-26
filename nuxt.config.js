@@ -161,6 +161,14 @@ export default {
     prefix: '/'
   },
   proxy: {
+    [(process.env.ROUTER_BASE || '') + '/tech/api/']: {
+      target: process.env.API_URL,
+      prependPath: false,
+      pathRewrite: {
+        [process.env.ROUTER_BASE ? `^${process.env.ROUTER_BASE}/tech/api/` : '^/tech/api/']: '/api/tech/'
+      },
+      logLevel: process.env.PROXY_LOG_LEVEL || 'info'
+    },
     [(process.env.ROUTER_BASE || '') + '/api/']: {
       target: process.env.API_URL,
       prependPath: false,

@@ -158,6 +158,11 @@ export default {
       type: Number,
       required: false,
       default: null
+    },
+    url: {
+      type: String,
+      required: false,
+      default: null
     }
   },
   data () {
@@ -203,6 +208,27 @@ export default {
     }
   },
   mounted () {
+    this.form = new Form({
+      salutation: salutations[0],
+      first_name: null,
+      last_name: null,
+      mobile_no: null,
+      address_1: null,
+      address_2: null,
+      city_id: null,
+      area_code: null,
+      age: null,
+      email: null,
+      customer_profile: null,
+      plan_id: null,
+      account_type: null,
+      username: null,
+      password: null,
+      misc_fee: null,
+      misc_remarks: null,
+      amount_paid: null
+    })
+
     if (this.isEditing) {
       this.initializeForm()
     }
@@ -213,7 +239,12 @@ export default {
     }),
     submit () {
       this.processing = true
-      const url = this.isEditing ? `/api/job-orders/${this.jobOrderId}` : '/api/job-orders'
+      let url
+      if (this.url) {
+        url = this.url
+      } else {
+        url = this.isEditing ? `/api/job-orders/${this.jobOrderId}` : '/api/job-orders'
+      }
       const method = this.isEditing ? 'put' : 'post'
       this.form.submit(method, url)
         .then(({ data }) => {
