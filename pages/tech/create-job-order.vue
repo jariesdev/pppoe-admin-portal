@@ -1,13 +1,16 @@
 <template>
   <div class="create-job-order">
-    <div class="container">
-      <job-order-form url="/tech/api/job-orders" />
+    <div class="container py-5">
+      <h2 class="h2 text-white">
+        Submit Job Order
+      </h2>
+      <job-order-form />
     </div>
   </div>
 </template>
 
 <script>
-import JobOrderForm from '~/components/Content/JobOrder/JobOrderForm'
+import JobOrderForm from '~/components/Technician/JobOrder/JobOrderForm'
 
 export default {
   auth: false,

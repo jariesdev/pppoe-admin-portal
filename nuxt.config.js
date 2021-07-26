@@ -146,6 +146,27 @@ export default {
         user: {
           property: 'data'
         }
+      },
+      technicianLaravelJWT: {
+        provider: 'laravel/jwt',
+        url: '/tech/api/',
+        endpoints: {
+          login: { url: 'login', method: 'POST' },
+          logout: { url: 'logout', method: 'POST' },
+          refresh: { url: 'refresh', method: 'POST' },
+          user: false
+        },
+        token: {
+          property: 'access_token',
+          maxAge: 60 * 45
+        },
+        refreshToken: {
+          maxAge: 60 * 60,
+          tokenRequired: true
+        },
+        user: {
+          property: 'data'
+        }
       }
     },
     plugins: [

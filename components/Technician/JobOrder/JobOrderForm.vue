@@ -160,11 +160,6 @@ export default {
       type: Number,
       required: false,
       default: null
-    },
-    url: {
-      type: String,
-      required: false,
-      default: null
     }
   },
   data () {
@@ -174,6 +169,7 @@ export default {
       salutations,
       accountTypes,
       form: new Form({
+        pin: '',
         salutation: salutations[0],
         first_name: null,
         last_name: null,
@@ -211,6 +207,7 @@ export default {
   },
   mounted () {
     this.form = new Form({
+      pin: '',
       salutation: salutations[0],
       first_name: null,
       last_name: null,
@@ -239,9 +236,23 @@ export default {
     ...mapActions({
       getJobOrder: 'job-order/get'
     }),
-    submit () {
+    async submit () {
+      const { value } = await this.$prompt('Please enter PIN.', 'PIN Required', {
+        type: 'info',
+        showCancelButton: false,
+        closeOnClickModal: false,
+        closeOnPressEscape: false,
+        closeOnHashChange: false,
+        inputType: 'password'
+      })
+
+      this.form.tech_pin = value
+      if (!this.form.tech_pin) {
+        await this.submit()
+      }
+
       this.processing = true
-      const url = this.isEditing ? `/api/job-orders/${this.jobOrderId}` : '/api/job-orders'
+      const url = this.isEditing ? `/tech/api/job-orders/${this.jobOrderId}` : '/tech/api/job-orders'
       const method = this.isEditing ? 'put' : 'post'
       this.form.submit(method, url)
         .then(({ data }) => {
