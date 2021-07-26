@@ -146,6 +146,27 @@ export default {
         user: {
           property: 'data'
         }
+      },
+      technicianLaravelJWT: {
+        provider: 'laravel/jwt',
+        url: '/tech/api/',
+        endpoints: {
+          login: { url: 'login', method: 'POST' },
+          logout: { url: 'logout', method: 'POST' },
+          refresh: { url: 'refresh', method: 'POST' },
+          user: false
+        },
+        token: {
+          property: 'access_token',
+          maxAge: 60 * 45
+        },
+        refreshToken: {
+          maxAge: 60 * 60,
+          tokenRequired: true
+        },
+        user: {
+          property: 'data'
+        }
       }
     },
     plugins: [
@@ -161,6 +182,14 @@ export default {
     prefix: '/'
   },
   proxy: {
+    [(process.env.ROUTER_BASE || '') + '/tech/api/']: {
+      target: process.env.API_URL,
+      prependPath: false,
+      pathRewrite: {
+        [process.env.ROUTER_BASE ? `^${process.env.ROUTER_BASE}/tech/api/` : '^/tech/api/']: '/api/tech/'
+      },
+      logLevel: process.env.PROXY_LOG_LEVEL || 'info'
+    },
     [(process.env.ROUTER_BASE || '') + '/api/']: {
       target: process.env.API_URL,
       prependPath: false,

@@ -42,7 +42,7 @@
             </el-select>
           </el-form-item>
           <input-description :errors="form.errors.get('bandwidth_profile')">
-            Select NAS for this Job Order.
+            Select PPPoE profile for this Job Order.
           </input-description>
         </el-col>
       </el-row>
