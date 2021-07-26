@@ -4,7 +4,9 @@
       <h2 class="h2 text-white">
         Submit Job Order
       </h2>
-      <job-order-form />
+      <card>
+        <job-order-form ref="jobOrderForm" hide-cancel-button />
+      </card>
     </div>
   </div>
 </template>
@@ -15,7 +17,7 @@ import JobOrderForm from '~/components/Technician/JobOrder/JobOrderForm'
 export default {
   auth: false,
   components: { JobOrderForm },
-  layout: 'simple'
+  layout: 'technician'
 }
 </script>
 

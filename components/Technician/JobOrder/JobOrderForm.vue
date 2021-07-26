@@ -126,8 +126,11 @@
         <base-button type="primary" :loading="processing" :disabled="loading" @click="submit()">
           Save
         </base-button>
-        <base-button @click="cancel()">
+        <base-button v-show="!hideCancelButton" @click="cancel()">
           Cancel
+        </base-button>
+        <base-button v-show="showResetButton" @click="confirmResetForm()">
+          Reset
         </base-button>
       </div>
     </el-form>
@@ -160,6 +163,16 @@ export default {
       type: Number,
       required: false,
       default: null
+    },
+    hideCancelButton: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    showResetButton: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   data () {
@@ -272,6 +285,12 @@ export default {
     cancel () {
       this.resetForm()
       this.$emit('cancel')
+    },
+    async confirmResetForm () {
+      const confirmed = await this.$confirm('Are you sure to reset form?', 'Reset Form')
+      if (confirmed) {
+        this.resetForm()
+      }
     },
     resetForm () {
       this.form.clear()
