@@ -31,8 +31,8 @@
               <base-input
                 id="password"
                 v-model="login.password"
+                show-password
                 addon-left-icon="tim-icons icon-lock-circle"
-                type="password"
               />
             </div>
           </div>

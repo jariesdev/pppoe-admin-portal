@@ -30,12 +30,12 @@
         </el-col>
         <el-col v-show="changePassword || !isEditing" :span="24">
           <el-form-item :label="(isEditing ? 'New' : '') + ' Password'" :required="!isEditing">
-            <el-input v-model="form.password" type="password" />
+            <el-input v-model="form.password" type="password" show-password />
           </el-form-item>
         </el-col>
         <el-col v-show="changePassword && isEditing" :span="24">
           <el-form-item :label="'Confirm Password'">
-            <el-input v-model="form.password_confirmation" type="password" />
+            <el-input v-model="form.password_confirmation" type="password" show-password />
           </el-form-item>
         </el-col>
       </el-row>
