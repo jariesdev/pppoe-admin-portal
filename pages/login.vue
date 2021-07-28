@@ -11,7 +11,8 @@
         </template>
         <FadeTransition>
           <div v-show="invalidCredentials" class="alert alert-danger" role="alert">
-            Invalid username/password.
+            <span v-if="statusCode >= 500">Server Error. Please contact system administrator.</span>
+            <span v-else>Invalid username/password.</span>
           </div>
         </FadeTransition>
         <form class="pb-3" @submit.prevent="userLogin">
@@ -31,8 +32,8 @@
               <base-input
                 id="password"
                 v-model="login.password"
+                show-password
                 addon-left-icon="tim-icons icon-lock-circle"
-                type="password"
               />
             </div>
           </div>
@@ -63,7 +64,8 @@ export default {
         username: '',
         password: ''
       },
-      loading: false
+      loading: false,
+      statusCode: null
     }
   },
   head () {
@@ -81,6 +83,7 @@ export default {
   methods: {
     async userLogin () {
       this.invalidCredentials = false
+      this.statusCode = null
       this.loading = true
       try {
         await this.$auth.loginWith('laravelJWT', { data: this.login })
@@ -92,10 +95,11 @@ export default {
               type: 'success'
             })
             this.$router.push('/')
-          }, () => {
+          }, ({ response: { status } }) => {
+            this.statusCode = status
             this.invalidCredentials = true
           })
-      } catch (err) {
+      } catch ({ response }) {
         this.$notify({
           message: 'Sorry, something went wrong. Try reloading the page.',
           type: 'danger'

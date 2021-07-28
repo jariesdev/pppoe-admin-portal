@@ -1,5 +1,5 @@
 const numberOnly = function (event) {
-  if (event.charCode === 46 && String(event.target.value).match(/\./).length === 0) {
+  if (event.charCode === 46 && String(event.target.value).match(/\./) === null) {
     // allow 1 dot
   } else if (event.charCode < 48 || event.charCode > 57) {
     event.preventDefault()

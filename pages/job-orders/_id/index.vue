@@ -1,8 +1,8 @@
 <template>
   <div class="job-order--details">
-    <JobOrderDetails :job-order-id="jobOrderId" @success="jobOrderLoaded" />
+    <JobOrderDetails ref="jobOrderDetails" :job-order-id="jobOrderId" @success="jobOrderLoaded" />
     <card v-if="showApprovalForm" title="Approve Job Order">
-      <JobOrderApprovalForm :job-order-id="jobOrderId" />
+      <JobOrderApprovalForm :job-order-id="jobOrderId" :plan-id="planId" @success="approvalSuccess" />
     </card>
     <div class="d-flex">
       <base-button @click="$router.back()">
@@ -32,7 +32,8 @@ export default {
     return {
       jobOrderId: null,
       showApprovalForm: false,
-      isApproved: true
+      isApproved: true,
+      planId: null
     }
   },
   fetch () {
@@ -50,6 +51,7 @@ export default {
     jobOrderLoaded (jobOrder) {
       this.isApproved = jobOrder.is_approved
       this.showApprovalForm = !this.isApproved
+      this.planId = jobOrder.plan_id
     },
     async confirmDelete () {
       const confirmed = await this.$confirm('Are you sure to delete this Job Order?', {
@@ -72,6 +74,9 @@ export default {
         .catch(() => {
           this.showRequestErrorMessage()
         })
+    },
+    approvalSuccess () {
+      this.$refs.jobOrderDetails.$fetch()
     }
   }
 }
