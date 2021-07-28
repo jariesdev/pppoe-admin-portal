@@ -6,7 +6,7 @@
       <el-row :gutter="15" class="flex-wrap mb-3" type="flex">
         <el-col :lg="12" :span="24">
           <el-form-item label="Plan Name" required>
-            <el-input v-model="form.description" placeholder="e.g. Unlimited 2 days plan" />
+            <el-input v-model="form.description" placeholder="e.g. Plan 1999" />
           </el-form-item>
         </el-col>
         <el-col :lg="12" :span="24">
