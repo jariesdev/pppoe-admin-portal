@@ -202,16 +202,18 @@ export default {
         misc_remarks: null,
         amount_paid: null
       }),
-      partnerBranches: []
+      partnerBranches: [],
+      plans: []
     }
   },
   async fetch () {
-    await this.$store.dispatch('plan/load')
     await this.$store.dispatch('city/loadCities')
+    this.plans = await this.$axios.$get('/tech/api/plans')
+      .then(({ data }) => data)
+      .catch(() => [])
   },
   computed: {
     ...mapState({
-      plans: state => state.plan.plans,
       cities: state => state.city.cities
     }),
     isEditing () {
