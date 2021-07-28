@@ -1,8 +1,8 @@
 <template>
   <div class="job-order--details">
-    <JobOrderDetails :job-order-id="jobOrderId" @success="jobOrderLoaded" />
+    <JobOrderDetails ref="jobOrderDetails" :job-order-id="jobOrderId" @success="jobOrderLoaded" />
     <card v-if="showApprovalForm" title="Approve Job Order">
-      <JobOrderApprovalForm :job-order-id="jobOrderId" :plan-id="planId" />
+      <JobOrderApprovalForm :job-order-id="jobOrderId" :plan-id="planId" @success="approvalSuccess" />
     </card>
     <div class="d-flex">
       <base-button @click="$router.back()">
@@ -74,6 +74,9 @@ export default {
         .catch(() => {
           this.showRequestErrorMessage()
         })
+    },
+    approvalSuccess () {
+      this.$refs.jobOrderDetails.$fetch()
     }
   }
 }
