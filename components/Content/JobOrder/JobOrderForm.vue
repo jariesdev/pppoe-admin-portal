@@ -74,7 +74,7 @@
         <el-col :lg="12" :span="24">
           <el-form-item label="Plan" required>
             <el-select v-model="form.plan_id" class="d-block">
-              <el-option v-for="plan in plans" :key="plan.id" :label="plan.rate_limit" :value="plan.id" />
+              <el-option v-for="plan in plans" :key="plan.id" :label="plan.description" :value="plan.id" />
             </el-select>
           </el-form-item>
         </el-col>
