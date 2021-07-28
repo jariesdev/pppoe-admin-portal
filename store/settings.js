@@ -4,7 +4,8 @@ export const state = () => {
   return {
     darkMode: true,
     backgroundColor: '',
-    generalSettings: {}
+    generalSettings: {},
+    paymentSettings: {}
   }
 }
 
@@ -13,6 +14,10 @@ export const mutations = {
     const generalSettings = find(settingValues, { group: 'general' })
     if (generalSettings) {
       state.generalSettings = generalSettings.settings
+    }
+    const paymentSettings = find(settingValues, { group: 'payment' })
+    if (paymentSettings) {
+      state.paymentSettings = paymentSettings.settings
     }
   },
   backgroundColor (state, value) {

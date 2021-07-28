@@ -49,14 +49,6 @@
           <el-input v-model="form.soc_med_link" />
           <input-description>{{ getSettingDescription('soc_med_link') }}</input-description>
         </el-form-item>
-        <el-form-item label="Bank account">
-          <el-input v-model="form.bank_account" />
-          <input-description>{{ getSettingDescription('bank_account') }}</input-description>
-        </el-form-item>
-        <el-form-item label="GCash">
-          <el-input v-model="form.g_cash" />
-          <input-description>{{ getSettingDescription('g_cash') }}</input-description>
-        </el-form-item>
         <base-button type="primary" :loading="form.busy" :disabled="initializing" @click="saveSettings()">
           Save Settings
         </base-button>
@@ -83,9 +75,7 @@ export default {
         system_logo: null,
         disconnect_after: null,
         company_contact: null,
-        soc_med_link: null,
-        bank_account: null,
-        g_cash: null
+        soc_med_link: null
       })
     }
   },
@@ -102,16 +92,11 @@ export default {
   },
   methods: {
     initializedSettings () {
-      this.form.fill({
-        company_name: this.getSettingValue('company_name'),
-        company_address: this.getSettingValue('company_address'),
-        system_logo: this.getSettingValue('system_logo'),
-        disconnect_after: this.getSettingValue('disconnect_after'),
-        company_contact: this.getSettingValue('company_contact'),
-        soc_med_link: this.getSettingValue('soc_med_link'),
-        bank_account: this.getSettingValue('bank_account'),
-        g_cash: this.getSettingValue('g_cash')
-      })
+      const formValues = {}
+      for (const key of this.form.keys()) {
+        formValues[key] = this.getSettingValue(key)
+      }
+      this.form.fill(formValues)
     },
     getSettingValue (key) {
       const found = find(this.generalSettings, { name: key })
