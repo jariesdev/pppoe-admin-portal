@@ -101,11 +101,6 @@
           </el-form-item>
         </el-col>
         <el-col :lg="12" :span="24">
-          <el-form-item label="Amount Paid" required>
-            <el-input v-model="form.amount_paid" type="number" />
-          </el-form-item>
-        </el-col>
-        <el-col :lg="12" :span="24">
           <el-form-item label="Customer Profile" required>
             <el-input v-model="form.customer_profile" class="d-block" placeholder="e.g. Work From Home" />
           </el-form-item>
@@ -118,6 +113,11 @@
         <el-col :lg="24" :span="24">
           <el-form-item label="Misc. Remarks" required>
             <el-input v-model="form.misc_remarks" type="textarea" />
+          </el-form-item>
+        </el-col>
+        <el-col :lg="12" :span="24">
+          <el-form-item label="Amount Paid" required>
+            <el-input v-model="form.amount_paid" type="number" />
           </el-form-item>
         </el-col>
       </el-row>
