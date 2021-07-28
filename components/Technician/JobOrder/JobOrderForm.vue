@@ -97,7 +97,7 @@
         </el-col>
         <el-col :lg="12" :span="24">
           <el-form-item label="Password" required>
-            <el-input v-model="form.password" />
+            <el-input v-model="form.password" show-password />
           </el-form-item>
         </el-col>
         <el-col :lg="12" :span="24">
