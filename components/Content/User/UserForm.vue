@@ -4,7 +4,7 @@
       Enter values in the form below. Press "Save" to apply changes.
     </p>
     <alert-errors :form="form" />
-    <el-form label-position="top">
+    <el-form label-position="top" :disabled="initializingForm">
       <el-row :gutter="15" class="flex-wrap" type="flex">
         <el-col :span="24">
           <el-form-item label="Username" required>
@@ -43,7 +43,7 @@
         All <span class="text-danger">*</span> are required.
       </p>
       <div>
-        <base-button :loading="form.busy" type="primary" @click="submit()">
+        <base-button :loading="form.busy" type="primary" :disabled="initializingForm" @click="submit()">
           Save
         </base-button>
         <base-button :disabled="form.busy" @click="cancel()">
@@ -71,6 +71,7 @@ export default {
   },
   data () {
     return {
+      initializingForm: false,
       changePassword: false,
       form: new Form({
         username: null,
@@ -125,10 +126,15 @@ export default {
     },
     async loadEditData () {
       if (this.editUser) {
-        const employee = await this.$store.dispatch('employee/get', this.editUser)
-        this.$set(this.form, 'username', employee.username)
-        this.$set(this.form, 'name', employee.name)
-        this.$set(this.form, 'is_admin', employee.is_admin)
+        try {
+          this.initializingForm = true
+          const employee = await this.$store.dispatch('employee/get', this.editUser)
+          this.$set(this.form, 'username', employee.username)
+          this.$set(this.form, 'name', employee.name)
+          this.$set(this.form, 'is_admin', employee.is_admin)
+        } finally {
+          this.initializingForm = false
+        }
       }
     }
   }
