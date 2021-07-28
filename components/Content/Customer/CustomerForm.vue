@@ -6,7 +6,7 @@
       <el-row :gutter="15" class="flex-wrap" type="flex">
         <el-col :lg="4" :span="24">
           <el-form-item label="Title">
-            <el-select v-model="form.plan_id" class="d-block">
+            <el-select v-model="form.salutation" class="d-block">
               <el-option
                 v-for="(salutation,index) in salutations"
                 :key="index"
@@ -54,11 +54,16 @@
             <el-input v-model="form.address_2" class="d-block" />
           </el-form-item>
         </el-col>
-        <el-col :lg="24" :span="24">
+        <el-col :lg="12" :span="24">
           <el-form-item label="City" required>
             <el-select v-model="form.city_id" class="d-block">
               <el-option v-for="city in cities" :key="city.id" :label="city.name" :value="city.id" />
             </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :lg="12" :span="24">
+          <el-form-item label="Area Code" required>
+            <el-input v-model="form.area_code" class="d-block" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -215,7 +220,8 @@ export default {
         account_no: null,
         password: null,
         password_confirmation: null,
-        is_active: false
+        is_active: false,
+        area_code: null
       }),
       partnerBranches: [],
       changePassword: false
@@ -259,7 +265,8 @@ export default {
         misc_balance: customer.misc_balance,
         contract_start: customer.contract_start,
         account_no: customer.account_no,
-        is_active: Boolean(customer.is_active)
+        is_active: Boolean(customer.is_active),
+        area_code: customer.area_code
       })
       this.loading = false
     },
