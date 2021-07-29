@@ -2,12 +2,15 @@
   <div class="customer">
     <el-tabs v-model="activeTab">
       <el-tab-pane name="details" label="Details">
-        <CustomerDetails :customer-id="customerId">
+        <CustomerDetails ref="customerDetails" :customer-id="customerId" @loaded="customerDetailLoaded">
           <template #footer>
             <div class="d-flex">
               <div class="ml-auto" />
               <base-button class="mr-3" type="danger" @click="deleteCustomer()">
                 Delete
+              </base-button>
+              <base-button class="mr-2" :type="isInternetConnectionActive ? 'warning' : 'success'" :loading="activatingInternet" @click="toggleInternetConnection()">
+                {{ isInternetConnectionActive ? 'Deactivate Internet' : 'Activate Internet' }}
               </base-button>
               <base-button class="mr-2" type="warning" @click="disconnect()">
                 Disconnect Access
@@ -31,6 +34,7 @@
   </div>
 </template>
 <script>
+import { mapActions } from 'vuex'
 import CustomerDetails from '~/components/Content/Customer/CustomerDetails'
 import CustomerAccountSettings from '~/components/Content/Customer/CustomerAccountSettings'
 import alerts from '~/mixins/alerts'
@@ -43,12 +47,18 @@ export default {
   mixins: [alerts],
   data: () => ({
     customerId: null,
-    activeTab: 'details'
+    activeTab: 'details',
+    isInternetConnectionActive: false,
+    activatingInternet: false
   }),
   fetch () {
     this.customerId = parseInt(this.$route.params.customerId)
   },
   methods: {
+    ...mapActions({
+      activateInternet: 'customer/activateInternet',
+      deactivateInternet: 'customer/deactivateInternet'
+    }),
     async disconnect () {
       const confirmed = await this.$confirm('Are you sure to disconnect the user.', {
         type: 'warning',
@@ -94,6 +104,34 @@ export default {
         .catch(({ response: { data: { message } } }) => {
           this.showRequestErrorMessage()
         })
+    },
+    customerDetailLoaded (customer) {
+      this.isInternetConnectionActive = Boolean(customer.is_connection_active)
+    },
+    async toggleInternetConnection () {
+      try {
+        this.activatingInternet = true
+        if (this.isInternetConnectionActive) {
+          await this.deactivateInternet(this.customerId)
+          this.isInternetConnectionActive = false
+          this.$notify({
+            message: 'Customer Internet deactivated.',
+            type: 'success'
+          })
+        } else {
+          await this.activateInternet(this.customerId)
+          this.isInternetConnectionActive = true
+          this.$notify({
+            message: 'Customer Internet activated.',
+            type: 'success'
+          })
+        }
+        this.$refs.customerDetails.$fetch()
+      } catch (e) {
+        this.showRequestErrorMessage()
+      } finally {
+        this.activatingInternet = false
+      }
     }
   }
 }
