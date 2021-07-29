@@ -156,6 +156,19 @@
           <strong>{{ customer.changed_by }}</strong>
         </p>
       </div>
+      <div class="col-lg-6">
+        <p>
+          Disconnection type:
+          <strong>{{ customer.disconnection_type }}</strong>
+        </p>
+      </div>
+      <div class="col-lg-6">
+        <p>
+          Connection Active:
+          <span v-if="customer.is_connection_active" class="badge badge-success">Yes</span>
+          <span v-else class="badge badge-light">No</span>
+        </p>
+      </div>
     </div>
     <template #footer>
       <slot name="footer" />
@@ -179,7 +192,7 @@ export default {
   },
   async fetch () {
     this.customer = await this.$store.dispatch('customer/get', this.customerId)
-    this.$emit('success', this.customer)
+    this.$emit('loaded', this.customer)
   }
 }
 </script>
