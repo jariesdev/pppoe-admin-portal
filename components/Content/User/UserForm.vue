@@ -19,6 +19,12 @@
           <input-description>Use when logging in to system.</input-description>
         </el-col>
         <el-col :span="24">
+          <el-form-item label="PIN" required>
+            <el-input v-model="form.pin" show-password />
+          </el-form-item>
+          <input-description>This will use when accessing pages that require PIN.</input-description>
+        </el-col>
+        <el-col :span="24">
           <el-form-item>
             <el-checkbox v-model="form.is_admin">
               Is Administrator
@@ -132,6 +138,7 @@ export default {
           this.$set(this.form, 'username', employee.username)
           this.$set(this.form, 'name', employee.name)
           this.$set(this.form, 'is_admin', employee.is_admin)
+          this.$set(this.form, 'pin', employee.pin)
         } finally {
           this.initializingForm = false
         }
