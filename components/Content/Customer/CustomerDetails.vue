@@ -64,6 +64,12 @@
           <strong>{{ customer.bandwidth_profile.name }}</strong>
         </p>
       </div>
+      <div v-if="customer.nas" class="col-lg-6">
+        <p>
+          NAS:
+          <strong>{{ customer.nas.shortname }}</strong>
+        </p>
+      </div>
       <div class="col-lg-6">
         <p>
           Account type:
