@@ -71,9 +71,6 @@
       <div class="col-lg-6 col-xl-4">
         <router-clock :nas-id="nasId" />
       </div>
-      <div class="col-lg-6 col-xl-4">
-        <tr-client :nas-id="nasId" />
-      </div>
       <div class="col-xl-12">
         <nas-interfaces :nas-id="nasId" />
       </div>
@@ -87,8 +84,11 @@
       <div class="col-lg-6 col-xl-4">
         <pppoe-service :nas-id="nasId" />
       </div>
-      <div class="col-lg-6 col-xl-4">
+      <div class="col-lg-6 col-xl-6">
         <address-pools :nas-id="nasId" />
+      </div>
+      <div class="col-lg-6 col-xl-6">
+        <pppoe-profiles :nas-id="nasId" />
       </div>
     </div>
   </div>
@@ -99,22 +99,22 @@ import SystemInformation from '~/components/Content/NAS/Widgets/SystemInformatio
 import SystemTemperature from '~/components/Content/NAS/Widgets/SystemTemperature'
 import RouterFirmware from '~/components/Content/NAS/Widgets/RouterFirmware'
 import RouterClock from '~/components/Content/NAS/Widgets/RouterClock'
-import TrClient from '~/components/Content/NAS/Widgets/TrClient'
 import NasInterfaces from '~/components/Content/NAS/Widgets/NasInterfaces'
 import RadiusSetup from '~/components/Content/NAS/Widgets/RadiusSetup'
 import TrafficChart3 from '~/components/Content/NAS/Widgets/TrafficChart3'
 import PppoeService from '~/components/Content/NAS/Widgets/PppoeService'
 import AddressPools from '~/components/Content/NAS/Widgets/AddressPools'
+import PppoeProfiles from '~/components/Content/NAS/Widgets/PppoeProfiles'
 
 export default {
   name: 'ApDashboard',
   components: {
+    PppoeProfiles,
     AddressPools,
     PppoeService,
     TrafficChart3,
     RadiusSetup,
     NasInterfaces,
-    TrClient,
     RouterClock,
     RouterFirmware,
     SystemTemperature,

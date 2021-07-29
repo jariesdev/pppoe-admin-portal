@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { defaultDateTimeFormat } from '~/util/utilities'
+import { dateTimeFormat } from '~/util/utilities'
 
 const numeral = require('numeral')
 
@@ -43,5 +43,5 @@ Vue.filter('humanizeTimeAllocation', (value) => {
 })
 
 Vue.filter('formatDateAndTime', (value, options) => {
-  return defaultDateTimeFormat(value, options)
+  return dateTimeFormat(value, options)
 })

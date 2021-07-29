@@ -66,12 +66,6 @@
       </el-col>
       <el-col :span="24" :lg="12">
         <p>
-          Trial days:
-          <strong>{{ jobOrder.trial_days }}</strong>
-        </p>
-      </el-col>
-      <el-col :span="24" :lg="12">
-        <p>
           Contract start:
           <strong>{{ jobOrder.contract_start }}</strong>
         </p>

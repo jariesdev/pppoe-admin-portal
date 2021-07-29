@@ -17,6 +17,7 @@
 import { get } from 'lodash'
 import ServerTable from '~/components/Tables/ServerTable'
 import alertsMixin from '~/mixins/alerts'
+import { dateTimeFormat } from '~/util/utilities/index'
 
 const tableHeaders = [
   {
@@ -45,7 +46,8 @@ const tableHeaders = [
   },
   {
     label: 'Approved Date',
-    field: 'approved_date'
+    field: 'approved_date',
+    formatValue: value => dateTimeFormat(value, { format: 'MMM. d, yyyy' })
   },
   {
     label: 'Status',
