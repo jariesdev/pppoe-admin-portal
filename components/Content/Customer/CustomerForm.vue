@@ -76,7 +76,7 @@
             </el-checkbox>
           </el-form-item>
         </el-col>
-        <el-col :lg="12" :span="24">
+        <!--        <el-col :lg="12" :span="24">
           <el-form-item label="Plan" required>
             <el-select v-model="form.plan_id" class="d-block">
               <el-option v-for="plan in plans" :key="plan.id" :label="plan.rate_limit" :value="plan.id" />
@@ -94,7 +94,7 @@
               />
             </el-select>
           </el-form-item>
-        </el-col>
+        </el-col>-->
         <el-col :lg="12" :span="24">
           <el-form-item label="Account Type" required>
             <el-select v-model="form.account_type" class="d-block">
@@ -133,7 +133,7 @@
         </el-col>
         <el-col :lg="12" :span="24">
           <el-form-item label="Password" required>
-            <el-input v-model="form.rad_password" />
+            <el-input v-model="form.rad_password" show-password />
           </el-form-item>
         </el-col>
         <el-col :lg="12" :span="24">
