@@ -67,7 +67,7 @@ import ServerTable from '~/components/Tables/ServerTable'
 import TableActions from '~/components/Tables/TableActions'
 import TableCard from '~/components/Cards/TableCard'
 import alerts from '~/mixins/alerts'
-import { defaultDateTimeFormat } from '~/util/utilities'
+import { dateTimeFormat } from '~/util/utilities'
 
 const numeral = require('numeral')
 
@@ -96,7 +96,7 @@ const tableHeaders = [
   {
     label: 'Date Generated',
     field: 'created_at',
-    formatValue: value => defaultDateTimeFormat(value)
+    formatValue: value => dateTimeFormat(value)
   },
   {
     label: 'Actions',

@@ -47,7 +47,7 @@
 
 <script>
 import ServerTable from '~/components/Tables/ServerTable'
-import { defaultDateTimeFormat } from '~/util/utilities'
+import { dateTimeFormat } from '~/util/utilities'
 
 const headers = [
   {
@@ -57,7 +57,7 @@ const headers = [
   {
     label: 'Auth Date',
     field: 'authdate',
-    formatValue: value => defaultDateTimeFormat(value)
+    formatValue: value => dateTimeFormat(value)
   }
 ]
 

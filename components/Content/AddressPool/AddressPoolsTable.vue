@@ -21,7 +21,7 @@
 
 <script>
 import ServerTable from '~/components/Tables/ServerTable'
-import { defaultDateTimeFormat } from '~/util/utilities'
+import { dateTimeFormat } from '~/util/utilities'
 import AddressPoolForm from '~/components/Content/AddressPool/AddressPoolForm'
 import TableActions from '~/components/Tables/TableActions'
 
@@ -37,7 +37,7 @@ const tableHeaders = [
   {
     label: 'Date Created',
     field: 'created_at',
-    formatValue: value => defaultDateTimeFormat(value)
+    formatValue: value => dateTimeFormat(value)
   },
   {
     label: 'Actions',

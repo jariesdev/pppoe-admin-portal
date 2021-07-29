@@ -64,7 +64,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      getProfilePerPlan: 'bandwidth-profile/PerPlan'
+      getProfilePerPlan: 'bandwidth-profile/perPlan'
     }),
     async submit () {
       const confirmed = await this.$confirm(

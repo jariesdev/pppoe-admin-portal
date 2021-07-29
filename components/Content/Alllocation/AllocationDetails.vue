@@ -99,7 +99,8 @@
         <el-col>
           <p>
             Job Order:
-            <nuxt-link v-if="allocation.job_order_id" :to="`/job-orders/${allocation.job_order_id}`">View Job Order
+            <nuxt-link v-if="allocation.job_order_id" :to="`/job-orders/${allocation.job_order_id}`">
+              View Job Order
             </nuxt-link>
             <span v-else>-</span>
           </p>
@@ -109,7 +110,7 @@
   </card>
 </template>
 <script>
-import {defaultDateTimeFormat} from "~/util/utilities";
+import { dateTimeFormat } from '~/util/utilities'
 
 export default {
   name: 'AllocationDetails',
@@ -119,27 +120,27 @@ export default {
       required: true
     }
   },
-  async fetch() {
-    this.allocation = await this.$store.dispatch('allocation/get', this.allocationId)
-  },
-  data() {
+  data () {
     return {
       allocation: {}
     }
   },
+  async fetch () {
+    this.allocation = await this.$store.dispatch('allocation/get', this.allocationId)
+  },
   computed: {
-    isComplimentary() {
+    isComplimentary () {
       return this.allocation.mobile_number !== null
     },
-    isFree() {
-      if (this.allocation.price === null) return false
+    isFree () {
+      if (this.allocation.price === null) { return false }
 
       return Number(String(this.allocation.price).replace(/[^\d]/, '')) === 0
     }
   },
   methods: {
-    defaultDateTimeFormat(value) {
-      return defaultDateTimeFormat(value)
+    defaultDateTimeFormat (value) {
+      return dateTimeFormat(value)
     }
   }
 }

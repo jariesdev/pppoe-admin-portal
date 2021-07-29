@@ -36,7 +36,7 @@
 <script>
 import { mapActions } from 'vuex'
 import ServerTable from '~/components/Tables/ServerTable'
-import { defaultDateTimeFormat } from '~/util/utilities'
+import { dateTimeFormat } from '~/util/utilities'
 import UserForm from '~/components/Content/User/UserForm'
 import TableActions from '~/components/Tables/TableActions'
 import alerts from '~/mixins/alerts'
@@ -53,7 +53,7 @@ const tableHeaders = [
   {
     label: 'Date Added',
     field: 'created_at',
-    formatValue: value => defaultDateTimeFormat(value)
+    formatValue: value => dateTimeFormat(value)
   },
   {
     label: 'Actions',

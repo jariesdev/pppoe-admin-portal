@@ -107,7 +107,7 @@
 import { get } from 'lodash'
 import { mapState } from 'vuex'
 import ServerTable from '~/components/Tables/ServerTable'
-import { defaultDateTimeFormat } from '~/util/utilities'
+import { dateTimeFormat } from '~/util/utilities'
 import TableActions from '~/components/Tables/TableActions'
 import TableCard from '~/components/Cards/TableCard'
 
@@ -151,12 +151,12 @@ const tableHeaders = [
   {
     label: 'Date sold',
     field: 'date_sold',
-    formatValue: value => defaultDateTimeFormat(value)
+    formatValue: value => dateTimeFormat(value)
   },
   {
     label: 'Date Created',
     field: 'created_at',
-    formatValue: value => defaultDateTimeFormat(value)
+    formatValue: value => dateTimeFormat(value)
   }
   // {
   //   label: 'Actions',

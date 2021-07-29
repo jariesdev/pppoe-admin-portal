@@ -32,7 +32,7 @@
 import { mapActions } from 'vuex'
 import ServerTable from '~/components/Tables/ServerTable'
 import TableActions from '~/components/Tables/TableActions'
-import { defaultDateTimeFormat } from '~/util/utilities'
+import { dateTimeFormat } from '~/util/utilities'
 import BandwidthProfileForm from '~/components/Content/BandwidthProfile/BandwidthProfileForm'
 import alerts from '~/mixins/alerts'
 
@@ -52,12 +52,12 @@ const tableHeaders = [
   {
     label: 'Date Created',
     field: 'created_at',
-    formatValue: value => defaultDateTimeFormat(value)
+    formatValue: value => dateTimeFormat(value)
   },
   {
     label: 'Last Updated',
     field: 'updated_at',
-    formatValue: value => defaultDateTimeFormat(value)
+    formatValue: value => dateTimeFormat(value)
   },
   {
     label: 'actions',
