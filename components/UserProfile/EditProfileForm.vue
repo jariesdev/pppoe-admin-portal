@@ -33,7 +33,7 @@
         <div class="col-md-6">
           <base-input
             v-model="user.password"
-            type="password"
+            show-password
             label="Password"
             placeholder="Password"
           />
@@ -41,7 +41,7 @@
         <div class="col-md-6">
           <base-input
             v-model="user.password_confirmation"
-            type="password"
+            show-password
             label="Confirm Password"
             placeholder="Retype Password"
           />

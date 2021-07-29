@@ -26,6 +26,12 @@
       </div>
       <div class="col-lg-6">
         <p>
+          Email:
+          <strong>{{ customer.email }}</strong>
+        </p>
+      </div>
+      <div class="col-lg-6">
+        <p>
           Address 1:
           <strong>{{ customer.address_1 }}</strong>
         </p>
@@ -42,10 +48,10 @@
           <strong>{{ customer.city.name }}</strong>
         </p>
       </div>
-      <div class="col-lg-6">
+      <div v-if="customer.city" class="col-lg-6">
         <p>
-          Email:
-          <strong>{{ customer.email }}</strong>
+          Area Code:
+          <strong>{{ customer.area_code }}</strong>
         </p>
       </div>
     </div>

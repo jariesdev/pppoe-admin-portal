@@ -74,7 +74,7 @@
         <el-col :lg="12" :span="24">
           <el-form-item label="Plan" required>
             <el-select v-model="form.plan_id" class="d-block">
-              <el-option v-for="plan in plans" :key="plan.id" :label="plan.rate_limit" :value="plan.id" />
+              <el-option v-for="plan in plans" :key="plan.id" :label="plan.description" :value="plan.id" />
             </el-select>
           </el-form-item>
         </el-col>
@@ -97,12 +97,7 @@
         </el-col>
         <el-col :lg="12" :span="24">
           <el-form-item label="Password" required>
-            <el-input v-model="form.password" />
-          </el-form-item>
-        </el-col>
-        <el-col :lg="12" :span="24">
-          <el-form-item label="Amount Paid" required>
-            <el-input v-model="form.amount_paid" type="number" />
+            <el-input v-model="form.password" show-password />
           </el-form-item>
         </el-col>
         <el-col :lg="12" :span="24">
@@ -118,6 +113,11 @@
         <el-col :lg="24" :span="24">
           <el-form-item label="Misc. Remarks" required>
             <el-input v-model="form.misc_remarks" type="textarea" />
+          </el-form-item>
+        </el-col>
+        <el-col :lg="12" :span="24">
+          <el-form-item label="Amount Paid" required>
+            <el-input v-model="form.amount_paid" type="number" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -186,7 +186,7 @@ export default {
         email: null,
         customer_profile: null,
         plan_id: null,
-        account_type: null,
+        account_type: accountTypeConstants.REGULAR,
         username: null,
         password: null,
         misc_fee: null,
@@ -223,7 +223,7 @@ export default {
       email: null,
       customer_profile: null,
       plan_id: null,
-      account_type: null,
+      account_type: accountTypeConstants.REGULAR,
       username: null,
       password: null,
       misc_fee: null,

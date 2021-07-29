@@ -72,8 +72,22 @@ export default {
   data () {
     const tableActions = [
       {
+        label: 'Edit',
+        icon: 'tim-icons icon-pencil',
+        on: {
+          click: ({ id }) => {
+            if (this.$auth.user.id === id) {
+              this.$router.push('/user')
+            }
+            this.editUserId = id
+            this.showUserFormDialog()
+          }
+        }
+      },
+      {
         label: 'Delete',
         icon: 'tim-icons icon-simple-remove text-danger',
+        disabled: ({ id }) => this.$auth.user.id === id,
         on: {
           click: async ({ id }) => {
             const confirmed = await this.$confirm(

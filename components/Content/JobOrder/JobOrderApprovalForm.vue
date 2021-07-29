@@ -17,7 +17,7 @@
         </el-col>
         <el-col :span="24" :lg="12">
           <el-form-item label="Assigned NAS">
-            <el-select v-model="form.nas_id" class="d-block">
+            <el-select v-model="form.nas_id" class="d-block" clearable @change="loadPppoeProfiles()">
               <el-option
                 v-for="nas in nasOptions"
                 :key="nas.id"
@@ -32,12 +32,12 @@
         </el-col>
         <el-col :span="24" :lg="12">
           <el-form-item label="PPPoE Profile">
-            <el-select v-model="form.bandwidth_profile" class="d-block">
+            <el-select v-model="form.bandwidth_profile" class="d-block" :disabled="!form.nas_id" :loading="loadingProfiles">
               <el-option
-                v-for="bandwidthProfile in bandwidthProfiles"
-                :key="bandwidthProfile.id"
-                :label="`${bandwidthProfile.name} `"
-                :value="bandwidthProfile.id"
+                v-for="profile in pppoeProfiles"
+                :key="profile.id"
+                :label="`${profile.name} `"
+                :value="profile.id"
               />
             </el-select>
           </el-form-item>
@@ -68,26 +68,31 @@ export default {
     jobOrderId: {
       type: Number,
       required: true
+    },
+    planId: {
+      type: Number,
+      required: true
     }
   },
   data () {
     return {
+      jobOrder: null,
       processing: false,
       formValid: false,
       form: new Form({
         contract_start: null,
         nas_id: null,
         bandwidth_profile: null
-      })
+      }),
+      pppoeProfiles: [],
+      loadingProfiles: false
     }
   },
   async fetch () {
-    await this.$store.dispatch('bandwidth-profile/load')
     await this.$store.dispatch('nas/load')
   },
   computed: {
     ...mapState({
-      bandwidthProfiles: state => state['bandwidth-profile'].bandwidthProfiles || [],
       nasOptions: state => state.nas.allNas
     })
   },
@@ -113,6 +118,27 @@ export default {
         })
         .finally(() => {
           this.processing = false
+        })
+    },
+    async loadPppoeProfiles () {
+      const nasId = this.form.nas_id
+      const planId = this.planId
+
+      if (!nasId || !planId) {
+        this.form.bandwidth_profile = null
+        this.pppoeProfiles = []
+        return
+      }
+
+      this.loadingProfiles = true
+      this.pppoeProfiles = await this.$axios.$post('/api/profile-per-plan', {
+        nas_id: nasId,
+        plan_id: planId
+      })
+        .then(({ data }) => data)
+        .catch(() => [])
+        .finally(() => {
+          this.loadingProfiles = false
         })
     }
   }

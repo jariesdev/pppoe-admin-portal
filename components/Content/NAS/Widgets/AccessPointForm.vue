@@ -15,7 +15,7 @@
         <el-input v-model="form.ap_username" />
       </el-form-item>
       <el-form-item label="Password" required>
-        <el-input v-model="form.ap_password" type="password" />
+        <el-input v-model="form.ap_password" type="password" show-password />
       </el-form-item>
       <p class="text-muted text-right font-italic">
         All <span class="text-danger">*</span> fields are required.

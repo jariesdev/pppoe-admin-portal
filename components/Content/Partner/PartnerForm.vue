@@ -66,12 +66,12 @@
       </el-col>
       <el-col v-if="!isEditing || changePassword && isEditing" :span="12">
         <el-form-item label="Password" required>
-          <el-input v-model="form.password" type="password" />
+          <el-input v-model="form.password" type="password" show-password />
         </el-form-item>
       </el-col>
       <el-col v-if="!isEditing || changePassword && isEditing" :span="12">
         <el-form-item label="Confirm Password" required>
-          <el-input v-model="form.password_confirmation" type="password" />
+          <el-input v-model="form.password_confirmation" type="password" show-password />
         </el-form-item>
       </el-col>
     </el-row>

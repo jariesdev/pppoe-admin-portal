@@ -6,24 +6,24 @@
       <el-row :gutter="15" class="flex-wrap mb-3" type="flex">
         <el-col :lg="12" :span="24">
           <el-form-item label="Plan Name" required>
-            <el-input v-model="form.description" placeholder="e.g. Unlimited 2 days plan" />
+            <el-input v-model="form.description" placeholder="e.g. Plan 1999" />
           </el-form-item>
         </el-col>
         <el-col :lg="12" :span="24">
           <el-form-item label="PPPoE Profile" required>
-            <el-select v-model="form.rate_limit" class="d-block" placeholder="Select Rate Limit">
+            <el-select v-model="form.rate_limit" class="d-block" placeholder="Select Profile">
               <el-option
-                v-for="bandwidthProfile in bandwidthProfiles"
-                :key="bandwidthProfile.id"
-                :label="bandwidthProfile.name"
-                :value="bandwidthProfile.rate_limit"
+                v-for="rateLimit in rateLimits"
+                :key="rateLimit.rate_limit"
+                :label="rateLimit.rate_limit"
+                :value="rateLimit.rate_limit"
               />
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :lg="12" :span="24" class="break-after">
           <el-form-item label="Price" required>
-            <el-input v-model="form.price" type="number" />
+            <el-input v-model="form.price" v-numeral type="number" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -31,7 +31,7 @@
         All <span class="text-danger">*</span> fields are required.
       </p>
       <div>
-        <base-button type="primary" @click="submit()">
+        <base-button type="primary" :loading="form.busy" @click="submit()">
           Save
         </base-button>
         <base-button @click="cancel()">
@@ -43,6 +43,7 @@
 </template>
 <script>
 import { Form } from 'vform'
+import { mapState } from 'vuex'
 import { radiusAttributes } from '~/assets/js/constants'
 import alerts from '~/mixins/alerts'
 
@@ -84,15 +85,17 @@ export default {
         expire_after: null,
         rate_limit: null,
         price: null
-      }),
-      bandwidthProfiles: []
+      })
     }
   },
   async fetch () {
-    this.bandwidthProfiles = await this.$store.dispatch('bandwidth-profile/load')
+    await this.$store.dispatch('rate-limit/load')
     await this.loadEditData()
   },
   computed: {
+    ...mapState({
+      rateLimits: state => state['rate-limit'].rateLimits
+    }),
     isEditing () {
       return this.editPlan !== null
     }
