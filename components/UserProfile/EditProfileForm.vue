@@ -14,12 +14,20 @@
             placeholder="Username"
           />
         </div>
-        <div class="col-md-8">
+        <div class="col-md-12">
           <base-input
             v-model="user.name"
             type="text"
             label="Name"
             placeholder="name"
+          />
+        </div>
+        <div class="col-md-6">
+          <base-input
+            v-model="user.pin"
+            label="PIN"
+            placeholder="1234"
+            show-password
           />
         </div>
       </div>
@@ -68,7 +76,8 @@ export default {
         username: this.$auth.user.username,
         name: this.$auth.user.name,
         password: null,
-        password_confirmation: null
+        password_confirmation: null,
+        pin: this.$auth.user.pin
       })
     }
   },
@@ -80,7 +89,7 @@ export default {
       }
 
       try {
-        this.user.post('/api/my-info')
+        this.user.post('/api/my-account')
         this.$notify({
           type: 'success',
           message: 'Account updated.'
@@ -92,4 +101,3 @@ export default {
   }
 }
 </script>
-<style></style>
