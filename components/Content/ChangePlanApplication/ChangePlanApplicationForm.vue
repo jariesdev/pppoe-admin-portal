@@ -19,14 +19,9 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="Change Type" required>
-            <el-select v-model="form.change_type">
-              <el-option value="upgrade">
-                Upgrade
-              </el-option>
-              <el-option value="downgrade">
-                Downgrade
-              </el-option>
+          <el-form-item label="Plan" required>
+            <el-select v-model="form.plan_id" disabled>
+              <el-option v-for="plan in plans" :key="plan.id" :value="plan.id" :label="plan.description" />
             </el-select>
           </el-form-item>
         </el-col>
@@ -34,13 +29,6 @@
           <el-form-item label="Nas" required>
             <el-select v-model="form.nas_id" clearable @change="loadBandwidthProfiles()">
               <el-option v-for="nas in allNas" :key="nas.id" :value="nas.id" :label="nas.shortname" />
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="Plan" required>
-            <el-select v-model="form.plan_id" disabled>
-              <el-option v-for="plan in plans" :key="plan.id" :value="plan.id" :label="plan.description" />
             </el-select>
           </el-form-item>
         </el-col>
@@ -115,9 +103,6 @@ export default {
     }),
     async submit () {
       const formData = this.form.data()
-      console.log(formData)
-      return
-      // eslint-disable-next-line no-unreachable
       try {
         const url = `/api/changePlan-applications/${this.changePlanApplicationId}/approve`
         const { data: { data, message } } = await this.form.post(url, formData)
