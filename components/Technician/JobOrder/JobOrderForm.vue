@@ -17,20 +17,30 @@
               />
             </el-select>
           </el-form-item>
+          <input-description :errors="getFormErrors('salutation')" />
         </el-col>
         <el-col :lg="10" :span="24">
           <el-form-item label="First Name" required>
             <el-input v-model="form.first_name" class="d-block" />
+            <input-description :errors="getFormErrors('first_name')">
+              Customer's first name.
+            </input-description>
           </el-form-item>
         </el-col>
         <el-col :lg="10" :span="24">
           <el-form-item label="Last Name" required>
             <el-input v-model="form.last_name" class="d-block" />
+            <input-description :errors="getFormErrors('last_name')">
+              Customer's last name.
+            </input-description>
           </el-form-item>
         </el-col>
         <el-col :lg="12" :span="24">
           <el-form-item label="Age" required>
             <el-input v-model="form.age" type="number" class="d-block" />
+            <input-description :errors="getFormErrors('age')">
+              Customer's age.
+            </input-description>
           </el-form-item>
         </el-col>
       </el-row>
@@ -39,21 +49,33 @@
         <el-col :lg="12" :span="24">
           <el-form-item label="Email" required>
             <el-input v-model="form.email" type="email" class="d-block" />
+            <input-description :errors="getFormErrors('email')">
+              Customer's email address.
+            </input-description>
           </el-form-item>
         </el-col>
         <el-col :lg="12" :span="24">
           <el-form-item label="Mobile Number" required>
             <el-input v-model="form.mobile_no" class="d-block" />
+            <input-description :errors="getFormErrors('mobile_no')">
+              Customer's mobile number.
+            </input-description>
           </el-form-item>
         </el-col>
         <el-col :lg="24" :span="24">
           <el-form-item label="Address 1" required>
             <el-input v-model="form.address_1" class="d-block" />
+            <input-description :errors="getFormErrors('address_1')">
+              address line 1 e.g. street
+            </input-description>
           </el-form-item>
         </el-col>
         <el-col :lg="24" :span="24">
           <el-form-item label="Address 2">
             <el-input v-model="form.address_2" class="d-block" />
+            <input-description :errors="getFormErrors('address_2')">
+              Address line 2.
+            </input-description>
           </el-form-item>
         </el-col>
         <el-col :lg="24" :span="24">
@@ -61,11 +83,17 @@
             <el-select v-model="form.city_id" class="d-block" filterable>
               <el-option v-for="city in cities" :key="city.id" :label="city.name" :value="city.id" />
             </el-select>
+            <input-description :errors="getFormErrors('city_id')">
+              Customer city.
+            </input-description>
           </el-form-item>
         </el-col>
         <el-col :lg="24" :span="24">
           <el-form-item label="Area Code">
             <el-input v-model="form.area_code" class="d-block" />
+            <input-description :errors="getFormErrors('area_code')">
+              Customer area code.
+            </input-description>
           </el-form-item>
         </el-col>
       </el-row>
@@ -76,6 +104,9 @@
             <el-select v-model="form.plan_id" class="d-block">
               <el-option v-for="plan in plans" :key="plan.id" :label="plan.description" :value="plan.id" />
             </el-select>
+            <input-description :errors="getFormErrors('plan_id')">
+              Select plan customer applying for.
+            </input-description>
           </el-form-item>
         </el-col>
         <el-col :lg="12" :span="24">
@@ -88,36 +119,57 @@
                 :value="accountType.value"
               />
             </el-select>
+            <input-description :errors="getFormErrors('account_type')">
+              Customer's account type.
+            </input-description>
           </el-form-item>
         </el-col>
         <el-col :lg="12" :span="24">
           <el-form-item label="Username" required>
             <el-input v-model="form.username" />
+            <input-description :errors="getFormErrors('username')">
+              Username use to access customer's portal.
+            </input-description>
           </el-form-item>
         </el-col>
         <el-col :lg="12" :span="24">
           <el-form-item label="Password" required>
             <el-input v-model="form.password" show-password />
+            <input-description :errors="getFormErrors('password')">
+              Account password use to access customer's portal.
+            </input-description>
           </el-form-item>
         </el-col>
         <el-col :lg="12" :span="24">
           <el-form-item label="Customer Profile" required>
             <el-input v-model="form.customer_profile" class="d-block" placeholder="e.g. Work From Home" />
+            <input-description :errors="getFormErrors('customer_profile')">
+              Account type hint.
+            </input-description>
           </el-form-item>
         </el-col>
         <el-col :lg="12" :span="24">
           <el-form-item label="Misc. Fee" required>
             <el-input v-model="form.misc_fee" type="number" />
+            <input-description :errors="getFormErrors('misc_fee')">
+              Additional fee not including on the plan.
+            </input-description>
           </el-form-item>
         </el-col>
         <el-col :lg="24" :span="24">
           <el-form-item label="Misc. Remarks" required>
             <el-input v-model="form.misc_remarks" type="textarea" />
+            <input-description :errors="getFormErrors('misc_remarks')">
+              Brief details for misc fee.
+            </input-description>
           </el-form-item>
         </el-col>
         <el-col :lg="12" :span="24">
           <el-form-item label="Amount Paid" required>
             <el-input v-model="form.amount_paid" type="number" />
+            <input-description :errors="getFormErrors('amount_paid')">
+              Amount paid by the user related to misc.
+            </input-description>
           </el-form-item>
         </el-col>
       </el-row>
@@ -246,6 +298,8 @@ export default {
     if (this.isEditing) {
       this.initializeForm()
     }
+
+    this.$fetch()
   },
   methods: {
     ...mapActions({
@@ -336,6 +390,11 @@ export default {
         misc_remarks: jobOrder.misc_remarks,
         amount_paid: jobOrder.amount_paid
       })
+    },
+    getFormErrors (key) {
+      return this.form.errors && typeof this.form.errors.has === 'function' && this.form.errors.has(key)
+        ? this.form.errors.get(key)
+        : null
     }
   }
 }
