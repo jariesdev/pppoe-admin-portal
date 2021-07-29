@@ -24,7 +24,7 @@
         </div>
         <div class="col-6 col-lg-4 mb-2">
           <strong class="pr-2">Approved Date:</strong>
-          <span>{{ planApplication.approved_date }}
+          <span>{{ planApplication.approved_date | formatDateAndTime({format: 'MMM d, yyyy'}) }}
           </span>
         </div>
       </div>

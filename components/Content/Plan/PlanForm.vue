@@ -10,8 +10,8 @@
           </el-form-item>
         </el-col>
         <el-col :lg="12" :span="24">
-          <el-form-item label="PPPoE Profile" required>
-            <el-select v-model="form.rate_limit" class="d-block" placeholder="Select Profile">
+          <el-form-item label="Rate Limit" required>
+            <el-select v-model="form.rate_limit" class="d-block" placeholder="Select rate limit">
               <el-option
                 v-for="rateLimit in rateLimits"
                 :key="rateLimit.rate_limit"

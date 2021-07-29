@@ -19,28 +19,16 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="Change Type" required>
-            <el-select v-model="form.change_type">
-              <el-option value="upgrade">
-                Upgrade
-              </el-option>
-              <el-option value="downgrade">
-                Downgrade
-              </el-option>
+          <el-form-item label="Plan" required>
+            <el-select v-model="form.plan_id" disabled>
+              <el-option v-for="plan in plans" :key="plan.id" :value="plan.id" :label="plan.description" />
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item label="Nas" required>
-            <el-select v-model="form.nas_id">
+            <el-select v-model="form.nas_id" clearable @change="loadBandwidthProfiles()">
               <el-option v-for="nas in allNas" :key="nas.id" :value="nas.id" :label="nas.shortname" />
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="Plan" required>
-            <el-select v-model="form.plan_id">
-              <el-option v-for="plan in plans" :key="plan.id" :value="plan.id" :label="plan.description" />
             </el-select>
           </el-form-item>
         </el-col>
@@ -85,6 +73,7 @@ export default {
   data () {
     return {
       initializing: false,
+      bandwidthProfiles: [],
       form: new Form({
         plan_id: null,
         nas_id: null,
@@ -97,13 +86,11 @@ export default {
   async fetch () {
     await this.$store.dispatch('nas/load')
     await this.$store.dispatch('plan/load')
-    await this.$store.dispatch('bandwidth-profile/load')
   },
   computed: {
     ...mapState({
       allNas: state => state.nas.allNas,
-      plans: state => state.plan.plans,
-      bandwidthProfiles: state => state['bandwidth-profile'].bandwidthProfiles
+      plans: state => state.plan.plans
     })
   },
   mounted () {
@@ -111,14 +98,14 @@ export default {
   },
   methods: {
     ...mapActions({
-      getBranch: 'branch/get'
+      getBranch: 'branch/get',
+      getProfilePerPlan: 'bandwidth-profile/perPlan'
     }),
     async submit () {
       const formData = this.form.data()
-
       try {
         const url = `/api/changePlan-applications/${this.changePlanApplicationId}/approve`
-        const { data, message } = await this.form.post(url, formData)
+        const { data: { data, message } } = await this.form.post(url, formData)
 
         this.$emit('success', data)
         this.$notify({
@@ -144,14 +131,29 @@ export default {
           .$get(`/api/changePlan-applications/${this.changePlanApplicationId}`)
           .then(({ data }) => data)
         this.form.fill({
-          plan_id: planApplication.plan_id,
+          plan_id: planApplication.applied_plan.id,
           nas_id: planApplication.nas_id,
           bandwidth_profile: planApplication.bandwidth_profile,
-          status: planApplication.status,
           change_type: planApplication.change_type
         })
       } finally {
         this.initializing = false
+      }
+    },
+    async loadBandwidthProfiles () {
+      if (!this.form.nas_id) {
+        this.$set(this.form, 'bandwidth_profile', null)
+        this.bandwidthProfiles = []
+        return
+      }
+
+      try {
+        this.bandwidthProfiles = await this.getProfilePerPlan({
+          planId: this.form.plan_id,
+          nasId: this.form.nas_id
+        })
+      } catch (e) {
+        this.bandwidthProfiles = []
       }
     }
   }
