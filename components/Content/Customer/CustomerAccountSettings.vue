@@ -2,26 +2,13 @@
   <div class="account-settings" title="Account Settings">
     <el-tabs tab-position="left" value="bandwidth-profile" type="border-card" class="mb-3">
       <el-tab-pane name="bandwidth-profile" label="PPPoE Profile">
-        <div>
-          <el-form>
-            <el-form-item label="PPPoE Profile">
-              <el-select v-model="bandwidthProfile" class="d-block">
-                <el-option
-                  v-for="profile in bandwidthProfiles"
-                  :key="profile.id"
-                  :value="profile.id"
-                  :label="profile.name"
-                />
-              </el-select>
-            </el-form-item>
-          </el-form>
-          <div class="d-flex">
-            <div class="ml-auto" />
-            <base-button type="primary" size="sm" :loading="updatingBandwidthProfile" @click="updateBandwidthProfile()">
-              Save
-            </base-button>
-          </div>
-        </div>
+        <pppoe-profile-setting
+          v-if="customerPlanId && customerNasId"
+          :customer-id="customerId"
+          :plan-id="customerPlanId"
+          :nas-id="customerNasId"
+          :bandwidth-profile-id="customerBandwidthProfileId"
+        />
       </el-tab-pane>
       <el-tab-pane name="account-plan" label="Account Plan">
         <div>
@@ -33,7 +20,12 @@
             </el-form-item>
             <el-form-item v-show="planChanged" label="Select NAS">
               <el-select v-model="accountPlan.nas_id" class="d-block">
-                <el-option v-for="nas in nasItems" :key="nas.id" :value="nas.id" :label="`${nas.ap_address} (${nas.shortname})`" />
+                <el-option
+                  v-for="nas in nasItems"
+                  :key="nas.id"
+                  :value="nas.id"
+                  :label="`${nas.ap_address} (${nas.shortname})`"
+                />
               </el-select>
             </el-form-item>
             <el-form-item v-show="planChanged" label="PPPoE Profile">
@@ -56,12 +48,8 @@
                 />
               </el-select>
             </el-form-item>
-            <el-form-item v-show="planChanged" label="Set auto assign">
-              <el-checkbox v-model="accountPlan.auto_assign" class="d-block">
-                Auto Assign
-              </el-checkbox>
-            </el-form-item>
-          </el-form><div class="d-flex">
+          </el-form>
+          <div class="d-flex">
             <div class="ml-auto" />
             <base-button type="primary" size="sm" :loading="updatingAccountPlan" @click="updateAccountPlan()">
               Save
@@ -74,8 +62,10 @@
 </template>
 
 <script>
+import { get } from 'lodash'
 import { mapState } from 'vuex'
 import alerts from '~/mixins/alerts'
+import PppoeProfileSetting from '~/components/Content/Customer/AccountSetting/PppoeProfileSetting'
 
 const planChangeTypes = [
   {
@@ -90,6 +80,7 @@ const planChangeTypes = [
 
 export default {
   name: 'CustomerAccountSettings',
+  components: { PppoeProfileSetting },
   mixins: [alerts],
   props: {
     customerId: {
@@ -98,7 +89,7 @@ export default {
     }
   },
   data: () => ({
-    customer: null,
+    customer: {},
     bandwidthProfile: null,
     updatingBandwidthProfile: false,
     accountPlan: {
@@ -126,6 +117,15 @@ export default {
     }),
     planChanged () {
       return this.accountPlan.plan_id !== this.originalPlanId
+    },
+    customerNasId () {
+      return this.customer.nas_id ? +(this.customer.nas_id) : null
+    },
+    customerPlanId () {
+      return this.customer.plan_id ? +(this.customer.plan_id) : null
+    },
+    customerBandwidthProfileId () {
+      return parseInt(get(this.customer, 'bandwidth_profile.id'))
     }
   },
   watch: {
@@ -144,23 +144,6 @@ export default {
         this.originalPlanId = planId
         this.accountPlan.plan_id = planId
       }
-    },
-    updateBandwidthProfile () {
-      this.updatingBandwidthProfile = true
-      this.$axios.$post(`/api/customers/${this.customerId}/profile-change`, { bandwidth_profile: this.bandwidthProfile })
-        .then(() => {
-          this.originalPlanId = this.accountPlan.plan_id
-          this.$notify({
-            type: 'success',
-            message: 'PPPoE profile has been updated.'
-          })
-        })
-        .catch(() => {
-          this.showRequestErrorMessage()
-        })
-        .finally(() => {
-          this.updatingBandwidthProfile = false
-        })
     },
     updateAccountPlan () {
       this.updatingAccountPlan = true

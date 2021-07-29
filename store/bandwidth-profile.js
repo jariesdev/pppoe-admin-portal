@@ -30,5 +30,9 @@ export const actions = {
   },
   async get (_, id) {
     return await this.$axios.$get('/api/pppoe-profiles/' + id).then(({ data }) => data)
+  },
+  async PerPlan (_, { planId, nasId }) {
+    return await this.$axios.$post('/api/profile-per-plan', { plan_id: planId, nas_id: nasId })
+      .then(({ data }) => data)
   }
 }
