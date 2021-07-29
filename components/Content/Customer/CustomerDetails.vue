@@ -134,8 +134,8 @@
       </div>
       <div class="col-lg-6">
         <p>
-          Last Updated:
-          <strong>{{ customer.updated_at | formatDateAndTime }}</strong>
+          Last Seen:
+          <strong>{{ customer.last_seen }}</strong>
         </p>
       </div>
       <div class="col-lg-6">
