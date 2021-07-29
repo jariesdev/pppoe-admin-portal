@@ -1,8 +1,19 @@
 <template>
   <card>
     <h5>System Temperature</h5>
-    <ul v-if="tableData.length > 0" class="list-unstyled">
-      <li v-for="(data,index) in tableData" :key="index" class="mb-2">
+    <p v-if="data === null" class="font-italic">
+      No Information yet.
+    </p>
+    <p v-if="!featureAvailable" class="font-italic">
+      Feature not available on this device.
+    </p>
+    <ul v-else-if="featureAvailable" class="list-unstyled">
+      <li>
+        <div class="alert">
+          Feature not available on this device.
+        </div>
+      </li>
+      <li class="mb-2">
         <div class="row">
           <div class="col-6">
             <p>Voltage: <strong>{{ data['voltage'] }}</strong></p>
@@ -13,14 +24,12 @@
         </div>
       </li>
     </ul>
-    <p v-else class="font-italic">
-      No Information yet.
-    </p>
   </card>
 </template>
 
 <script>
-import { filter } from 'lodash'
+import { get } from 'lodash'
+
 export default {
   name: 'SystemTemperature',
   props: {
@@ -31,15 +40,20 @@ export default {
   },
   data () {
     return {
-      tableData: []
+      data: []
     }
   },
   fetch () {
     this.$axios.$get(`/api/nas/${this.nasId}/temp`)
       .then(({ data }) => {
-        this.tableData = filter(data || [], o => o !== null)
+        this.data = data
       })
       .catch(() => null)
+  },
+  computed: {
+    featureAvailable () {
+      return get(this.data, 'state') !== 'disabled'
+    }
   },
   watch: {
     accessPointId () {
