@@ -10,7 +10,7 @@
     </el-tabs>
     <div>
       <base-button @click="$router.back()">
-        Cancel
+        Back
       </base-button>
     </div>
   </div>

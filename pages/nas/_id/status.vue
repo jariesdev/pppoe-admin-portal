@@ -144,23 +144,6 @@ export default {
     return {
       title: 'NAS Access Points'
     }
-  },
-  mounted () {
-    this.loadActiveAccessPointDetails()
-  },
-  methods: {
-    loadActiveAccessPointDetails () {
-      this.$store.dispatch('access-point/get', { nasId: this.nasId, id: this.selectedAccessPoint })
-        .then((data) => {
-          this.currentAccessPoint = data
-        })
-        .catch(() => {
-          this.$notify({
-            type: 'danger',
-            message: 'No selected access point'
-          })
-        })
-    }
   }
 }
 </script>

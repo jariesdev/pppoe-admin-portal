@@ -106,7 +106,7 @@ export default {
       {
         label: 'NAS Dashboard',
         icon: 'tim-icons icon-sound-wave',
-        href: ({ id }) => `nas/${id}/access-points/status`
+        href: ({ id }) => `nas/${id}/status`
       }
     ]
 
