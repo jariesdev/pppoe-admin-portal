@@ -22,13 +22,21 @@
       <el-col :span="24" :lg="12">
         <p>
           Email:
-          <strong>{{ jobOrder.email }}</strong>
+          <strong>
+            <a :href="`mailto:${jobOrder.email}`">
+              {{ jobOrder.email }}
+            </a>
+          </strong>
         </p>
       </el-col>
       <el-col :span="24" :lg="12">
         <p>
           Mobile:
-          <strong>{{ jobOrder.mobile_no }}</strong>
+          <strong>
+            <a :href="`tel:${jobOrder.mobile_no}`">
+              {{ jobOrder.mobile_no }}
+            </a>
+          </strong>
         </p>
       </el-col>
       <el-col :span="24" :lg="12">

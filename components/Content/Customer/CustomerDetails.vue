@@ -21,13 +21,21 @@
       <div class="col-lg-6">
         <p>
           Mobile:
-          <strong>{{ customer.mobile_no }}</strong>
+          <strong>
+            <a :href="`tel:${customer.mobile_no}`">
+              {{ customer.mobile_no }}
+            </a>
+          </strong>
         </p>
       </div>
       <div class="col-lg-6">
         <p>
           Email:
-          <strong>{{ customer.email }}</strong>
+          <strong>
+            <a :href="`mailto:${customer.email}`">
+              {{ customer.email }}
+            </a>
+          </strong>
         </p>
       </div>
       <div class="col-lg-6">

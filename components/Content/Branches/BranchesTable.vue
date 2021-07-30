@@ -4,8 +4,13 @@
       Manage partner's branches.
     </p>
     <ServerTable ref="serverTable" :headers="tableHeaders" url="/api/branches">
-      <template #coordinates="{row,value}">
-        <a :href="`http://www.google.com/maps/place/${row.latitude},${row.longitude}`" target="_blank">{{ value }}</a>
+      <template #store_address="{row,value}">
+        <a :href="`http://www.google.com/maps/place/${row.latitude},${row.longitude}`" target="_blank" :title="row.store_address">
+          <span class="text-truncate text-break">{{ value }}</span>
+        </a>
+      </template>
+      <template #contact_number="{value}">
+        <a v-if="value" :href="`tel:${value}`">{{ value }}</a>
       </template>
       <template #actions="{row}">
         <TableActions :actions="tableActions" :data="row" />
@@ -51,10 +56,6 @@ const tableHeaders = [
   {
     label: 'Contact',
     field: 'contact_number'
-  },
-  {
-    label: 'Coordinates',
-    field: 'coordinates'
   },
   {
     label: 'Date Created',
