@@ -12,7 +12,7 @@
       </el-col>
       <el-col :span="24" :lg="12">
         <p>
-          age:
+          Age:
           <strong>{{ jobOrder.age }}</strong>
         </p>
       </el-col>
