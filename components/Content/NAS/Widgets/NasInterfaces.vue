@@ -1,6 +1,6 @@
 <template>
   <card>
-    <h5>Wireless Interface</h5>
+    <h5>Network Interface</h5>
     <div v-if="tableData.length > 0" class="table-responsive">
       <table class="table table-sm table-hover">
         <thead>
